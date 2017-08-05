@@ -44,8 +44,10 @@ public class Hero : MonoBehaviour {
 		if(Map.instance == null) {
 			return true;
 		}
-
-		Debug.Log(Map.instance.getEnemy(position));
+		
+		if(Map.instance.getEnemy(position) != null) {
+			return false;
+		}
 
 		return Map.instance.canMoveTo(position);
 	}

@@ -56,6 +56,11 @@ public class Map : MonoBehaviour {
 		GetComponent<MapGenerator> ().CreateRoom (7, 7, new Vector3 (-3, -3, 10));
 
 		Object.Instantiate(this.enemyObject, transform);
+		Object.Instantiate(this.enemyObject, transform);
+		Object.Instantiate(this.enemyObject, transform);
+		Object.Instantiate(this.enemyObject, transform);
+		Object.Instantiate(this.enemyObject, transform);
+		Object.Instantiate(this.enemyObject, transform);
 	}
 
 	public void addTile(Vector3 position, Tile tileType) {
