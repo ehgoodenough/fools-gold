@@ -346,31 +346,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 198808602911660704, guid: c725af4b1f7154786bdb0d331153f42e,
-        type: 2}
-      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].time
-      value: 0.02257587
-      objectReference: {fileID: 0}
-    - target: {fileID: 198808602911660704, guid: c725af4b1f7154786bdb0d331153f42e,
-        type: 2}
-      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198808602911660704, guid: c725af4b1f7154786bdb0d331153f42e,
-        type: 2}
-      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].inSlope
-      value: 0.12124116
-      objectReference: {fileID: 0}
-    - target: {fileID: 198808602911660704, guid: c725af4b1f7154786bdb0d331153f42e,
-        type: 2}
-      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].outSlope
-      value: 0.12124116
-      objectReference: {fileID: 0}
-    - target: {fileID: 198808602911660704, guid: c725af4b1f7154786bdb0d331153f42e,
-        type: 2}
-      propertyPath: randomSeed
-      value: -21218680
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c725af4b1f7154786bdb0d331153f42e, type: 2}
   m_IsPrefabParent: 0
