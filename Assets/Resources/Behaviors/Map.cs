@@ -59,7 +59,8 @@ public class Map : MonoBehaviour {
 
 	void Awake() {
 		instance = this;
-		wallObject = Resources.Load("Prefabs/Tile") as Object;
+		wallObject = Resources.Load("Prefabs/Wall") as Object;
+		floorObject = Resources.Load("Prefabs/Floor") as Object;
 		goldObject = Resources.Load("Prefabs/Gold") as Object;
 	}
 
