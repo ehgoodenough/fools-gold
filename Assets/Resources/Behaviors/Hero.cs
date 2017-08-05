@@ -58,10 +58,8 @@ public class Hero : MonoBehaviour {
 
 		if(Map.instance != null) {
 			if(Map.instance.HasGold(this._targetPosition)) {
-				Object gold = Map.instance.GetGold(this._targetPosition);
+				this.gold += Map.instance.GetGolds(this._targetPosition).Count;
 				Map.instance.RemoveGold(this._targetPosition);
-				Object.Destroy(gold);
-				this.gold += 1;
 			}
 		}
 
