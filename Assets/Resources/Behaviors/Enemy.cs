@@ -114,7 +114,7 @@ public class Enemy : MonoBehaviour {
 			if (Map.instance.canMoveTo(coords))
 				_validNeighbors.Add(coords);
 			else if (Map.instance.isHeroInCoords(coords))
-				Debug.Log("Damage hero here...");
+				Hero.instance.takeDamage(1);
 		}
 	}
 
