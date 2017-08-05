@@ -35,6 +35,7 @@ public class Enemy : MonoBehaviour {
 
 	Color _defalutColor;
 	SpriteRenderer _renderer;
+	ParticleSystem _bones;
 
 	List<Coords> _validNeighbors = new List<Coords>();
 
@@ -186,8 +187,12 @@ public class Enemy : MonoBehaviour {
 		if (_isFlashing)
 			return;
 
+		_bones.Play();
 		_damage += damage;
 		if (_damage >= health) {
+			_bones.transform.SetParent(null);
+			Destroy(_bones, _bones.main.duration);
+
 			Map.instance.removeEnemy(this);
 			Map.instance.CreateGold(this.currentCoords);
 			Destroy(gameObject);
@@ -202,6 +207,7 @@ public class Enemy : MonoBehaviour {
 		_renderer = GetComponent<SpriteRenderer>();
 		Color c = _renderer.material.color;
 		_defalutColor = new Color(c.r, c.g, c.b);
+		_bones = GetComponentInChildren<ParticleSystem>();
 	}
 
 	void Update() {

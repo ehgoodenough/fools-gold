@@ -19,9 +19,11 @@ public class Hero : MonoBehaviour {
 	public static Hero instance;
 
 	private const float Z_INDEX = 0.5f;
+	ParticleSystem _blood;
 
 	void Awake() {
 		instance = this;
+		_blood = GetComponentInChildren<ParticleSystem>();
 	}
 
 	void Update() {
@@ -90,11 +92,15 @@ public class Hero : MonoBehaviour {
 	}
 
 	public void takeDamage(int damage) {
-		this.health -= damage;
-		if(this.health <= 0) {
-			this.health = 0;
+		if (health <= 0)
+			return;
 
-			this.die();
+		health -= damage;
+		_blood.Play();
+
+		if (health <= 0) {
+			health = 0;
+			die();
 		}
 	}
 
