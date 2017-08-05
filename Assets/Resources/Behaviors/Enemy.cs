@@ -50,7 +50,6 @@ public class Enemy : MonoBehaviour {
 
 		float s = scale * Map.instance.tileSize;
 		_transform.localPosition = _currentPos;
-		_transform.localScale = new Vector3(s, s, s);
 
 		_timer = Random.value * moveInterval;
 	}
