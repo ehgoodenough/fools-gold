@@ -24,6 +24,21 @@ public class Room {
 		this.connections = new List<int> ();
 	}
 
+	// Set tiles in terms of global coordinates
+	public void SetTileAt(int x, int y, Map.Tile tileType)
+	{
+		// Ensure that coorindates passed are within the room
+		if (x < this.pos.x || x > this.pos.x + this.dim.x - 1 || y < this.pos.y || y > this.pos.y + this.dim.y - 1) {
+			Debug.Log ("Attempting to set tile outside of Room.");
+			return;
+		}
+		// Otherwise, convert the coordinates and set the tile
+		int row = y - (int) this.pos.y;
+		int col = x - (int) this.pos.x;
+		SetTile (row, col, tileType);
+	}
+	
+	// Sets tiles in terms of room's local coordinates
 	public void SetTile(int row, int col, Map.Tile tileType)
 	{
 		if (row < this.dim.y && col < this.dim.x) {
