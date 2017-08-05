@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Room {
 
-	public static int numRooms;
-	public static Dictionary<int, Room> rooms;
+	public static int numRooms = 0;
+	public static Dictionary<int, Room> rooms = new Dictionary<int, Room> ();
 
 	private int uid;
 	private Vector2 dim;
 	private Vector2 pos;
+	private Map.Tile[] tiles;
 	private List<int> connections;
 
 	public Room(int width, int height, int posX, int posY)
@@ -17,6 +18,21 @@ public class Room {
 		this.uid = ++numRooms;
 		this.dim = new Vector2 (width, height);
 		this.pos = new Vector2 (posX, posY);
+		rooms.Add (this.uid, this);
+		this.tiles = new Map.Tile [width * height];
+		this.connections = new List<int> ();
+	}
+
+	public void SetTile(int row, int col, Map.Tile tileType)
+	{
+		if (row < this.dim.y && col < this.dim.x) {
+			this.tiles [row * (int)this.dim.x + col] = tileType;
+		}
+	}
+
+	public Map.Tile GetTileAt(int row, int col)
+	{
+		return this.tiles [row * (int) this.dim.x + col];
 	}
 
 	public void ConnectTo(int otherRoom)

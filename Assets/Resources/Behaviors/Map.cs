@@ -65,7 +65,9 @@ public class Map : MonoBehaviour {
 	}
 
 	void Start() {
-		GetComponent<MapGenerator> ().CreateRoom (17, 11, new Vector3 (-8, -5, 10));
+		MapGenerator mapGen = GetComponent<MapGenerator> ();
+		mapGen.CreateRoom (17, 11, new Vector3 (-8, -5, 10));
+		mapGen.CreateTiles ();
 		createSomeRandomEnemies();
 	}
 
