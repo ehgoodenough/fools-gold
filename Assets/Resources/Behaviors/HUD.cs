@@ -11,15 +11,22 @@ public class HUD : MonoBehaviour {
     public Sprite filledHeart;
     public Sprite emptyHeart;
 
-    void Update () {
-        int health = Hero.instance.health;
-        int gold = Hero.instance.gold;
-        int maxHealthDiff = hearts.Length - Hero.instance.maxhealth;
+    private int maxHealthDiff;
+
+    private void Start()
+    {
+        maxHealthDiff = hearts.Length - Hero.instance.maxhealth;
 
         for (int i = 0; i < maxHealthDiff; i++)
         {
             hearts[i].enabled = false;
         }
+    }
+
+    void Update () {
+        int health = Hero.instance.health;
+        int gold = Hero.instance.gold;
+        
         for (int i = maxHealthDiff; i < health + maxHealthDiff; i++)
         {
             hearts[i].sprite = filledHeart;
