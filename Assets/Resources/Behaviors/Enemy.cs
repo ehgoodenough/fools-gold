@@ -86,4 +86,11 @@ public class Enemy : MonoBehaviour {
 			_transform.localPosition = _currentPos;
 		}
 	}
+
+	public void takeDamage(int damage) {
+		// TODO: take more than 1 damage.
+
+		Map.instance.removeEnemy(this);
+		Object.Destroy(this.gameObject);
+	}
 }

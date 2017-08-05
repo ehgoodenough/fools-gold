@@ -44,8 +44,11 @@ public class Hero : MonoBehaviour {
 		if(Map.instance == null) {
 			return true;
 		}
-		
+
 		if(Map.instance.getEnemy(position) != null) {
+			Enemy enemy = Map.instance.getEnemy(position);
+			enemy.takeDamage(1);
+
 			return false;
 		}
 

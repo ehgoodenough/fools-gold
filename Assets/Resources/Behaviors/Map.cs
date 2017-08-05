@@ -53,7 +53,7 @@ public class Map : MonoBehaviour {
 	}
 
 	void Start() {
-		GetComponent<MapGenerator> ().CreateRoom (7, 7, new Vector3 (-3, -3, 10));
+		GetComponent<MapGenerator> ().CreateRoom (17, 11, new Vector3 (-8, -5, 10));
 
 		Object.Instantiate(this.enemyObject, transform);
 		Object.Instantiate(this.enemyObject, transform);
@@ -96,6 +96,10 @@ public class Map : MonoBehaviour {
 		_enemies.Remove(enemy.currentCoords.toKey());
 		enemy.currentCoords = nextCoords;
 		_enemies.Add(enemy.currentCoords.toKey(), enemy);
+	}
+
+	public void removeEnemy(Enemy enemy) {
+		_enemies.Remove(enemy.currentCoords.toKey());
 	}
 
 	public Coords getRandomCoords() {
