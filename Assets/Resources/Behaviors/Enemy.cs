@@ -38,6 +38,8 @@ public class Enemy : MonoBehaviour {
 
 	List<Coords> _validNeighbors = new List<Coords>();
 
+	private const float Z_INDEX = 0.25f;
+
 	Vector3 getCurrentPos() {
 		return Map.instance.getPosFromCoords(currentCoords);
 	}
@@ -226,6 +228,11 @@ public class Enemy : MonoBehaviour {
 			_currentPos = Vector3.SmoothDamp(_currentPos, _targetPos, ref _velocity, smoothTime);
 			_transform.localPosition = _currentPos;
 		}
+
+		// Do the z-indexing off their y position.
+		Vector3 position = transform.position;
+		position.z = position.y + Z_INDEX;
+		transform.position = position;
 	}
 
 	void OnDrawGizmos() {

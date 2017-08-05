@@ -18,6 +18,8 @@ public class Hero : MonoBehaviour {
 
 	public static Hero instance;
 
+	private const float Z_INDEX = 0.5f;
+
 	void Awake() {
 		instance = this;
 	}
@@ -65,6 +67,11 @@ public class Hero : MonoBehaviour {
 		if(Vector3.Distance(this.transform.position, this._targetPosition) < 0.01) {
 			this.transform.position = this._targetPosition;
 		}
+
+		// Do the z-indexing off their y position.
+		Vector3 position = transform.position;
+		position.z = position.y + Z_INDEX;
+		transform.position = position;
 	}
 
 	private bool canMoveTo(Vector3 position) {
