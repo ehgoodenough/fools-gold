@@ -13,10 +13,6 @@ public class Enemy : MonoBehaviour {
 
 	[System.NonSerialized] public Coords currentCoords;
 
-	const int TEMP_GRID_WIDTH = 10;
-	const int TEMP_GRID_HEIGHT = 10;
-	const float TEMP_CELL_SIZE = 1;
-
 	Transform _transform;
 	Vector3 _currentPos;
 	Vector3 _targetPos;
@@ -35,21 +31,16 @@ public class Enemy : MonoBehaviour {
 	};
 	List<Coords> _validNeighbors = new List<Coords>();
 
-	Vector3 getPosFromCoords(int x, int y) {
-		return new Vector3(x * TEMP_CELL_SIZE, y * TEMP_CELL_SIZE);
-	}
-
 	Vector3 getCurrentPos() {
-		return getPosFromCoords(currentCoords.x, currentCoords.y);
+		return Map.instance.getPosFromCoords(currentCoords.x, currentCoords.y);
 	}
 
 	void init() {
+		// find a random unoccupied coords for this enemy
 		bool foundValidCoords = false;
 		while (foundValidCoords == false) {
-			int x = (int)(Random.value * TEMP_GRID_WIDTH);
-			int y = (int)(Random.value * TEMP_GRID_HEIGHT);
-			currentCoords = new Coords(x, y);
-			foundValidCoords = isValidCoords(currentCoords);
+			currentCoords = Map.instance.getRandomCoords();
+			foundValidCoords = Map.instance.canMoveTo(currentCoords);
 		}
 		Map.instance.addEnemy(this);
 
@@ -57,19 +48,11 @@ public class Enemy : MonoBehaviour {
 		_targetPos = getCurrentPos();
 		_currentPos = _targetPos;
 
-		float s = scale * TEMP_CELL_SIZE;
+		float s = scale * Map.instance.tileSize;
 		_transform.localPosition = _currentPos;
 		_transform.localScale = new Vector3(s, s, s);
 
 		_timer = Random.value * moveInterval;
-	}
-
-	bool isValidCoords(Coords coords) {
-		if (coords.x < 0 || coords.x >= TEMP_GRID_WIDTH)
-			return false;
-		if (coords.y < 0 || coords.y >= TEMP_GRID_HEIGHT)
-			return false;
-		return true;
 	}
 
 	void updateValidMoves() {
@@ -77,10 +60,7 @@ public class Enemy : MonoBehaviour {
 		foreach (Coords move in _possibleMoves) {
 			Coords coords = currentCoords + move;
 
-			//@Incomplete: use Map.canMoveTo instead
-			//@Incomplete: use Map.canMoveTo instead
-			//@Incomplete: use Map.canMoveTo instead
-			if (isValidCoords(coords))
+			if (Map.instance.canMoveTo(coords))
 				_validNeighbors.Add(coords);
 		}
 	}

@@ -16,13 +16,23 @@ public class Map : MonoBehaviour {
 		public static Coords operator +(Coords a, Coords b) {
 			return new Coords(a.x + b.x, a.y + b.y);
 		}
+
+		public static Coords operator -(Coords a, Coords b) {
+			return new Coords(a.x - b.x, a.y - b.y);
+		}
 	}
+
+	public float tileSize = 1;
 
 	private Object tileObject;
 	public static Map instance;
 
 	private Hashtable tiles = new Hashtable();
 	private Dictionary<Coords, Enemy> _enemies = new Dictionary<Coords, Enemy>();
+
+	// this is just temporary until we have a real map
+	const int TEMP_GRID_WIDTH = 10;
+	const int TEMP_GRID_HEIGHT = 10;
 
 	void Awake() {
 		instance = this;
@@ -60,7 +70,29 @@ public class Map : MonoBehaviour {
 		_enemies.Add(enemy.currentCoords, enemy);
 	}
 
+	public Coords getRandomCoords() {
+		int x = (int)(Random.value * TEMP_GRID_WIDTH);
+		int y = (int)(Random.value * TEMP_GRID_HEIGHT);
+		return new Coords(x, y);
+	}
+
+	public Vector3 getPosFromCoords(int x, int y) {
+		return new Vector3(x * tileSize, y * tileSize);
+	}
+
 	public bool canMoveTo(Vector2 position) {
 		return this.tiles[position.x + "-" + position.y] == null;
+	}
+
+	public bool canMoveTo(Coords coords) {
+		if (coords.x < 0 || coords.x >= TEMP_GRID_WIDTH)
+			return false;
+		if (coords.y < 0 || coords.y >= TEMP_GRID_HEIGHT)
+			return false;
+		if (canMoveTo(new Vector2(coords.x, coords.y)) == false)
+			return false;
+		if (_enemies.ContainsKey(coords))
+			return false;
+		return true;
 	}
 }
