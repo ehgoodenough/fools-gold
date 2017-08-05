@@ -5,24 +5,26 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour {
 
-    public Hero hero;
-
     public Image[] hearts;
     public Text goldText;
 
     public Sprite filledHeart;
     public Sprite emptyHeart;
 
-	void Update () {
-        // TODO use real values once they are available
-        int health = 3; // hero.GetHealth()
-        int gold = 100; // hero.GetGold()
+    void Update () {
+        int health = Hero.instance.health;
+        int gold = Hero.instance.gold;
+        int maxHealthDiff = hearts.Length - Hero.instance.maxhealth;
 
-        for (int i = 0; i < health; i++)
+        for (int i = 0; i < maxHealthDiff; i++)
+        {
+            hearts[i].enabled = false;
+        }
+        for (int i = maxHealthDiff; i < health + maxHealthDiff; i++)
         {
             hearts[i].sprite = filledHeart;
         }
-        for (int i = health; i < hearts.Length; i++)
+        for (int i = health + maxHealthDiff; i < hearts.Length; i++)
         {
             hearts[i].sprite = emptyHeart;
         }

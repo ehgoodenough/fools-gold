@@ -14,29 +14,18 @@ public class MapGenerator : MonoBehaviour {
 	
 	public void CreateRoom(int width, int height, Vector3 pos)
 	{
-		// Create bottom wall
-		for (int i = 0; i < width; i++)
+		for (int row = 0; row < height; row++) 
 		{
-			map.addTile (new Vector3 (pos.x + i, pos.y + 0, wallZ), Map.Tile.Wall);
+			for (int col = 0; col < width; col++)
+			{
+				Debug.Log ("Row, Col: " + row + ", " + col);
+				if (0 == row || height - 1 == row || 0 == col || width - 1 == col)
+				{
+					map.addTile (new Vector3 (pos.x + col, pos.y + row, wallZ), Map.Tile.Wall);
+				} else {
+					map.addTile (new Vector3 (pos.x + col, pos.y + row, wallZ), Map.Tile.Floor);
+				}
+			}
 		}
-
-		// Create top wall
-		for (int i = 0; i < width; i++)
-		{
-			map.addTile (new Vector3 (pos.x + i, pos.y + height-1, wallZ), Map.Tile.Wall);
-		}
-
-		// Create left wall
-		for (int i = 1; i < height-1; i++)
-		{
-			map.addTile (new Vector3 (pos.x + 0, pos.y + i, wallZ), Map.Tile.Wall);
-		}
-
-		// Create right wall
-		for (int i = 1; i < height-1; i++)
-		{
-			map.addTile (new Vector3 (pos.x + width-1, pos.y + i, wallZ), Map.Tile.Wall);
-		}
-
 	}
 }
