@@ -30,6 +30,13 @@ public class Hero : MonoBehaviour {
 			}
 		}
 
+		if(Map.instance != null) {
+			if(Map.instance.HasGold(this.targetPosition)) {
+				Object gold = Map.instance.GetGold(this.targetPosition);
+				Object.Destroy(gold);
+			}
+		}
+
 		// Move the position to the target position.
 		float step = Vector3.Distance(this.transform.position, this.targetPosition) * this.speed * Time.deltaTime;
         this.transform.position = Vector3.MoveTowards(this.transform.position, this.targetPosition, step);

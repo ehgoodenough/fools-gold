@@ -37,10 +37,13 @@ public class Map : MonoBehaviour {
 	private Object wallObject;
 	private Object floorObject;
 	private Object enemyObject;
+	private Object goldObject;
+
 	public static Map instance;
 
 	private Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
 	private Dictionary<string, Enemy> _enemies = new Dictionary<string, Enemy>();
+	private Dictionary<string, Object> gold = new Dictionary<string, Object>();
 
 	// this is just temporary until we have a real map
 	const int TEMP_GRID_WIDTH = 10;
@@ -50,17 +53,12 @@ public class Map : MonoBehaviour {
 		instance = this;
 		wallObject = Resources.Load("Prefabs/Tile") as Object;
 		enemyObject = Resources.Load("Prefabs/Enemies/Enemy All Directions") as Object;
+		goldObject = Resources.Load("Prefabs/Gold") as Object;
 	}
 
 	void Start() {
 		GetComponent<MapGenerator> ().CreateRoom (17, 11, new Vector3 (-8, -5, 10));
-
-		Object.Instantiate(this.enemyObject, transform);
-		Object.Instantiate(this.enemyObject, transform);
-		Object.Instantiate(this.enemyObject, transform);
-		Object.Instantiate(this.enemyObject, transform);
-		Object.Instantiate(this.enemyObject, transform);
-		Object.Instantiate(this.enemyObject, transform);
+		CreateEnemy();
 	}
 
 	public void addTile(Vector3 position, Tile tileType) {
@@ -88,6 +86,10 @@ public class Map : MonoBehaviour {
 		}
 	}
 
+	public void CreateEnemy() {
+		Object.Instantiate(enemyObject, transform);
+	}
+
 	public void addEnemy(Enemy enemy) {
 		_enemies.Add(enemy.currentCoords.toKey(), enemy);
 	}
@@ -103,8 +105,8 @@ public class Map : MonoBehaviour {
 	}
 
 	public Coords getRandomCoords() {
-		int x = (int)(Random.value * TEMP_GRID_WIDTH);
-		int y = (int)(Random.value * TEMP_GRID_HEIGHT);
+		int x = (int)(Random.value * 15) - 8;
+		int y = (int)(Random.value * 9) - 5;
 		return new Coords(x, y);
 	}
 
@@ -131,5 +133,26 @@ public class Map : MonoBehaviour {
 		} else {
 			return null;
 		}
+	}
+
+
+	public void CreateGold(Vector2 position) {
+		Transform parent = this.transform;
+		Quaternion rotation = Quaternion.identity;
+		Object g = Object.Instantiate(goldObject, position, rotation, parent);
+
+		gold.Add(position.x + "-" + position.y, g);
+	}
+
+	public void CreateGold(Coords position) {
+		CreateGold(new Vector2(position.x, position.y));
+	}
+
+	public bool HasGold(Vector2 position) {
+		return gold.ContainsKey(position.x + "-" + position.y);
+	}
+
+	public Object GetGold(Vector2 position) {
+		return gold[position.x + "-" + position.y];
 	}
 }
