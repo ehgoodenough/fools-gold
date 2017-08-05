@@ -362,7 +362,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1aa2ff1f6c3d2e408ec9496c4eae06c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hero: {fileID: 0}
   hearts:
   - {fileID: 114341491264744906}
   - {fileID: 114711743453167684}
