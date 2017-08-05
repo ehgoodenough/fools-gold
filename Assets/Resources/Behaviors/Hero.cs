@@ -6,6 +6,10 @@ public class Hero : MonoBehaviour {
 	private Vector3 targetPosition = new Vector3();
 	private float speed = 10;
 
+	void Start() {
+		Debug.Log(Map.instance);
+	}
+
 	void Update() {
 
 		// Poll the keyboard.
