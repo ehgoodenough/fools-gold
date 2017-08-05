@@ -49,7 +49,7 @@ public class Map : MonoBehaviour {
 	void Awake() {
 		instance = this;
 		wallObject = Resources.Load("Prefabs/Tile") as Object;
-		enemyObject = Resources.Load("Prefabs/Enemy") as Object;
+		enemyObject = Resources.Load("Prefabs/Enemies/Enemy All Directions") as Object;
 	}
 
 	void Start() {
@@ -108,10 +108,6 @@ public class Map : MonoBehaviour {
 	}
 
 	public bool canMoveTo(Coords coords) {
-		if (coords.x < 0 || coords.x >= TEMP_GRID_WIDTH)
-			return false;
-		if (coords.y < 0 || coords.y >= TEMP_GRID_HEIGHT)
-			return false;
 		if (canMoveTo(new Vector2(coords.x, coords.y)) == false)
 			return false;
 		if (_enemies.ContainsKey(coords.toKey()))

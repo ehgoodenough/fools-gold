@@ -206,6 +206,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1130910584}
   - component: {fileID: 1130910583}
+  - component: {fileID: 1130910585}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -224,6 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dff5d27a6fee3465589723a716fb7f6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileSize: 1
 --- !u!4 &1130910584
 Transform:
   m_ObjectHideFlags: 0
@@ -237,6 +239,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1130910585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1130910582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 755e74ee05104364b81f6e723926a348, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1260729055
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,7 +279,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numEnemies: 10
   enemyPrototypes:
-  - {fileID: 114006041160563288, guid: 1415b5bccf48c814daa75ddc35bb4342, type: 2}
+  - {fileID: 114211204391528654, guid: 3c8fe14b5a7fcad4e8c2650ff7102418, type: 2}
+  - {fileID: 114741245132646294, guid: 3ec0a85f75b39ac478dac596b2dfe734, type: 2}
+  - {fileID: 114707070857636200, guid: ea635f8de9f13e147b6ec9007d6b4c7e, type: 2}
+  - {fileID: 114000494810082346, guid: 6cf04f9faa668ca49ba7c1758b473583, type: 2}
+  - {fileID: 114266594104629426, guid: 94db51d2a6c9bc24e814da356394adb0, type: 2}
 --- !u!4 &1260729057
 Transform:
   m_ObjectHideFlags: 0
@@ -274,7 +291,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1260729055}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.9384643, y: 0.8933807, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

@@ -7,8 +7,17 @@ using Coords = Map.Coords;
 [RequireComponent(typeof(SpriteRenderer))]
 public class Enemy : MonoBehaviour {
 
+	enum Direction { Top, TopRight, Right, BottomRight, Bottom, BottomLeft, Left, TopLeft, Count }
+
+	[Header("Stats")]
+	public int health = 1;
+
+	[Header("Movement")]
+	public bool canMoveHorizontal = true;
+	public bool canMoveVertical = true;
+	public bool canMoveDiagonal = true;
+
 	public float moveInterval = 1;
-	public float scale = 5;
 	public float smoothTime = 0.1f;
 
 	[System.NonSerialized] public Coords currentCoords;
@@ -19,20 +28,24 @@ public class Enemy : MonoBehaviour {
 	Vector3 _velocity;
 	float _timer;
 
-	static readonly Coords[] _possibleMoves = new Coords[] {
-		new Coords(-1, -1),
-		new Coords(-1,  0),
-		new Coords(-1,  1),
-		new Coords( 0, -1),
-		new Coords( 0,  1),
-		new Coords( 1, -1),
-		new Coords( 1,  0),
-		new Coords( 1,  1)
-	};
 	List<Coords> _validNeighbors = new List<Coords>();
 
 	Vector3 getCurrentPos() {
 		return Map.instance.getPosFromCoords(currentCoords.x, currentCoords.y);
+	}
+
+	static Coords getMoveFromDir(Direction dir) {
+		switch (dir) {
+			case Direction.Top: return new Coords(0, 1);
+			case Direction.TopRight: return new Coords(1, 1);
+			case Direction.Right: return new Coords(1, 0);
+			case Direction.BottomRight: return new Coords(1, -1);
+			case Direction.Bottom: return new Coords(0, -1);
+			case Direction.BottomLeft: return new Coords(-1, -1);
+			case Direction.Left: return new Coords(-1, 0);
+			case Direction.TopLeft: return new Coords(-1, 1);
+			default: return new Coords(0, 0);
+		}
 	}
 
 	void init() {
@@ -48,7 +61,6 @@ public class Enemy : MonoBehaviour {
 		_targetPos = getCurrentPos();
 		_currentPos = _targetPos;
 
-		float s = scale * Map.instance.tileSize;
 		_transform.localPosition = _currentPos;
 
 		_timer = Random.value * moveInterval;
@@ -56,7 +68,19 @@ public class Enemy : MonoBehaviour {
 
 	void updateValidMoves() {
 		_validNeighbors.Clear();
-		foreach (Coords move in _possibleMoves) {
+		for (int i = 0; i < (int)Direction.Count; i++) {
+			Direction dir = (Direction)i;
+
+			if (canMoveHorizontal == false && (dir == Direction.Left || dir == Direction.Right))
+				continue;
+			if (canMoveVertical == false && (dir == Direction.Bottom || dir == Direction.Top))
+				continue;
+			if (canMoveDiagonal == false && (dir == Direction.TopLeft || dir == Direction.TopRight))
+				continue;
+			if (canMoveDiagonal == false && (dir == Direction.BottomLeft || dir == Direction.BottomRight))
+				continue;
+
+			Coords move = getMoveFromDir(dir);
 			Coords coords = currentCoords + move;
 
 			if (Map.instance.canMoveTo(coords))
