@@ -16,22 +16,22 @@ public class MapGenerator : MonoBehaviour {
 	{
 		// Create bottom wall
 		for (int i = 0; i < width; i++) {
-			map.addTile (new Vector3 (pos.x + i, pos.y + 0, wallZ));
+			map.addTile (new Vector3 (pos.x + i, pos.y + 0, wallZ), Map.Tile.Wall);
 		}
 
 		// Create top wall
 		for (int i = 0; i < width; i++) {
-			map.addTile (new Vector3 (pos.x + i, pos.y + height-1, wallZ));
+			map.addTile (new Vector3 (pos.x + i, pos.y + height-1, wallZ), Map.Tile.Wall);
 		}
 
 		// Create left wall
 		for (int i = 1; i < height-1; i++) {
-			map.addTile (new Vector3 (pos.x + 0, pos.y + i, wallZ));
+			map.addTile (new Vector3 (pos.x + 0, pos.y + i, wallZ), Map.Tile.Wall);
 		}
 
 		// Create right wall
 		for (int i = 1; i < height-1; i++) {
-			map.addTile (new Vector3 (pos.x + width-1, pos.y + i, wallZ));
+			map.addTile (new Vector3 (pos.x + width-1, pos.y + i, wallZ), Map.Tile.Wall);
 		}
 
 	}

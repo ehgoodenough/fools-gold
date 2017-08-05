@@ -22,12 +22,19 @@ public class Map : MonoBehaviour {
 		}
 	}
 
+	public enum Tile
+	{
+		Floor=0,
+		Wall=1
+	}
+
 	public float tileSize = 1;
 
-	private Object tileObject;
+	private Object wallObject;
+	private Object floorObject;
 	public static Map instance;
 
-	private Hashtable tiles = new Hashtable();
+	private Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
 	private Dictionary<Coords, Enemy> _enemies = new Dictionary<Coords, Enemy>();
 
 	// this is just temporary until we have a real map
@@ -36,24 +43,35 @@ public class Map : MonoBehaviour {
 
 	void Awake() {
 		instance = this;
-		tileObject = Resources.Load("Prefabs/Tile") as Object;
+		wallObject = Resources.Load("Prefabs/Tile") as Object;
 	}
 
 	void Start() {
 		GetComponent<MapGenerator> ().CreateRoom (7, 7, new Vector3 (-3, -3, 10));
 	}
 
-	public void addTile(Vector3 position) {
+	public void addTile(Vector3 position, Tile tileType) {
 
 		// Check if tile already exists
 		if (canMoveTo(position)) {
 			// Instantiate in the scene.
 			Transform parent = this.transform;
 			Quaternion rotation = Quaternion.identity;
-			Object tile = Object.Instantiate(this.tileObject, position, rotation, parent);
+
+			switch (tileType)
+			{
+			case Tile.Wall:
+				Object.Instantiate (this.wallObject, position, rotation, parent);
+				break;
+			case Tile.Floor:
+				Object.Instantiate (this.floorObject, position, rotation, parent);
+				break;
+			default:
+				break;
+			}
 
 			// Keep track of it in our hashtable.
-			this.tiles.Add(position.x + "-" + position.y, tile);
+			this.tiles.Add(position.x + "-" + position.y, tileType);
 		}
 	}
 
@@ -78,7 +96,7 @@ public class Map : MonoBehaviour {
 	}
 
 	public bool canMoveTo(Vector2 position) {
-		return this.tiles[position.x + "-" + position.y] == null;
+		return !tiles.ContainsKey( position.x + "-" + position.y) || tiles[position.x + "-" + position.y] != Tile.Wall;
 	}
 
 	public bool canMoveTo(Coords coords) {
