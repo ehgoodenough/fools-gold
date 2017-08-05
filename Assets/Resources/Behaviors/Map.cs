@@ -139,7 +139,7 @@ public class Map : MonoBehaviour {
 			return false;
 		if (_enemies.ContainsKey(coords.ToString()))
 			return false;
-		if (isHeroInCoords(coords)) 
+		if (isHeroInCoords(coords))
 			return false;
 		return true;
 	}
@@ -172,5 +172,9 @@ public class Map : MonoBehaviour {
 
 	public Object GetGold(Vector2 position) {
 		return gold[position.x + "-" + position.y];
+	}
+
+	public void RemoveGold(Vector2 position) {
+		gold.Remove(position.x + "-" + position.y);
 	}
 }
