@@ -40,24 +40,21 @@ public class Map : MonoBehaviour {
 	}
 
 	void Start() {
-		this.addTile(new Vector3(-1, -1, 10));
-		this.addTile(new Vector3(-1, 0, 10));
-		this.addTile(new Vector3(-1, 1, 10));
-		this.addTile(new Vector3(-1, 2, 10));
-		this.addTile(new Vector3(0, -1, 10));
-		this.addTile(new Vector3(1, -1, 10));
-		this.addTile(new Vector3(2, -1, 10));
+		GetComponent<MapGenerator> ().CreateRoom (7, 7, new Vector3 (-3, -3, 10));
 	}
 
-	void addTile(Vector3 position) {
+	public void addTile(Vector3 position) {
 
-		// Instantiate in the scene.
-		Transform parent = this.transform;
-		Quaternion rotation = Quaternion.identity;
-		Object tile = Object.Instantiate(this.tileObject, position, rotation, parent);
+		// Check if tile already exists
+		if (canMoveTo(position)) {
+			// Instantiate in the scene.
+			Transform parent = this.transform;
+			Quaternion rotation = Quaternion.identity;
+			Object tile = Object.Instantiate(this.tileObject, position, rotation, parent);
 
-		// Keep track of it in our hashtable.
-		this.tiles.Add(position.x + "-" + position.y, tile);
+			// Keep track of it in our hashtable.
+			this.tiles.Add(position.x + "-" + position.y, tile);
+		}
 	}
 
 	public void addEnemy(Enemy enemy) {
