@@ -4,6 +4,19 @@ using UnityEngine;
 
 public class Map : MonoBehaviour {
 
+	public struct Coords {
+		public int x;
+		public int y;
+
+		public Coords(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+		public static Coords operator +(Coords a, Coords b) {
+			return new Coords(a.x + b.x, a.y + b.y);
+		}
+	}
 
 	private Object tileObject;
 	public static Map instance;

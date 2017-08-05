@@ -2,22 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Coords = Map.Coords;
+
 [RequireComponent(typeof(SpriteRenderer))]
 public class Enemy : MonoBehaviour {
-
-	public struct Coords {
-		public int x;
-		public int y;
-
-		public Coords (int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
-
-		public static Coords operator + (Coords a, Coords b) {
-			return new Coords(a.x + b.x, a.y + b.y);
-		}
-	}
 
 	public float moveInterval = 1;
 	public float scale = 5;
