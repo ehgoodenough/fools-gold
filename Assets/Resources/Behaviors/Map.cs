@@ -4,20 +4,39 @@ using UnityEngine;
 
 public class Map : MonoBehaviour {
 
+
+	private Object tileObject;
 	public static Map instance;
+
+	private Hashtable tiles = new Hashtable();
 
 	void Awake() {
 		instance = this;
+		tileObject = Resources.Load("Prefabs/Tile") as Object;
 	}
-
-	private Texture2D texture;
 
 	void Start() {
-		texture = Resources.Load("Images/square") as Texture2D;
-		Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f);
+		this.addTile(new Vector3(-1, -1, 10));
+		this.addTile(new Vector3(-1, 0, 10));
+		this.addTile(new Vector3(-1, 1, 10));
+		this.addTile(new Vector3(-1, 2, 10));
+		this.addTile(new Vector3(0, -1, 10));
+		this.addTile(new Vector3(1, -1, 10));
+		this.addTile(new Vector3(2, -1, 10));
 	}
 
-	public bool canMoveTo() {
-		return true;
+	void addTile(Vector3 position) {
+
+		// Instantiate in the scene.
+		Transform parent = this.transform;
+		Quaternion rotation = Quaternion.identity;
+		Object tile = Object.Instantiate(this.tileObject, position, rotation, parent);
+
+		// Keep track of it in our hashtable.
+		this.tiles.Add(position.x + "-" + position.y, tile);
+	}
+
+	public bool canMoveTo(Vector2 position) {
+		return this.tiles[position.x + "-" + position.y] == null;
 	}
 }

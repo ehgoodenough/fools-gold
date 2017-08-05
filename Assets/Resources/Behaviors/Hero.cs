@@ -6,10 +6,6 @@ public class Hero : MonoBehaviour {
 	private Vector3 targetPosition = new Vector3();
 	private float speed = 10;
 
-	void Start() {
-		Debug.Log(Map.instance);
-	}
-
 	void Update() {
 
 		// Poll the keyboard.
@@ -45,8 +41,8 @@ public class Hero : MonoBehaviour {
 	}
 
 	private bool canMoveTo(Vector3 position) {
-		if(position.x < -3) {
-			return false;
+		if(Map.instance != null) {
+			return Map.instance.canMoveTo(position);
 		} else {
 			return true;
 		}
