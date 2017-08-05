@@ -47,7 +47,7 @@ public class Map : MonoBehaviour {
 
 	private Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
 	private Dictionary<string, Enemy> _enemies = new Dictionary<string, Enemy>();
-	private Dictionary<string, Object> gold = new Dictionary<string, Object>();
+	private Dictionary<string, List<Object>> gold = new Dictionary<string, List<Object>>();
 
 	// Temp
 	void createSomeRandomEnemies() {
@@ -65,7 +65,9 @@ public class Map : MonoBehaviour {
 	}
 
 	void Start() {
-		GetComponent<MapGenerator> ().CreateRoom (17, 11, new Vector3 (-8, -5, 10));
+		MapGenerator mapGen = GetComponent<MapGenerator> ();
+		mapGen.CreateRoom (17, 11, new Vector3 (-8, -5, 10));
+		mapGen.CreateTiles ();
 		createSomeRandomEnemies();
 	}
 
@@ -159,7 +161,13 @@ public class Map : MonoBehaviour {
 		Quaternion rotation = Quaternion.identity;
 		Object g = Object.Instantiate(goldObject, position, rotation, parent);
 
-		gold.Add(position.x + "-" + position.y, g);
+		string key = position.x + "-" + position.y;
+
+		if(this.gold.ContainsKey(key) == false) {
+			this.gold.Add(key, new List<Object>());
+		}
+
+		gold[key].Add(g);
 	}
 
 	public void CreateGold(Coords position) {
@@ -167,14 +175,20 @@ public class Map : MonoBehaviour {
 	}
 
 	public bool HasGold(Vector2 position) {
-		return gold.ContainsKey(position.x + "-" + position.y);
+		string key = position.x + "-" + position.y;
+		return gold.ContainsKey(key)
+			&& gold[key].Count > 0;
 	}
 
-	public Object GetGold(Vector2 position) {
-		return gold[position.x + "-" + position.y];
+	public List<Object> GetGolds(Vector2 position) {
+		return this.gold[position.x + "-" + position.y];
 	}
 
 	public void RemoveGold(Vector2 position) {
-		gold.Remove(position.x + "-" + position.y);
+		List<Object> golds = GetGolds(position);
+		foreach(Object gold in golds) {
+			Object.Destroy(gold);
+		}
+		golds.Clear();
 	}
 }
