@@ -90,7 +90,6 @@ public class Hero : MonoBehaviour {
 
 	public void takeDamage(int damage) {
 		this.health -= damage;
-		Debug.Log("!!");
 		if(this.health <= 0) {
 			this.health = 0;
 
