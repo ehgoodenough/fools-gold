@@ -6,6 +6,16 @@ public class Hero : MonoBehaviour {
 	private Vector3 targetPosition = new Vector3();
 	private float speed = 10;
 
+	public int maxhealth = 3;
+	public int health = 3;
+	public int gold = 100;
+
+	public static Hero instance;
+
+	void Awake() {
+		instance = this;
+	}
+
 	void Update() {
 
 		// Poll the keyboard.
