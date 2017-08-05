@@ -307,7 +307,7 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fbfae3d6bc5234ed8bb2d8ac4e7f8af9, type: 2}
   m_IsPrefabParent: 0
---- !u!1001 &1774616058
+--- !u!1001 &2030965559
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -345,6 +345,10 @@ Prefab:
     - target: {fileID: 4284941098549612, guid: c725af4b1f7154786bdb0d331153f42e, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1952204991225420, guid: c725af4b1f7154786bdb0d331153f42e, type: 2}
+      propertyPath: m_Name
+      value: Torch Light
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c725af4b1f7154786bdb0d331153f42e, type: 2}
