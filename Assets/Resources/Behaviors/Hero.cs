@@ -90,6 +90,7 @@ public class Hero : MonoBehaviour {
 
 	public void takeDamage(int damage) {
 		this.health -= damage;
+		Debug.Log("!!");
 		if(this.health <= 0) {
 			this.health = 0;
 
@@ -98,7 +99,7 @@ public class Hero : MonoBehaviour {
 	}
 
 	private void die() {
-		if(this.isDead != false) {
+		if(this.isDead != true) {
 			this.isDead = true;
 
 			// TODO: play death sound.
