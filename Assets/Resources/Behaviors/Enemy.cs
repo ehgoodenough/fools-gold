@@ -118,9 +118,18 @@ public class Enemy : MonoBehaviour {
 
 			if (Map.instance.canMoveTo(coords))
 				_validNeighbors.Add(coords);
-			else if (Map.instance.isHeroInCoords(coords))
-				Hero.instance.takeDamage(1);
 		}
+	}
+
+	bool canDamageHero() {
+		for (int i = 0; i < (int)Direction.Count; i++) {
+			Direction dir = (Direction)i;
+			Coords move = getMoveFromDir(dir);
+			Coords coords = currentCoords + move;
+			if (Map.instance.isHeroInCoords(coords))
+				return true;
+		}
+		return false;
 	}
 
 	void moveToRandomNeighbor() {
@@ -161,7 +170,6 @@ public class Enemy : MonoBehaviour {
 			float strength = t / duration;
 			strength = 1f - strength * strength;
 
-			Color c = Color.Lerp(_defalutColor, Color.white, strength);
 			_renderer.material.color = Color.Lerp(_defalutColor, Color.white, strength);
 
 			yield return null;
@@ -198,17 +206,20 @@ public class Enemy : MonoBehaviour {
 		_timer += Time.deltaTime;
 
 		if (_timer >= moveInterval) {
-			Vector2 pos = _targetPos;
-			Vector2 heroPos = Hero.instance.targetPosition;
-			float distToHero = Vector2.Distance(pos, heroPos);
-			_isFollowing = distToHero < chaseRadius;
-			if (_isFollowing) {
-				moveToClosestNeighbor(heroPos);
-			} else {
-				moveToRandomNeighbor();
-			}
-
 			_timer = 0;
+			if (canDamageHero()) {
+				Hero.instance.takeDamage(1);
+			} else {
+				Vector2 pos = _targetPos;
+				Vector2 heroPos = Hero.instance.targetPosition;
+				float distToHero = Vector2.Distance(pos, heroPos);
+				_isFollowing = distToHero < chaseRadius;
+				if (_isFollowing) {
+					moveToClosestNeighbor(heroPos);
+				} else {
+					moveToRandomNeighbor();
+				}
+			}
 		} else {
 			_currentPos = Vector3.SmoothDamp(_currentPos, _targetPos, ref _velocity, smoothTime);
 			_transform.localPosition = _currentPos;
