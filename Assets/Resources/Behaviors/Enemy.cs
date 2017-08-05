@@ -207,11 +207,13 @@ public class Enemy : MonoBehaviour {
 
 		if (_timer >= moveInterval) {
 			_timer = 0;
+			Vector2 pos = _targetPos;
+			Vector2 heroPos = Hero.instance.targetPosition;
+
 			if (canDamageHero()) {
+				Debug.DrawLine(pos, heroPos, Color.red, moveInterval);
 				Hero.instance.takeDamage(1);
 			} else {
-				Vector2 pos = _targetPos;
-				Vector2 heroPos = Hero.instance.targetPosition;
 				float distToHero = Vector2.Distance(pos, heroPos);
 				_isFollowing = distToHero < chaseRadius;
 				if (_isFollowing) {
