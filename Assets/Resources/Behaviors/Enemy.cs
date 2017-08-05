@@ -5,7 +5,7 @@ using UnityEngine;
 using Coords = Map.Coords;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class Enemy : MonoBehaviour {
+public class Enemy : Walker {
 
 	public enum Type { Horizontal, Vertical, NoDiagonal, Diagonal, AllDirections, Count, Random }
 	enum Direction { Top, TopRight, Right, BottomRight, Bottom, BottomLeft, Left, TopLeft, Count }
@@ -17,17 +17,12 @@ public class Enemy : MonoBehaviour {
 	public bool canMoveHorizontal = true;
 	public bool canMoveVertical = true;
 	public bool canMoveDiagonal = true;
+	public float moveInterval = 1;
 
 	public float chaseRadius = 0;
-	public float moveInterval = 1;
-	public float smoothTime = 0.1f;
 
 	[System.NonSerialized] public Coords currentCoords;
 
-	Transform _transform;
-	Vector3 _currentPos;
-	Vector3 _targetPos;
-	Vector3 _velocity;
 	float _timer;
 	int _damage = 0;
 	bool _isFlashing = false;
@@ -92,13 +87,7 @@ public class Enemy : MonoBehaviour {
 
 	void init() {
 		Map.instance.addEnemy(this);
-
-		_transform = transform;
-		_targetPos = getCurrentPos();
-		_currentPos = _targetPos;
-
-		_transform.localPosition = _currentPos;
-
+		setPosition(getCurrentPos());
 		_timer = Random.value * moveInterval;
 	}
 
@@ -142,7 +131,7 @@ public class Enemy : MonoBehaviour {
 
 		int i = (int) (Random.value * _validNeighbors.Count);
 		Map.instance.moveEnemy(this, _validNeighbors[i]);
-		_targetPos = getCurrentPos();
+		targetPos = getCurrentPos();
 	}
 
 	void moveToClosestNeighbor(Vector2 heroPos) {
@@ -162,7 +151,7 @@ public class Enemy : MonoBehaviour {
 		}
 
 		Map.instance.moveEnemy(this, nextCoords);
-		_targetPos = getCurrentPos();
+		targetPos = getCurrentPos();
 	}
 
 	IEnumerator hitFlashAnimCo() {
@@ -203,7 +192,8 @@ public class Enemy : MonoBehaviour {
 		StartCoroutine(hitFlashAnimCo());
 	}
 
-	void Awake() {
+	protected override void Awake() {
+		base.Awake();
 		_renderer = GetComponent<SpriteRenderer>();
 		Color c = _renderer.material.color;
 		_defalutColor = new Color(c.r, c.g, c.b);
@@ -215,7 +205,7 @@ public class Enemy : MonoBehaviour {
 
 		if (_timer >= moveInterval) {
 			_timer = 0;
-			Vector2 pos = _targetPos;
+			Vector2 pos = targetPos;
 			Vector2 heroPos = Hero.instance.targetPosition;
 
 			if (canDamageHero()) {
@@ -230,9 +220,6 @@ public class Enemy : MonoBehaviour {
 					moveToRandomNeighbor();
 				}
 			}
-		} else {
-			_currentPos = Vector3.SmoothDamp(_currentPos, _targetPos, ref _velocity, smoothTime);
-			_transform.localPosition = _currentPos;
 		}
 
 		// Do the z-indexing off their y position.
@@ -248,6 +235,6 @@ public class Enemy : MonoBehaviour {
 			return;
 
 		Gizmos.color = _isFollowing ? Color.red : Color.green;
-		Gizmos.DrawWireSphere(_targetPos, chaseRadius);
+		Gizmos.DrawWireSphere(targetPos, chaseRadius);
 	}
 }

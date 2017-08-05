@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TorchLight : MonoBehaviour {
+	Transform _transform;
+
+	void Awake() {
+		_transform = transform;
+	}
+
 	void Update () {
 		if(Hero.instance == null) {
 			return;
@@ -10,6 +16,6 @@ public class TorchLight : MonoBehaviour {
 
 		Vector3 position = Hero.instance.transform.position;
 		position.z = -1;
-		this.transform.position = position;
+		_transform.position = position;
 	}
 }
