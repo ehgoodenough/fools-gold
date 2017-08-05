@@ -29,6 +29,7 @@ public class Enemy : MonoBehaviour {
 	Vector3 _velocity;
 	float _timer;
 	int _damage = 0;
+	bool _isFlashing = false;
 
 	Color _defalutColor;
 	SpriteRenderer _renderer;
@@ -131,6 +132,7 @@ public class Enemy : MonoBehaviour {
 	}
 
 	IEnumerator hitFlashAnimCo() {
+		_isFlashing = true;
 		const float duration = 0.2f;
 		float t = 0;
 		while (t < duration) {
@@ -145,9 +147,13 @@ public class Enemy : MonoBehaviour {
 		}
 
 		_renderer.material.color = _defalutColor;
+		_isFlashing = false;
 	}
 
 	public void takeDamage(int damage) {
+		if (_isFlashing)
+			return;
+
 		_damage += damage;
 		if (_damage >= health) {
 			Map.instance.removeEnemy(this);
