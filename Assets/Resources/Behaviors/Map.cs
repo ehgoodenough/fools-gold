@@ -136,7 +136,7 @@ public class Map : MonoBehaviour {
 	public bool isHeroInCoords(Coords coords) {
 		if (Hero.instance == false)
 			return false;
-		Coords heroCoords = new Coords(Hero.instance.targetPosition);
+		Coords heroCoords = new Coords(Hero.instance.targetPos);
 		return heroCoords.Equals(coords);
 	}
 

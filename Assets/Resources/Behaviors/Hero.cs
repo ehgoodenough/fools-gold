@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Hero : MonoBehaviour {
-	private Vector3 _targetPosition = new Vector3();
-	public Vector2 targetPosition { get { return _targetPosition; } }
-	private float speed = 10;
+public class Hero : Walker {
+	//private Vector3 _targetPosition = new Vector3();
+	//public Vector2 targetPosition { get { return _targetPosition; } }
+	//private float speed = 10;
 
 	private float deathspin = 22;
 
@@ -21,7 +21,8 @@ public class Hero : MonoBehaviour {
 	private const float Z_INDEX = 0.5f;
 	ParticleSystem _blood;
 
-	void Awake() {
+	protected override void Awake() {
+		base.Awake();
 		instance = this;
 		_blood = GetComponentInChildren<ParticleSystem>();
 	}
@@ -33,34 +34,35 @@ public class Hero : MonoBehaviour {
 		}
 
 		// Poll the keyboard.
-		if(Input.GetKeyDown("up")) {
-			if(this.canMoveTo(this._targetPosition + Vector3.up)) {
-				this._targetPosition += Vector3.up;
+		if(Input.GetKey("up")) {
+			if(canMoveTo(targetPos + Vector3.up)) {
+				targetPos += Vector3.up;
 			}
 		}
-		if(Input.GetKeyDown("down")) {
-			if(this.canMoveTo(this._targetPosition + Vector3.down)) {
-				this._targetPosition += Vector3.down;
+		if(Input.GetKey("down")) {
+			if(canMoveTo(targetPos + Vector3.down)) {
+				targetPos += Vector3.down;
 			}
 		}
-		if(Input.GetKeyDown("left")) {
-			if(this.canMoveTo(this._targetPosition + Vector3.left)) {
-				this._targetPosition += Vector3.left;
+		if(Input.GetKey("left")) {
+			if(canMoveTo(targetPos + Vector3.left)) {
+				targetPos += Vector3.left;
 			}
 		}
-		if(Input.GetKeyDown("right")) {
-			if(this.canMoveTo(this._targetPosition + Vector3.right)) {
-				this._targetPosition += Vector3.right;
+		if(Input.GetKey("right")) {
+			if(canMoveTo(targetPos + Vector3.right)) {
+				targetPos += Vector3.right;
 			}
 		}
 
 		if(Map.instance != null) {
-			if(Map.instance.HasGold(this._targetPosition)) {
-				this.gold += Map.instance.GetGolds(this._targetPosition).Count;
-				Map.instance.RemoveGold(this._targetPosition);
+			if(Map.instance.HasGold(targetPos)) {
+				this.gold += Map.instance.GetGolds(targetPos).Count;
+				Map.instance.RemoveGold(targetPos);
 			}
 		}
 
+		/*
 		// Move the position to the target position.
 		float step = Vector3.Distance(this.transform.position, this._targetPosition) * this.speed * Time.deltaTime;
         this.transform.position = Vector3.MoveTowards(this.transform.position, this._targetPosition, step);
@@ -69,6 +71,7 @@ public class Hero : MonoBehaviour {
 		if(Vector3.Distance(this.transform.position, this._targetPosition) < 0.01) {
 			this.transform.position = this._targetPosition;
 		}
+		*/
 
 		// Do the z-indexing off their y position.
 		Vector3 position = transform.position;

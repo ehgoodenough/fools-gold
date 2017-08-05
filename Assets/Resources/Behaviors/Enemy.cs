@@ -206,7 +206,7 @@ public class Enemy : Walker {
 		if (_timer >= moveInterval) {
 			_timer = 0;
 			Vector2 pos = targetPos;
-			Vector2 heroPos = Hero.instance.targetPosition;
+			Vector2 heroPos = Hero.instance.targetPos;
 
 			if (canDamageHero()) {
 				Debug.DrawLine(pos, heroPos, Color.red, moveInterval);

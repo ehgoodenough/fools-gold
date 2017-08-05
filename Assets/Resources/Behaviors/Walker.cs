@@ -13,11 +13,14 @@ public class Walker : MonoBehaviour {
 	Vector3 _currentPos;
 	Vector3 _velocity;
 
+	bool _isStepping = false;
 	Vector3 _targetPos;
-	protected Vector3 targetPos {
+	public Vector3 targetPos {
 		get { return _targetPos; }
 
-		set {
+		protected set {
+			if (_isStepping)
+				return;
 			_targetPos = value;
 			StartCoroutine(stepCo());
 		}
@@ -34,6 +37,7 @@ public class Walker : MonoBehaviour {
 	}
 
 	IEnumerator stepCo() {
+		_isStepping = true;
 		float t = 0;
 		while (t < moveDuration) {
 			float param = t / moveDuration;
@@ -49,5 +53,6 @@ public class Walker : MonoBehaviour {
 
 		_transform.localPosition = _targetPos;
 		_currentPos = _targetPos;
+		_isStepping = false;
 	}
 }
