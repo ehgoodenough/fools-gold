@@ -50,6 +50,10 @@ public class Enemy : MonoBehaviour {
 		}
 	}
 
+	public static Enemy create() {
+		return null;
+	}
+
 	void init() {
 		// find a random unoccupied coords for this enemy
 		bool foundValidCoords = false;
@@ -92,10 +96,8 @@ public class Enemy : MonoBehaviour {
 
 	void moveToRandomNeighbor() {
 		updateValidMoves();
-		if (_validNeighbors.Count == 0) {
-			Debug.LogWarning("No valid moves for enemy", gameObject);
-			return;
-		}
+		if (_validNeighbors.Count == 0)
+			return; // we currently have nowere to move
 
 		int i = (int) (Random.value * _validNeighbors.Count);
 		Map.instance.moveEnemy(this, _validNeighbors[i]);
