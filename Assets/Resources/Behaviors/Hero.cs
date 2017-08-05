@@ -5,10 +5,13 @@ using UnityEngine;
 public class Hero : MonoBehaviour {
 	private Vector3 targetPosition = new Vector3();
 	private float speed = 10;
+	private float deathspin = 22;
 
 	public int maxhealth = 3;
 	public int health = 3;
 	public int gold = 100;
+
+	private bool isDead = false;
 
 	public static Hero instance;
 
@@ -17,6 +20,11 @@ public class Hero : MonoBehaviour {
 	}
 
 	void Update() {
+		this.isDead = true;
+		if(this.isDead) {
+			this.transform.Rotate(Vector3.forward * this.deathspin);
+			return;
+		}
 
 		// Poll the keyboard.
 		if(Input.GetKeyDown("up")) {
@@ -70,5 +78,22 @@ public class Hero : MonoBehaviour {
 		}
 
 		return Map.instance.canMoveTo(position);
+	}
+
+	public void takeDamage(int damage) {
+		this.health -= damage;
+		if(this.health <= 0) {
+			this.health = 0;
+
+			this.die();
+		}
+	}
+
+	private void die() {
+		if(this.isDead != false) {
+			this.isDead = true;
+
+			// TODO: play death sound.
+		}
 	}
 }
