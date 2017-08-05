@@ -9,13 +9,12 @@ public class Hero : MonoBehaviour {
 	private float speed = 10;
 
 	private float deathspin = 22;
-	private double deathtimer = 1.5;
 
 	public int maxhealth = 3;
 	public int health = 3;
 	public int gold = 0;
 
-	private bool isDead = false;
+	public bool isDead = false;
 
 	public static Hero instance;
 
@@ -26,11 +25,6 @@ public class Hero : MonoBehaviour {
 	void Update() {
 		if(this.isDead) {
 			this.transform.Rotate(Vector3.forward * this.deathspin);
-
-			this.deathtimer -= Time.deltaTime;
-			if(this.deathtimer <= 0) {
-				SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-			}
 			return;
 		}
 
