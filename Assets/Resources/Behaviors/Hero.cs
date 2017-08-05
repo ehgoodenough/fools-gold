@@ -41,10 +41,12 @@ public class Hero : MonoBehaviour {
 	}
 
 	private bool canMoveTo(Vector3 position) {
-		if(Map.instance != null) {
-			return Map.instance.canMoveTo(position);
-		} else {
+		if(Map.instance == null) {
 			return true;
 		}
+
+		Debug.Log(Map.instance.getEnemy(position));
+
+		return Map.instance.canMoveTo(position);
 	}
 }

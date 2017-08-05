@@ -117,6 +117,7 @@ GameObject:
   m_Component:
   - component: {fileID: 932679106}
   - component: {fileID: 932679107}
+  - component: {fileID: 932679108}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -148,7 +149,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dff5d27a6fee3465589723a716fb7f6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tile: {fileID: 1960253181536256, guid: 5fcb94d2426314493a6f8698a6270642, type: 2}
+  tileSize: 1
+--- !u!114 &932679108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 932679105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 755e74ee05104364b81f6e723926a348, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1144543820
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,6 +20,10 @@ public class Map : MonoBehaviour {
 		public static Coords operator -(Coords a, Coords b) {
 			return new Coords(a.x - b.x, a.y - b.y);
 		}
+
+		public string toKey() {
+			return "" + x + "-" + y;
+		}
 	}
 
 	public enum Tile
@@ -32,10 +36,11 @@ public class Map : MonoBehaviour {
 
 	private Object wallObject;
 	private Object floorObject;
+	private Object enemyObject;
 	public static Map instance;
 
 	private Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
-	private Dictionary<Coords, Enemy> _enemies = new Dictionary<Coords, Enemy>();
+	private Dictionary<string, Enemy> _enemies = new Dictionary<string, Enemy>();
 
 	// this is just temporary until we have a real map
 	const int TEMP_GRID_WIDTH = 10;
@@ -44,10 +49,13 @@ public class Map : MonoBehaviour {
 	void Awake() {
 		instance = this;
 		wallObject = Resources.Load("Prefabs/Tile") as Object;
+		enemyObject = Resources.Load("Prefabs/Enemy") as Object;
 	}
 
 	void Start() {
 		GetComponent<MapGenerator> ().CreateRoom (7, 7, new Vector3 (-3, -3, 10));
+
+		Object.Instantiate(this.enemyObject, transform);
 	}
 
 	public void addTile(Vector3 position, Tile tileType) {
@@ -76,13 +84,13 @@ public class Map : MonoBehaviour {
 	}
 
 	public void addEnemy(Enemy enemy) {
-		_enemies.Add(enemy.currentCoords, enemy);
+		_enemies.Add(enemy.currentCoords.toKey(), enemy);
 	}
 
 	public void moveEnemy(Enemy enemy, Coords nextCoords) {
-		_enemies.Remove(enemy.currentCoords);
+		_enemies.Remove(enemy.currentCoords.toKey());
 		enemy.currentCoords = nextCoords;
-		_enemies.Add(enemy.currentCoords, enemy);
+		_enemies.Add(enemy.currentCoords.toKey(), enemy);
 	}
 
 	public Coords getRandomCoords() {
@@ -106,8 +114,17 @@ public class Map : MonoBehaviour {
 			return false;
 		if (canMoveTo(new Vector2(coords.x, coords.y)) == false)
 			return false;
-		if (_enemies.ContainsKey(coords))
+		if (_enemies.ContainsKey(coords.toKey()))
 			return false;
 		return true;
+	}
+
+	public Enemy getEnemy(Vector2 position) {
+		string key = position.x + "-" + position.y;
+		if(_enemies.ContainsKey(key)) {
+			return _enemies[key];
+		} else {
+			return null;
+		}
 	}
 }
