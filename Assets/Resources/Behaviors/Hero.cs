@@ -6,6 +6,16 @@ public class Hero : MonoBehaviour {
 	private Vector3 targetPosition = new Vector3();
 	private float speed = 10;
 
+	public int maxhealth = 3;
+	public int health = 3;
+	public int gold = 100;
+
+	public static Hero instance;
+
+	void Awake() {
+		instance = this;
+	}
+
 	void Update() {
 
 		// Poll the keyboard.
@@ -27,6 +37,13 @@ public class Hero : MonoBehaviour {
 		if(Input.GetKeyDown("right")) {
 			if(this.canMoveTo(this.targetPosition + Vector3.right)) {
 				this.targetPosition += Vector3.right;
+			}
+		}
+
+		if(Map.instance != null) {
+			if(Map.instance.HasGold(this.targetPosition)) {
+				Object gold = Map.instance.GetGold(this.targetPosition);
+				Object.Destroy(gold);
 			}
 		}
 

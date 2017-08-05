@@ -124,6 +124,7 @@ public class Enemy : MonoBehaviour {
 		_damage += damage;
 		if (_damage >= health) {
 			Map.instance.removeEnemy(this);
+			Map.instance.CreateGold(this.currentCoords);
 			Destroy(gameObject);
 		}
 	}
