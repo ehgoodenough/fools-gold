@@ -22,6 +22,7 @@ public class Map : MonoBehaviour {
 	public static Map instance;
 
 	private Hashtable tiles = new Hashtable();
+	private Dictionary<Coords, Enemy> _enemies = new Dictionary<Coords, Enemy>();
 
 	void Awake() {
 		instance = this;
@@ -47,6 +48,16 @@ public class Map : MonoBehaviour {
 
 		// Keep track of it in our hashtable.
 		this.tiles.Add(position.x + "-" + position.y, tile);
+	}
+
+	public void addEnemy(Enemy enemy) {
+		_enemies.Add(enemy.currentCoords, enemy);
+	}
+
+	public void moveEnemy(Enemy enemy, Coords nextCoords) {
+		_enemies.Remove(enemy.currentCoords);
+		enemy.currentCoords = nextCoords;
+		_enemies.Add(enemy.currentCoords, enemy);
 	}
 
 	public bool canMoveTo(Vector2 position) {

@@ -11,12 +11,13 @@ public class Enemy : MonoBehaviour {
 	public float scale = 5;
 	public float smoothTime = 0.1f;
 
+	[System.NonSerialized] public Coords currentCoords;
+
 	const int TEMP_GRID_WIDTH = 10;
 	const int TEMP_GRID_HEIGHT = 10;
 	const float TEMP_CELL_SIZE = 1;
 
 	Transform _transform;
-	Coords _currentCoords;
 	Vector3 _currentPos;
 	Vector3 _targetPos;
 	Vector3 _velocity;
@@ -39,13 +40,18 @@ public class Enemy : MonoBehaviour {
 	}
 
 	Vector3 getCurrentPos() {
-		return getPosFromCoords(_currentCoords.x, _currentCoords.y);
+		return getPosFromCoords(currentCoords.x, currentCoords.y);
 	}
 
 	void init() {
-		int x = (int)(Random.value * TEMP_GRID_WIDTH);
-		int y = (int)(Random.value * TEMP_GRID_HEIGHT);
-		_currentCoords = new Coords(x, y);
+		bool foundValidCoords = false;
+		while (foundValidCoords == false) {
+			int x = (int)(Random.value * TEMP_GRID_WIDTH);
+			int y = (int)(Random.value * TEMP_GRID_HEIGHT);
+			currentCoords = new Coords(x, y);
+			foundValidCoords = isValidCoords(currentCoords);
+		}
+		Map.instance.addEnemy(this);
 
 		_transform = transform;
 		_targetPos = getCurrentPos();
@@ -69,7 +75,11 @@ public class Enemy : MonoBehaviour {
 	void updateValidMoves() {
 		_validNeighbors.Clear();
 		foreach (Coords move in _possibleMoves) {
-			Coords coords = _currentCoords + move;
+			Coords coords = currentCoords + move;
+
+			//@Incomplete: use Map.canMoveTo instead
+			//@Incomplete: use Map.canMoveTo instead
+			//@Incomplete: use Map.canMoveTo instead
 			if (isValidCoords(coords))
 				_validNeighbors.Add(coords);
 		}
@@ -78,11 +88,11 @@ public class Enemy : MonoBehaviour {
 	void moveToRandomNeighbor() {
 		updateValidMoves();
 		int i = (int) (Random.value * _validNeighbors.Count);
-		_currentCoords = _validNeighbors[i];
+		Map.instance.moveEnemy(this, _validNeighbors[i]);
 		_targetPos = getCurrentPos();
 	}
 
-	void Awake() {
+	void Start() {
 		init();
 	}
 
