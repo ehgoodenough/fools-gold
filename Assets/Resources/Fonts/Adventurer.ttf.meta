@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 245f059988aa3fd4dbbd53a8851a6ef9
-timeCreated: 1501958718
+guid: b0f334f5f0737a14d802ec841315fd38
+timeCreated: 1501961429
 licenseType: Free
 TrueTypeFontImporter:
   serializedVersion: 4
@@ -9,9 +9,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Seraphimb1
+  fontName: Adventurer
   fontNames:
-  - Seraphimb1
+  - Adventurer
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
