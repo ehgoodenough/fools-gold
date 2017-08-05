@@ -114,8 +114,8 @@ public class Map : MonoBehaviour {
 		return new Coords(x, y);
 	}
 
-	public Vector3 getPosFromCoords(int x, int y) {
-		return new Vector3(x * tileSize, y * tileSize);
+	public Vector3 getPosFromCoords(Coords coords) {
+		return new Vector3(coords.x * tileSize, coords.y * tileSize);
 	}
 
 	string getKeyFromPosition(Vector2 position) {

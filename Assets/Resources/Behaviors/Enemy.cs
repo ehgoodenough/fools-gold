@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour {
 	public bool canMoveVertical = true;
 	public bool canMoveDiagonal = true;
 
+	public float chaseRadius = 0;
 	public float moveInterval = 1;
 	public float smoothTime = 0.1f;
 
@@ -30,6 +31,7 @@ public class Enemy : MonoBehaviour {
 	float _timer;
 	int _damage = 0;
 	bool _isFlashing = false;
+	bool _isFollowing = false;
 
 	Color _defalutColor;
 	SpriteRenderer _renderer;
@@ -37,7 +39,7 @@ public class Enemy : MonoBehaviour {
 	List<Coords> _validNeighbors = new List<Coords>();
 
 	Vector3 getCurrentPos() {
-		return Map.instance.getPosFromCoords(currentCoords.x, currentCoords.y);
+		return Map.instance.getPosFromCoords(currentCoords);
 	}
 
 	static Coords getMoveFromDir(Direction dir) {
@@ -131,6 +133,26 @@ public class Enemy : MonoBehaviour {
 		_targetPos = getCurrentPos();
 	}
 
+	void moveToClosestNeighbor(Vector2 heroPos) {
+		updateValidMoves();
+		if (_validNeighbors.Count == 0)
+			return; // we currently have nowere to move
+
+		Coords nextCoords = currentCoords;
+		float closestDist = float.MaxValue;
+		foreach (Coords coords in _validNeighbors) {
+			Vector2 pos = Map.instance.getPosFromCoords(coords);
+			float dist = Vector2.Distance(pos, heroPos);
+			if (dist < closestDist) {
+				closestDist = dist;
+				nextCoords = coords;
+			}
+		}
+
+		Map.instance.moveEnemy(this, nextCoords);
+		_targetPos = getCurrentPos();
+	}
+
 	IEnumerator hitFlashAnimCo() {
 		_isFlashing = true;
 		const float duration = 0.2f;
@@ -176,11 +198,30 @@ public class Enemy : MonoBehaviour {
 		_timer += Time.deltaTime;
 
 		if (_timer >= moveInterval) {
-			moveToRandomNeighbor();
+			Vector2 pos = _targetPos;
+			Vector2 heroPos = Hero.instance.targetPosition;
+			float distToHero = Vector2.Distance(pos, heroPos);
+			_isFollowing = distToHero < chaseRadius;
+			if (_isFollowing) {
+				moveToClosestNeighbor(heroPos);
+			} else {
+				moveToRandomNeighbor();
+			}
+
 			_timer = 0;
 		} else {
 			_currentPos = Vector3.SmoothDamp(_currentPos, _targetPos, ref _velocity, smoothTime);
 			_transform.localPosition = _currentPos;
 		}
+	}
+
+	void OnDrawGizmos() {
+		if (Application.isPlaying == false)
+			return;
+		if (chaseRadius == 0)
+			return;
+
+		Gizmos.color = _isFollowing ? Color.red : Color.green;
+		Gizmos.DrawWireSphere(_targetPos, chaseRadius);
 	}
 }
