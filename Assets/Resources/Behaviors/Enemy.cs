@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 using Coords = Map.Coords;
 
@@ -30,6 +29,9 @@ public class Enemy : MonoBehaviour {
 	Vector3 _velocity;
 	float _timer;
 	int _damage = 0;
+
+	Color _defalutColor;
+	SpriteRenderer _renderer;
 
 	List<Coords> _validNeighbors = new List<Coords>();
 
@@ -128,6 +130,41 @@ public class Enemy : MonoBehaviour {
 		_targetPos = getCurrentPos();
 	}
 
+	IEnumerator hitFlashAnimCo() {
+		const float duration = 0.2f;
+		float t = 0;
+		while (t < duration) {
+			float strength = t / duration;
+			strength = 1f - strength * strength;
+
+			Color c = Color.Lerp(_defalutColor, Color.white, strength);
+			_renderer.material.color = Color.Lerp(_defalutColor, Color.white, strength);
+
+			yield return null;
+			t += Time.deltaTime;
+		}
+
+		_renderer.material.color = _defalutColor;
+	}
+
+	public void takeDamage(int damage) {
+		_damage += damage;
+		if (_damage >= health) {
+			Map.instance.removeEnemy(this);
+			Map.instance.CreateGold(this.currentCoords);
+			Destroy(gameObject);
+			return;
+		}
+
+		StartCoroutine(hitFlashAnimCo());
+	}
+
+	void Awake() {
+		_renderer = GetComponent<SpriteRenderer>();
+		Color c = _renderer.material.color;
+		_defalutColor = new Color(c.r, c.g, c.b);
+	}
+
 	void Update() {
 		_timer += Time.deltaTime;
 
@@ -137,15 +174,6 @@ public class Enemy : MonoBehaviour {
 		} else {
 			_currentPos = Vector3.SmoothDamp(_currentPos, _targetPos, ref _velocity, smoothTime);
 			_transform.localPosition = _currentPos;
-		}
-	}
-
-	public void takeDamage(int damage) {
-		_damage += damage;
-		if (_damage >= health) {
-			Map.instance.removeEnemy(this);
-			Map.instance.CreateGold(this.currentCoords);
-			Destroy(gameObject);
 		}
 	}
 }
