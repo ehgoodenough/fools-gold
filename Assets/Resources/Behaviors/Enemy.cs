@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 using Coords = Map.Coords;
 
@@ -27,6 +28,7 @@ public class Enemy : MonoBehaviour {
 	Vector3 _targetPos;
 	Vector3 _velocity;
 	float _timer;
+	int _damage = 0;
 
 	List<Coords> _validNeighbors = new List<Coords>();
 
@@ -90,6 +92,11 @@ public class Enemy : MonoBehaviour {
 
 	void moveToRandomNeighbor() {
 		updateValidMoves();
+		if (_validNeighbors.Count == 0) {
+			Debug.LogWarning("No valid moves for enemy", gameObject);
+			return;
+		}
+
 		int i = (int) (Random.value * _validNeighbors.Count);
 		Map.instance.moveEnemy(this, _validNeighbors[i]);
 		_targetPos = getCurrentPos();
@@ -112,9 +119,10 @@ public class Enemy : MonoBehaviour {
 	}
 
 	public void takeDamage(int damage) {
-		// TODO: take more than 1 damage.
-
-		Map.instance.removeEnemy(this);
-		Object.Destroy(this.gameObject);
+		_damage += damage;
+		if (_damage >= health) {
+			Map.instance.removeEnemy(this);
+			Destroy(gameObject);
+		}
 	}
 }
