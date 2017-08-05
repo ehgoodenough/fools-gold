@@ -20,7 +20,6 @@ public class Hero : MonoBehaviour {
 	}
 
 	void Update() {
-		this.isDead = true;
 		if(this.isDead) {
 			this.transform.Rotate(Vector3.forward * this.deathspin);
 			return;
