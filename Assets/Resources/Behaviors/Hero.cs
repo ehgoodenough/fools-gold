@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Hero : MonoBehaviour {
-	private Vector3 targetPosition = new Vector3();
+	private Vector3 _targetPosition = new Vector3();
+	public Vector2 targetPosition { get { return _targetPosition; } }
 	private float speed = 10;
 
 	public int maxhealth = 3;
@@ -20,40 +21,40 @@ public class Hero : MonoBehaviour {
 
 		// Poll the keyboard.
 		if(Input.GetKeyDown("up")) {
-			if(this.canMoveTo(this.targetPosition + Vector3.up)) {
-				this.targetPosition += Vector3.up;
+			if(this.canMoveTo(this._targetPosition + Vector3.up)) {
+				this._targetPosition += Vector3.up;
 			}
 		}
 		if(Input.GetKeyDown("down")) {
-			if(this.canMoveTo(this.targetPosition + Vector3.down)) {
-				this.targetPosition += Vector3.down;
+			if(this.canMoveTo(this._targetPosition + Vector3.down)) {
+				this._targetPosition += Vector3.down;
 			}
 		}
 		if(Input.GetKeyDown("left")) {
-			if(this.canMoveTo(this.targetPosition + Vector3.left)) {
-				this.targetPosition += Vector3.left;
+			if(this.canMoveTo(this._targetPosition + Vector3.left)) {
+				this._targetPosition += Vector3.left;
 			}
 		}
 		if(Input.GetKeyDown("right")) {
-			if(this.canMoveTo(this.targetPosition + Vector3.right)) {
-				this.targetPosition += Vector3.right;
+			if(this.canMoveTo(this._targetPosition + Vector3.right)) {
+				this._targetPosition += Vector3.right;
 			}
 		}
 
 		if(Map.instance != null) {
-			if(Map.instance.HasGold(this.targetPosition)) {
-				Object gold = Map.instance.GetGold(this.targetPosition);
+			if(Map.instance.HasGold(this._targetPosition)) {
+				Object gold = Map.instance.GetGold(this._targetPosition);
 				Object.Destroy(gold);
 			}
 		}
 
 		// Move the position to the target position.
-		float step = Vector3.Distance(this.transform.position, this.targetPosition) * this.speed * Time.deltaTime;
-        this.transform.position = Vector3.MoveTowards(this.transform.position, this.targetPosition, step);
+		float step = Vector3.Distance(this.transform.position, this._targetPosition) * this.speed * Time.deltaTime;
+        this.transform.position = Vector3.MoveTowards(this.transform.position, this._targetPosition, step);
 
 		// If we've reached out target position, then stop moving.
-		if(Vector3.Distance(this.transform.position, this.targetPosition) < 0.01) {
-			this.transform.position = this.targetPosition;
+		if(Vector3.Distance(this.transform.position, this._targetPosition) < 0.01) {
+			this.transform.position = this._targetPosition;
 		}
 	}
 

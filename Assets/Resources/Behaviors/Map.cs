@@ -13,6 +13,11 @@ public class Map : MonoBehaviour {
 			this.y = y;
 		}
 
+		public Coords(Vector2 pos) {
+			this.x = (int)pos.x;
+			this.y = (int)pos.y;
+		}
+
 		public static Coords operator +(Coords a, Coords b) {
 			return new Coords(a.x + b.x, a.y + b.y);
 		}
@@ -21,7 +26,7 @@ public class Map : MonoBehaviour {
 			return new Coords(a.x - b.x, a.y - b.y);
 		}
 
-		public string ToString() {
+		public override string ToString() {
 			return "" + x + "-" + y;
 		}
 	}
@@ -112,14 +117,28 @@ public class Map : MonoBehaviour {
 		return new Vector3(x * tileSize, y * tileSize);
 	}
 
+	string getKeyFromPosition(Vector2 position) {
+		return position.x + "-" + position.y;
+	}
+
 	public bool canMoveTo(Vector2 position) {
-		return !tiles.ContainsKey( position.x + "-" + position.y) || tiles[position.x + "-" + position.y] != Tile.Wall;
+		string key = getKeyFromPosition(position);
+		return !tiles.ContainsKey(key) || tiles[key] != Tile.Wall;
+	}
+
+	public bool isHeroInCoords(Coords coords) {
+		if (Hero.instance == false)
+			return false;
+		Coords heroCoords = new Coords(Hero.instance.targetPosition);
+		return heroCoords.Equals(coords);
 	}
 
 	public bool canMoveTo(Coords coords) {
 		if (canMoveTo(new Vector2(coords.x, coords.y)) == false)
 			return false;
 		if (_enemies.ContainsKey(coords.ToString()))
+			return false;
+		if (isHeroInCoords(coords)) 
 			return false;
 		return true;
 	}
