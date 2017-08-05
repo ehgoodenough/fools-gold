@@ -45,7 +45,7 @@ public class Map : MonoBehaviour {
 
 	public static Map instance;
 
-	private Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
+	public Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
 	private Dictionary<string, Enemy> _enemies = new Dictionary<string, Enemy>();
 	private Dictionary<string, List<Object>> gold = new Dictionary<string, List<Object>>();
 
@@ -65,6 +65,8 @@ public class Map : MonoBehaviour {
 	}
 
 	void Start() {
+		Debug.Log ("Map.Start()");
+		Debug.Log ("Tiles: " + tiles.Count);
 		MapGenerator mapGen = GetComponent<MapGenerator> ();
 		Room room1 = mapGen.CreateRoom (17, 11, new Vector3 (-8, -5, 10));
 		Room room2 = mapGen.CreateRoom (8, 6, new Vector3 (10, 3, 10));
@@ -122,7 +124,7 @@ public class Map : MonoBehaviour {
 		return new Vector3(coords.x * tileSize, coords.y * tileSize);
 	}
 
-	string getKeyFromPosition(Vector2 position) {
+	public string getKeyFromPosition(Vector2 position) {
 		return position.x + "-" + position.y;
 	}
 

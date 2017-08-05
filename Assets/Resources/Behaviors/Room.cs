@@ -13,6 +13,7 @@ public class Room {
 	private Map.Tile[] tiles;
 	private List<int> connections;
 
+
 	public Room(int width, int height, int posX, int posY)
 	{
 		this.uid = ++numRooms;

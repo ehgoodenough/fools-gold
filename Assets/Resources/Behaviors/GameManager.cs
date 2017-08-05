@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour {
 
     public void OnTryAgain()
     {
+		Room.rooms.Clear ();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

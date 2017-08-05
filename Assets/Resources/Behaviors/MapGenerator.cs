@@ -61,7 +61,8 @@ public class MapGenerator : MonoBehaviour {
 
 	public void CreateTiles()
 	{
-		// Debug.Log ("Creating Tiles...");
+		Debug.Log ("Creating Tiles...");
+		Debug.Log ("# Rooms: " + Room.rooms.Count);
 		foreach (Room room in Room.rooms.Values)
 		{
 			for (int row = 0; row < room.GetDimensions().y; row++) 
@@ -70,7 +71,13 @@ public class MapGenerator : MonoBehaviour {
 				{
 					// Debug.Log ("Row, Col: " + row + ", " + col);
 					Vector2 pos = room.GetPosition();
-					map.addTile (new Vector3 (pos.x + col, pos.y + row, wallZ), room.GetTileAt (row, col));
+					string key = map.getKeyFromPosition (new Vector2 (pos.x + col, pos.y + row));
+					// Debug.Log ("Key: " + key);
+					if (!map.tiles.ContainsKey (key)) {
+						map.addTile (new Vector3 (pos.x + col, pos.y + row, wallZ), room.GetTileAt (row, col));
+					} else {
+						// Debug.Log ("Key already exists");
+					}
 				}
 			}
 		}
