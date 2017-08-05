@@ -156,6 +156,7 @@ public class Enemy : MonoBehaviour {
 			return;
 		}
 
+		_timer = 0; // reset timer for next move
 		StartCoroutine(hitFlashAnimCo());
 	}
 
