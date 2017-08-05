@@ -13,7 +13,7 @@ public class Hero : MonoBehaviour {
 
 	public int maxhealth = 3;
 	public int health = 3;
-	public int gold = 100;
+	public int gold = 0;
 
 	private bool isDead = false;
 
@@ -59,7 +59,9 @@ public class Hero : MonoBehaviour {
 		if(Map.instance != null) {
 			if(Map.instance.HasGold(this._targetPosition)) {
 				Object gold = Map.instance.GetGold(this._targetPosition);
+				Map.instance.RemoveGold(this._targetPosition);
 				Object.Destroy(gold);
+				this.gold += 1;
 			}
 		}
 
