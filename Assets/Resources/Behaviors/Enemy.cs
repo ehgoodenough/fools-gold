@@ -8,6 +8,7 @@ using Coords = Map.Coords;
 [RequireComponent(typeof(SpriteRenderer))]
 public class Enemy : MonoBehaviour {
 
+	public enum Type { Horizontal, Vertical, NoDiagonal, Diagonal, AllDirections, Count, Random }
 	enum Direction { Top, TopRight, Right, BottomRight, Bottom, BottomLeft, Left, TopLeft, Count }
 
 	[Header("Stats")]
@@ -38,29 +39,50 @@ public class Enemy : MonoBehaviour {
 
 	static Coords getMoveFromDir(Direction dir) {
 		switch (dir) {
-			case Direction.Top: return new Coords(0, 1);
-			case Direction.TopRight: return new Coords(1, 1);
-			case Direction.Right: return new Coords(1, 0);
+			case Direction.Top:			return new Coords(0, 1);
+			case Direction.TopRight:	return new Coords(1, 1);
+			case Direction.Right:		return new Coords(1, 0);
 			case Direction.BottomRight: return new Coords(1, -1);
-			case Direction.Bottom: return new Coords(0, -1);
-			case Direction.BottomLeft: return new Coords(-1, -1);
-			case Direction.Left: return new Coords(-1, 0);
-			case Direction.TopLeft: return new Coords(-1, 1);
-			default: return new Coords(0, 0);
+			case Direction.Bottom:		return new Coords(0, -1);
+			case Direction.BottomLeft:	return new Coords(-1, -1);
+			case Direction.Left:		return new Coords(-1, 0);
+			case Direction.TopLeft:		return new Coords(-1, 1);
+			default:					return new Coords(0, 0);
 		}
 	}
 
-	public static Enemy create() {
-		return null;
+	public static Enemy getPrototypeFromType(Type type) {
+		if (type == Type.Random)
+			type = (Type)(Random.value * (float)Type.Count);
+
+		string path = "Prefabs/Enemies/Enemy ";
+		switch (type) {
+			case Type.Horizontal:		path += "Only Horizontal"; break;
+			case Type.Vertical:			path += "Only Vertical"; break;
+			case Type.NoDiagonal:		path += "No Diagonal"; break;
+			case Type.Diagonal:			path += "Only Diagonal"; break;
+			case Type.AllDirections:	path += "All Directions"; break;
+			default:					return null;
+		}
+
+		GameObject obj = Resources.Load(path) as GameObject;
+		return obj.GetComponent<Enemy>();
+	}
+
+	public static Enemy create(Coords coords, Type type = Type.Random) {
+		if (Map.instance.canMoveTo(coords) == false) {
+			Debug.LogError("Unable to place an enemy in coords:" + coords.ToString());
+			return null;
+		}
+
+		Enemy prototype = getPrototypeFromType(type);
+		Enemy newEnemy = Instantiate(prototype, Map.instance.transform);
+		newEnemy.currentCoords = coords;
+		newEnemy.init();
+		return newEnemy;
 	}
 
 	void init() {
-		// find a random unoccupied coords for this enemy
-		bool foundValidCoords = false;
-		while (foundValidCoords == false) {
-			currentCoords = Map.instance.getRandomCoords();
-			foundValidCoords = Map.instance.canMoveTo(currentCoords);
-		}
 		Map.instance.addEnemy(this);
 
 		_transform = transform;
@@ -102,10 +124,6 @@ public class Enemy : MonoBehaviour {
 		int i = (int) (Random.value * _validNeighbors.Count);
 		Map.instance.moveEnemy(this, _validNeighbors[i]);
 		_targetPos = getCurrentPos();
-	}
-
-	void Start() {
-		init();
 	}
 
 	void Update() {

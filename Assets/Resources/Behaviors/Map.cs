@@ -21,7 +21,7 @@ public class Map : MonoBehaviour {
 			return new Coords(a.x - b.x, a.y - b.y);
 		}
 
-		public string toKey() {
+		public string ToString() {
 			return "" + x + "-" + y;
 		}
 	}
@@ -36,7 +36,6 @@ public class Map : MonoBehaviour {
 
 	private Object wallObject;
 	private Object floorObject;
-	private Object enemyObject;
 	private Object goldObject;
 
 	public static Map instance;
@@ -45,20 +44,23 @@ public class Map : MonoBehaviour {
 	private Dictionary<string, Enemy> _enemies = new Dictionary<string, Enemy>();
 	private Dictionary<string, Object> gold = new Dictionary<string, Object>();
 
-	// this is just temporary until we have a real map
-	const int TEMP_GRID_WIDTH = 10;
-	const int TEMP_GRID_HEIGHT = 10;
+	// Temp
+	void createSomeRandomEnemies() {
+		Enemy.create(new Coords(1, 1));
+		Enemy.create(new Coords(2, 2));
+		Enemy.create(new Coords(3, 3));
+		Enemy.create(new Coords(4, 4));
+	}
 
 	void Awake() {
 		instance = this;
 		wallObject = Resources.Load("Prefabs/Tile") as Object;
-		enemyObject = Resources.Load("Prefabs/Enemies/Enemy All Directions") as Object;
 		goldObject = Resources.Load("Prefabs/Gold") as Object;
 	}
 
 	void Start() {
 		GetComponent<MapGenerator> ().CreateRoom (17, 11, new Vector3 (-8, -5, 10));
-		CreateEnemy();
+		createSomeRandomEnemies();
 	}
 
 	public void addTile(Vector3 position, Tile tileType) {
@@ -86,22 +88,18 @@ public class Map : MonoBehaviour {
 		}
 	}
 
-	public void CreateEnemy() {
-		Object.Instantiate(enemyObject, transform);
-	}
-
 	public void addEnemy(Enemy enemy) {
-		_enemies.Add(enemy.currentCoords.toKey(), enemy);
+		_enemies.Add(enemy.currentCoords.ToString(), enemy);
 	}
 
 	public void moveEnemy(Enemy enemy, Coords nextCoords) {
-		_enemies.Remove(enemy.currentCoords.toKey());
+		_enemies.Remove(enemy.currentCoords.ToString());
 		enemy.currentCoords = nextCoords;
-		_enemies.Add(enemy.currentCoords.toKey(), enemy);
+		_enemies.Add(enemy.currentCoords.ToString(), enemy);
 	}
 
 	public void removeEnemy(Enemy enemy) {
-		_enemies.Remove(enemy.currentCoords.toKey());
+		_enemies.Remove(enemy.currentCoords.ToString());
 	}
 
 	public Coords getRandomCoords() {
@@ -121,7 +119,7 @@ public class Map : MonoBehaviour {
 	public bool canMoveTo(Coords coords) {
 		if (canMoveTo(new Vector2(coords.x, coords.y)) == false)
 			return false;
-		if (_enemies.ContainsKey(coords.toKey()))
+		if (_enemies.ContainsKey(coords.ToString()))
 			return false;
 		return true;
 	}

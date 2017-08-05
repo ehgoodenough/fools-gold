@@ -237,7 +237,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1130910585
 MonoBehaviour:
@@ -250,50 +250,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 755e74ee05104364b81f6e723926a348, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1260729055
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1260729057}
-  - component: {fileID: 1260729056}
-  m_Layer: 0
-  m_Name: EnemyManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1260729056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1260729055}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 920d18783e414d84e9aac5a00d162488, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  numEnemies: 10
-  enemyPrototypes:
-  - {fileID: 114211204391528654, guid: 3c8fe14b5a7fcad4e8c2650ff7102418, type: 2}
-  - {fileID: 114741245132646294, guid: 3ec0a85f75b39ac478dac596b2dfe734, type: 2}
-  - {fileID: 114707070857636200, guid: ea635f8de9f13e147b6ec9007d6b4c7e, type: 2}
-  - {fileID: 114000494810082346, guid: 6cf04f9faa668ca49ba7c1758b473583, type: 2}
-  - {fileID: 114266594104629426, guid: 94db51d2a6c9bc24e814da356394adb0, type: 2}
---- !u!4 &1260729057
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1260729055}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
