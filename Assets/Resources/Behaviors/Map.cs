@@ -100,14 +100,14 @@ public class Map : MonoBehaviour {
 			Transform parent = this.transform;
 			Quaternion rotation = Quaternion.identity;
 
-			position.z = position.y + TILE_Z_INDEX;
-
 			switch (tileType)
 			{
 			case Tile.Wall:
+				position.z = position.y + TILE_Z_INDEX;
 				Object.Instantiate (this.wallObject, position, rotation, parent);
 				break;
 			case Tile.Floor:
+				position.z = 900;
 				Object.Instantiate (this.floorObject, position, rotation, parent);
 				break;
 			default:
