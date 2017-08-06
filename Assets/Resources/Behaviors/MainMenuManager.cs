@@ -14,17 +14,20 @@ public class MainMenuManager : MonoBehaviour {
     public void OnStartGame()
     {
         SceneManager.LoadScene("Dungeon");
+        UIAudioSource.instance.Play();
     }
 
     public void OnCredits()
     {
         menu.SetActive(false);
         credits.SetActive(true);
+        UIAudioSource.instance.Play();
     }
 
     public void OnBack()
     {
         menu.SetActive(true);
         credits.SetActive(false);
+        UIAudioSource.instance.Play();
     }
 }

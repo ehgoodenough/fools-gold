@@ -34,8 +34,11 @@ public class Map : MonoBehaviour {
 	public enum Tile
 	{
 		Floor=0,
-		Wall=1,
-		GoldWall=2
+		Wall,
+		GoldWall,
+		VineWall,
+		CrackedFloor,
+		BloodyFloor
 	}
 			
 	private const float TILE_Z_INDEX = 0.9f;
@@ -45,6 +48,9 @@ public class Map : MonoBehaviour {
 	private Object floorObject;
 	private Object goldObject;
 	private Object goldWallObject;
+	private Object vineWallObject;
+	private Object crackedFloorObject;
+	private Object bloodyFloorObject;
 
 	public static Map instance;
 
@@ -61,6 +67,9 @@ public class Map : MonoBehaviour {
 		floorObject = Resources.Load("Prefabs/Floor") as Object;
 		goldObject = Resources.Load("Prefabs/Gold") as Object;
 		goldWallObject = Resources.Load("Prefabs/GoldWall") as Object;
+		vineWallObject = Resources.Load("Prefabs/VineWall") as Object;
+		crackedFloorObject = Resources.Load("Prefabs/CrackedFloor") as Object;
+		bloodyFloorObject = Resources.Load("Prefabs/BloodyFloor") as Object;
 	}
 
 	void Start() {
@@ -159,9 +168,21 @@ public class Map : MonoBehaviour {
 				position.z = 900;
 				Object.Instantiate (this.floorObject, position, rotation, parent);
 				break;
+			case Tile.CrackedFloor:
+				position.z = 900;
+				Object.Instantiate (this.crackedFloorObject, position, rotation, parent);
+				break;
+			case Tile.BloodyFloor:
+				position.z = 900;
+				Object.Instantiate (this.bloodyFloorObject, position, rotation, parent);
+				break;
 			case Tile.GoldWall:
 				position.z = position.y + TILE_Z_INDEX;
 				Object.Instantiate (this.goldWallObject, position, rotation, parent);
+				break;
+			case Tile.VineWall:
+				position.z = position.y + TILE_Z_INDEX;
+				Object.Instantiate (this.vineWallObject, position, rotation, parent);
 				break;
 			default:
 				break;
@@ -204,7 +225,7 @@ public class Map : MonoBehaviour {
 		string key = getKeyFromPosition(position);
 		if (!tiles.ContainsKey (key)) {
 			return true;
-		} else if (tiles [key] == Tile.Floor) {
+		} else if (tiles [key] == Tile.Floor || tiles [key] == Tile.CrackedFloor || tiles [key] == Tile.BloodyFloor) {
 			return true;
 		} else {
 			return false;

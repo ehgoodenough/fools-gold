@@ -65,7 +65,7 @@ public class MapGenerator : MonoBehaviour {
 		CreateCorridor (hubRoom, neRoom, 4);
 		Room nwRoom = CreateRoom (11, 10, new Vector3 (-14, 6, 10));
 		CreateCorridor (hubRoom, nwRoom, 5);
-		Room swRoom = CreateRoom (8, 6, new Vector3 (-10, -11, 10));
+		Room swRoom = CreateRoom (9, 7, new Vector3 (-11, -11, 10));
 		swRoom.DesignateStart ();
 		CreateCorridor (swRoom, hubRoom, 4);
 		Room seRoom = CreateRoom (10, 4, new Vector3 (-1, -9, 10));
@@ -174,10 +174,32 @@ public class MapGenerator : MonoBehaviour {
 					}
 					else
 					{
-						room.SetTile (row, col, Map.Tile.Wall);
+						float vineChance = 0.15f;
+						if (vineChance > Random.Range (0f, 1f))
+						{
+							room.SetTile (row, col, Map.Tile.VineWall);
+						}
+						else
+						{
+							room.SetTile (row, col, Map.Tile.Wall);
+						}
 					}
 				} else {
-					room.SetTile (row, col, Map.Tile.Floor);
+					float crackedChance = 0.025f;
+					float bloodyChance = crackedChance + 0.0225f * (1 + GameManager.currentLevel);
+					float randRoll = Random.Range (0f, 1f);
+					if (crackedChance > randRoll)
+					{
+						room.SetTile (row, col, Map.Tile.CrackedFloor);
+					}
+					else if (bloodyChance > randRoll)
+					{
+						room.SetTile (row, col, Map.Tile.BloodyFloor);
+					}
+					else
+					{
+						room.SetTile (row, col, Map.Tile.Floor);
+					}
 				}
 			}
 		}

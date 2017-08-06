@@ -21,7 +21,7 @@ public class Hero : Walker {
 
 	private const float Z_INDEX = 0.5f;
 
-	private AudioSource[] audio;
+	public AudioSource[] audios;
 
 	protected override void Awake() {
 		base.Awake();
@@ -29,7 +29,7 @@ public class Hero : Walker {
 		_zIndex = Z_INDEX;
 		//_attackSprite = getSpriteResource("Images/SkeletonAttack");
 
-		audio = GetComponents<AudioSource>();
+		audios = GetComponents<AudioSource>();
 	}
 
 	public float playCoinsEffect() {
@@ -69,6 +69,9 @@ public class Hero : Walker {
 
 			if (canMoveTo(targetPos + stepDir)) {
 				targetPos += stepDir;
+				if(stepDir != Vector3.zero) {
+					audios[5].Play();
+				}
 			}
 		}
 
@@ -77,7 +80,7 @@ public class Hero : Walker {
 				this.gold += Map.instance.GetGolds(targetPos).Count;
 				Map.instance.RemoveGold(targetPos, 0.3f);
 				playCoinsEffect();
-				audio[2].Play();
+				audios[2].Play();
 			}
 		}
 
@@ -93,8 +96,8 @@ public class Hero : Walker {
 		if (enemy != null && enemy.isAlive) {
 			attack(enemy.targetPos);
 			enemy.takeDamage(1);
-			// audio[1].pitch = Random.Range(0.5f, 1.0f);
-			audio[1].Play();
+			// audios[1].pitch = Random.Range(0.5f, 1.0f);
+			audios[1].Play();
 			return false;
 		}
 
@@ -121,7 +124,7 @@ public class Hero : Walker {
 
 		health -= damage;
 		playHitEffect("Blood Splash", false);
-		audio[0].Play();
+		audios[0].Play();
 
 		if (health <= 0) {
 			health = 0;
@@ -133,7 +136,7 @@ public class Hero : Walker {
 		if(this.isDead != true) {
 			this.isDead = true;
 
-			// TODO: play death sound.
+			audios[4].Play();
 		}
 	}
 }
