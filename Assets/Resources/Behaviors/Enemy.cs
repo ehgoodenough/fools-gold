@@ -220,6 +220,9 @@ public class Enemy : Walker {
 		Color color = _renderer.material.color;
 		bool goldDropped = false;
 
+		SpriteRenderer shadowSprite = _shadow.GetComponent<SpriteRenderer>();
+		Color shadowColor = shadowSprite.material.color;
+
 		while (t < duration) {
 			float param = t / duration;
 			float param2 = param * param;
@@ -227,10 +230,12 @@ public class Enemy : Walker {
 
 			Vector3 pos = startPos + new Vector3(0, y, 0);
 			color.a = 1f - param2 * param2;
+			shadowColor.a = 1f - param;
 
 			_transform.position = pos;
 			_shadow.position = startShadowPos;
 			_renderer.material.color = color;
+			shadowSprite.material.color = shadowColor;
 
 			if (goldDropped == false && param > 0.5f) {
 				goldDropped = true;
