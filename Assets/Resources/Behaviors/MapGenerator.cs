@@ -43,13 +43,13 @@ public class MapGenerator : MonoBehaviour {
 	{
 		switch (level) {
 		case 0:
-			GenerateLevel1 ();
+			GenerateLevel1();
 			break;
 		case 1:
-			GenerateLevel1 ();
+			GenerateLevel2();
 			break;
 		case 2:
-			GenerateLevel1 ();
+			GenerateLevel2();
 			break;
 		default:
 			GenerateLevel1 ();
@@ -75,6 +75,43 @@ public class MapGenerator : MonoBehaviour {
 		Room finalRoom = CreateRoom (9, 9, new Vector3 (-4, 17, 10));
 		finalRoom.DesignateEnd ();
 		CreateCorridor (nCorridor, finalRoom, 5);
+	}
+
+	private void GenerateLevel2()
+	{
+		Room startRoom = CreateRoom (7, 9, new Vector3 (-10, -11, 10));
+		startRoom.DesignateStart ();
+		Room startNorth = CreateRoom (9, 6, new Vector3 (-12, -3, 10));
+		CreateCorridor (startRoom, startNorth, 5);
+		Room startSouth = CreateRoom (9, 6, new Vector3 (-12, -16, 10));
+		CreateCorridor (startSouth, startRoom, 5);
+		Room startCorridorNorth = CreateRoom (13, 6, new Vector3 (-10, 2, 10));
+		CreateCorridor (startNorth, startCorridorNorth, 7);
+		Room startCorridorSouth = CreateRoom (13, 6, new Vector3 (-10, -21, 10));
+		CreateCorridor (startCorridorSouth, startSouth, 7);
+		Room mainHub = CreateRoom (22, 19, new Vector3 (-4, -16, 10));
+		CreateCorridor (mainHub, startCorridorNorth, 5);
+		CreateCorridor (startCorridorSouth, mainHub, 5);
+		Room mainHubAnteNorth = CreateRoom (9, 5, new Vector3 (4, 2, 10));
+		CreateCorridor (mainHub, mainHubAnteNorth, 9);
+		Room mainHubAnteSouth = CreateRoom (7, 8, new Vector3 (4, -23, 10));
+		CreateCorridor (mainHubAnteSouth, mainHub, 7);
+		// Room farSouthLeft = CreateRoom (8, 6, new Vector3 (0, -28, 10));
+		// Room farSouthRight = CreateRoom (8, 6, new Vector3 (7, -28, 10));
+		// CreateCorridor (farSouthLeft, mainHubAnteSouth, 4);
+		// CreateCorridor (farSouthRight, mainHubAnteSouth, 4);
+		Room mainToEndCorridorSouth = CreateRoom (13, 6, new Vector3 (12, -21, 10));
+		CreateCorridor (mainToEndCorridorSouth, mainHub, 4);
+		Room secondHubAnteSouth = CreateRoom (8, 8, new Vector3 (19, -16, 10));
+		CreateCorridor (mainToEndCorridorSouth, secondHubAnteSouth, 5);
+		Room secondHub = CreateRoom (14, 12, new Vector3 (21, -9, 10));
+		CreateCorridor (secondHubAnteSouth, secondHub, 6);
+		Room mainToEndCorridorNorth = CreateRoom (13, 6, new Vector3 (14, 2, 10));
+		CreateCorridor (mainHub, mainToEndCorridorNorth, 4);
+		CreateCorridor (secondHub, mainToEndCorridorNorth, 4);
+		Room finalRoom = CreateRoom (9, 10, new Vector3 (29, 2, 10));
+		finalRoom.DesignateEnd ();
+		CreateCorridor (secondHub, finalRoom, 4);
 	}
 
 	// Connects room1 to room2
