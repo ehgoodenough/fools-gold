@@ -15,6 +15,7 @@ public class Hero : Walker {
 	public int gold = 0;
 
 	public bool isDead = false;
+	public bool isDone = false;
 
 	public static Hero instance;
 
@@ -59,6 +60,13 @@ public class Hero : Walker {
 			if(Map.instance.HasGold(targetPos)) {
 				this.gold += Map.instance.GetGolds(targetPos).Count;
 				Map.instance.RemoveGold(targetPos);
+			}
+			if(this.targetPos.x == Map.instance.endPosition.x
+			&& this.targetPos.y == Map.instance.endPosition.y) {
+				if(this.isDone != true) {
+					this.isDone = true;
+					Debug.Log("DONE");
+				}
 			}
 		}
 

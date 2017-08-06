@@ -49,6 +49,8 @@ public class Map : MonoBehaviour {
 	private Dictionary<string, Enemy> _enemies = new Dictionary<string, Enemy>();
 	private Dictionary<string, List<Object>> gold = new Dictionary<string, List<Object>>();
 
+	public Vector2 endPosition;
+
 	// Temp
 	void createSomeRandomEnemies() {
 		Enemy.create(new Coords(1, 1));
@@ -65,14 +67,18 @@ public class Map : MonoBehaviour {
 	}
 
 	void Start() {
-		Debug.Log ("Map.Start()");
-		Debug.Log ("Tiles: " + tiles.Count);
+		// Debug.Log ("Map.Start()");
+		// Debug.Log ("Tiles: " + tiles.Count);
 		MapGenerator mapGen = GetComponent<MapGenerator> ();
 		Room room1 = mapGen.CreateRoom (17, 11, new Vector3 (-8, -5, 10));
-		Room room2 = mapGen.CreateRoom (8, 6, new Vector3 (10, 3, 10));
-		Debug.Log ("Room 2 is " + mapGen.GetRelativePosition (room1, room2, 3) + " relative to Room 1.");;
+		Room room2 = mapGen.CreateRoom (6, 6, new Vector3 (3, 6, 10));
+		Debug.Log ("Room 2 is " + mapGen.GetRelativePosition (room1, room2, 5) + " relative to Room 1.");
+		mapGen.CreateCorridor (room1, room2, 5);
 		mapGen.CreateTiles ();
 		createSomeRandomEnemies();
+
+		// ...Just for debugging the end logic. Thanks!!
+		this.endPosition = new Vector2(2, 2);
 	}
 
 	public void addTile(Vector3 position, Tile tileType) {
@@ -148,6 +154,15 @@ public class Map : MonoBehaviour {
 		if (isHeroInCoords(coords))
 			return false;
 		return true;
+	}
+
+	public Tile getTile(Vector2 position) {
+		string key = position.x + "-" + position.y;
+		if(tiles.ContainsKey(key)) {
+			return tiles[key];
+		} else {
+			return Tile.Floor;
+		}
 	}
 
 	public Enemy getEnemy(Vector2 position) {

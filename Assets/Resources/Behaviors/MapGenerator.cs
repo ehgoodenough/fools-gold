@@ -39,6 +39,49 @@ public class MapGenerator : MonoBehaviour {
 		map = Map.instance;
 	}
 
+	// Connects room1 to room2
+	public void ConnectRooms(Room r1, Room r2)
+	{
+		// Connect the room data structure
+		r1.ConnectTo (r2.GetID ());
+		r2.ConnectTo (r1.GetID ());
+
+		// Create the corridor between the two rooms
+	}
+
+	// Creates a corridor between room1 and room2
+	public void CreateCorridor(Room r1, Room r2, int corridorWidth)
+	{
+		// Get the position of each room
+		Vector2 r1Pos = r1.GetPosition ();
+		Vector2 r2Pos = r2.GetPosition ();
+
+		// Get the dimensions of each room
+		Vector2 r1Dim = r1.GetDimensions ();
+		Vector2 r2Dim = r2.GetDimensions ();
+
+		if (GetRelativePosition (r1, r2, corridorWidth) == Situated.AboveCenter) {
+			int leftLimit = (int) Mathf.Max (r1Pos.x, r2Pos.x);
+			int rightLimit = (int) Mathf.Min (r1Pos.x + r1Dim.x - 1, r2Pos.x + r2Dim.x - 1);
+			// Debug.Log ("leftLimit: " + leftLimit);
+			// Debug.Log ("rightLimit: " + rightLimit);
+			int leftPad = (rightLimit - leftLimit - corridorWidth + 1) / 2;
+			int rightPad = (rightLimit - leftLimit - corridorWidth + 1) - leftPad;
+			// Debug.Log ("leftPad: " + leftPad);
+			// Debug.Log ("rightPad: " + rightPad);
+
+			// Create doorway from room1
+			for (int i = 0; i < corridorWidth - 2; i++) {
+				r1.SetTileAt ((int) (leftLimit + leftPad + 1 + i), (int) (r1Pos.y + r1Dim.y - 1), Map.Tile.Floor);
+			}
+
+			// Create doorway to room2
+			for (int i = 0; i < corridorWidth - 2; i++) {
+				r2.SetTileAt ((int) (leftLimit + leftPad + 1 + i), (int) (r2Pos.y), Map.Tile.Floor);
+			}
+		}
+	}
+
 	public Room CreateRoom(int width, int height, Vector3 pos)
 	{
 		// Debug.Log ("Creating Room...");
@@ -61,8 +104,8 @@ public class MapGenerator : MonoBehaviour {
 
 	public void CreateTiles()
 	{
-		Debug.Log ("Creating Tiles...");
-		Debug.Log ("# Rooms: " + Room.rooms.Count);
+		// Debug.Log ("Creating Tiles...");
+		// Debug.Log ("# Rooms: " + Room.rooms.Count);
 		foreach (Room room in Room.rooms.Values)
 		{
 			for (int row = 0; row < room.GetDimensions().y; row++) 
@@ -83,6 +126,8 @@ public class MapGenerator : MonoBehaviour {
 		}
 	}
 
+
+
 	// Tells how r2 is situated relative to r1, given the corridor width
 	public Situated GetRelativePosition(Room r1, Room r2, int corridorWidth)
 	{
@@ -99,7 +144,7 @@ public class MapGenerator : MonoBehaviour {
 		if (r2Pos.x + r2Dim.x < r1Pos.x + corridorWidth)
 		{
 			hAlignment = HAligned.Left;
-		} else if (r2Pos.x >= r1Pos.x + r1Dim.x - corridorWidth)
+		} else if (r2Pos.x > r1Pos.x + r1Dim.x - corridorWidth)
 		{
 			hAlignment = HAligned.Right;
 		} else
@@ -112,7 +157,7 @@ public class MapGenerator : MonoBehaviour {
 		if (r2Pos.y + r2Dim.y < r1Pos.y + corridorWidth)
 		{
 			vAlignment = VAligned.Below;
-		} else if (r2Pos.y >= r1Pos.y + r1Dim.y - corridorWidth)
+		} else if (r2Pos.y > r1Pos.y + r1Dim.y - corridorWidth)
 		{
 			vAlignment = VAligned.Above;
 		} else
