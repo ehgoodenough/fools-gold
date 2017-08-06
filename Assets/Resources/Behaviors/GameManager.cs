@@ -124,17 +124,7 @@ public class GameManager : MonoBehaviour {
 
     public int GoldNeeded()
     {
-        switch (currentLevel)
-        {
-            case 0:
-                return 5;
-            case 1:
-                return 7;
-            case 2:
-                return 10;
-            default:
-                return 5;
-        }
+		return (int) (Map.instance.numGoldOnMap * 0.75f);
     }
 
     public void ShowNotEnoughGoldDialogue()

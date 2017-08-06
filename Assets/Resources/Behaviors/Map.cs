@@ -120,12 +120,12 @@ public class Map : MonoBehaviour {
 					enemyCreated = Enemy.create (new Coords (randPosX, randPosY));
 					if (enemyCreated) {
 						// Debug.Log ("Enemy Created!");
-						numGoldOnMap++;
+						numGoldOnMap += enemyCreated.gold;
 					}
 				}
 			}
-			Debug.Log ("numGoldOnMap: " + numGoldOnMap);
 		}
+		Debug.Log ("numGoldOnMap: " + numGoldOnMap);
 	}
 
 	public void createSomeRandomGold() {
