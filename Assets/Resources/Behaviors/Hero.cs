@@ -33,28 +33,30 @@ public class Hero : Walker {
 		}
 
 		// Poll the keyboard.
-		Vector3 stepDir = new Vector3();
-		if (Input.GetKey("up")) {
-			if(canMoveTo(targetPos + Vector3.up)) {
-				stepDir += Vector3.up;
+		if (_isStepping == false) {
+			Vector3 stepDir = new Vector3();
+			if (Input.GetKey("up")) {
+				if (canMoveTo(targetPos + Vector3.up)) {
+					stepDir += Vector3.up;
+				}
 			}
-		}
-		if(Input.GetKey("down")) {
-			if(canMoveTo(targetPos + Vector3.down)) {
-				stepDir += Vector3.down;
+			if (Input.GetKey("down")) {
+				if (canMoveTo(targetPos + Vector3.down)) {
+					stepDir += Vector3.down;
+				}
 			}
-		}
-		if(Input.GetKey("left")) {
-			if(canMoveTo(targetPos + Vector3.left)) {
-				stepDir += Vector3.left;
+			if (Input.GetKey("left")) {
+				if (canMoveTo(targetPos + Vector3.left)) {
+					stepDir += Vector3.left;
+				}
 			}
-		}
-		if(Input.GetKey("right")) {
-			if(canMoveTo(targetPos + Vector3.right)) {
-				stepDir += Vector3.right;
+			if (Input.GetKey("right")) {
+				if (canMoveTo(targetPos + Vector3.right)) {
+					stepDir += Vector3.right;
+				}
 			}
+			targetPos += stepDir;
 		}
-		targetPos += stepDir;
 
 		if (Map.instance != null) {
 			if(Map.instance.HasGold(targetPos)) {

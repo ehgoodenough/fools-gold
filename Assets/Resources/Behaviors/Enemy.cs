@@ -175,11 +175,11 @@ public class Enemy : Walker {
 		_isFlashing = true;
 
 		_damage += damage;
-		float deathDuration = playHitEffect("Bones Splash");
+		playHitEffect("Bones Splash");
 
 		if (_damage >= health) {
 			_isDead = true;
-			Destroy(gameObject, deathDuration);
+			Destroy(gameObject);
 			return;
 		}
 

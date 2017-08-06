@@ -19,7 +19,7 @@ public class Walker : MonoBehaviour {
 	Transform _shadow;
 	Vector3 _shadowOffset;
 
-	bool _isStepping = false;
+	protected bool _isStepping = false;
 	Vector3 _targetPos;
 	public Vector3 targetPos {
 		get { return _targetPos; }
