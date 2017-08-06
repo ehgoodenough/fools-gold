@@ -141,7 +141,14 @@ public class GameManager : MonoBehaviour {
 
     private void Quit()
     {
-        Application.Quit();
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            SceneManager.LoadScene("Main Menu");
+        }
+        else
+        {
+            Application.Quit();
+        }
     }
 
     public bool IsPaused()
