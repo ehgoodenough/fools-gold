@@ -76,17 +76,6 @@ public class Hero : Walker {
 			}
 		}
 
-		/*
-		// Move the position to the target position.
-		float step = Vector3.Distance(this.transform.position, this._targetPosition) * this.speed * Time.deltaTime;
-        this.transform.position = Vector3.MoveTowards(this.transform.position, this._targetPosition, step);
-
-		// If we've reached out target position, then stop moving.
-		if(Vector3.Distance(this.transform.position, this._targetPosition) < 0.01) {
-			this.transform.position = this._targetPosition;
-		}
-		*/
-
 		// Do the z-indexing off their y position.
 		Vector3 position = transform.position;
 		position.z = position.y + Z_INDEX;
