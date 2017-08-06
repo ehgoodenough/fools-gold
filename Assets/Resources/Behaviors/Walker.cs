@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class Walker : MonoBehaviour {
 
 	[Header("Walker")]
 	public float moveDuration = 0.2f;
 	public float smoothTime = 0.1f;
 	public float jumpDist = 0.2f;
+	public bool flipped = true;
 
+	protected SpriteRenderer _renderer;
 	Transform _transform;
 	Vector3 _currentPos;
 	Vector3 _velocity;
@@ -37,11 +40,18 @@ public class Walker : MonoBehaviour {
 
 	protected virtual void Awake() {
 		_transform = transform;
+		_renderer = GetComponent<SpriteRenderer>();
 		_shadow = _transform.Find("Shadow");
 		_shadowOffset = _shadow.position - _transform.position;
 	}
 
 	IEnumerator stepCo() {
+		if (_targetPos.x != _currentPos.x) {
+			_renderer.flipX = _targetPos.x < _currentPos.x;
+			if (flipped)
+				_renderer.flipX = !_renderer.flipX;
+		}
+
 		_isStepping = true;
 		float t = 0;
 		while (t < moveDuration) {

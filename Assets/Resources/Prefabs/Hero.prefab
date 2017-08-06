@@ -116,10 +116,12 @@ MonoBehaviour:
   moveDuration: 0.2
   smoothTime: 0.1
   jumpDist: 0.2
+  flipped: 0
   maxhealth: 3
   health: 3
   gold: 100
   isDead: 0
+  isDone: 0
 --- !u!198 &198242365194359644
 ParticleSystem:
   m_ObjectHideFlags: 1

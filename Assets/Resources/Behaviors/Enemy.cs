@@ -4,7 +4,6 @@ using UnityEngine;
 
 using Coords = Map.Coords;
 
-[RequireComponent(typeof(SpriteRenderer))]
 public class Enemy : Walker {
 
 	public enum Type { Horizontal, Vertical, NoDiagonal, Diagonal, AllDirections, Count, Random }
@@ -29,7 +28,6 @@ public class Enemy : Walker {
 	bool _isFollowing = false;
 
 	Color _defalutColor;
-	SpriteRenderer _renderer;
 	ParticleSystem _bones;
 
 	List<Coords> _validNeighbors = new List<Coords>();
@@ -194,7 +192,6 @@ public class Enemy : Walker {
 
 	protected override void Awake() {
 		base.Awake();
-		_renderer = GetComponent<SpriteRenderer>();
 		Color c = _renderer.material.color;
 		_defalutColor = new Color(c.r, c.g, c.b);
 		_bones = GetComponentInChildren<ParticleSystem>();
