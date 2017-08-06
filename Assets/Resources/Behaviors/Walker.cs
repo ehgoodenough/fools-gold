@@ -45,11 +45,11 @@ public class Walker : MonoBehaviour {
 		_shadowOffset = _shadow.position - _transform.position;
 	}
 
-	public float playHitEffect(string prefabName, bool useColor = true) {
+	public float playHitEffect(string prefabName, bool useColor = true, float moveUp = 0.5f) {
 		string path = "Prefabs/FX/" + prefabName;
 		GameObject prefab = Resources.Load(path) as GameObject;
 		ParticleSystem fx = Instantiate(prefab).GetComponent<ParticleSystem>();
-		fx.transform.position = _transform.position + Vector3.up * 0.5f;
+		fx.transform.position = _transform.position + Vector3.up * moveUp;
 		Destroy(fx.gameObject, fx.main.duration);
 
 		if (useColor) {

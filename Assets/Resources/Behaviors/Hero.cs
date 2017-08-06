@@ -26,6 +26,15 @@ public class Hero : Walker {
 		instance = this;
 	}
 
+	public float playCoinsEffect() {
+		string path = "Prefabs/FX/Coins FX";
+		GameObject prefab = Resources.Load(path) as GameObject;
+		ParticleSystem fx = Instantiate(prefab).GetComponent<ParticleSystem>();
+		fx.transform.position = targetPos;
+		Destroy(fx.gameObject, fx.main.duration);
+		return fx.main.duration;
+	}
+
 	void Update() {
 		if(this.isDead) {
 			this.transform.Rotate(Vector3.forward * this.deathspin);
@@ -60,7 +69,8 @@ public class Hero : Walker {
 		if (Map.instance != null) {
 			if(Map.instance.HasGold(targetPos)) {
 				this.gold += Map.instance.GetGolds(targetPos).Count;
-				Map.instance.RemoveGold(targetPos);
+				Map.instance.RemoveGold(targetPos, 0.3f);
+				playCoinsEffect();
 			}
 			if(this.targetPos.x == Map.instance.endPosition.x
 			&& this.targetPos.y == Map.instance.endPosition.y) {

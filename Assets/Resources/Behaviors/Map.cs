@@ -242,10 +242,10 @@ public class Map : MonoBehaviour {
 		return this.gold[position.x + "-" + position.y];
 	}
 
-	public void RemoveGold(Vector2 position) {
+	public void RemoveGold(Vector2 position, float delay = 0) {
 		List<Object> golds = GetGolds(position);
 		foreach(Object gold in golds) {
-			Object.Destroy(gold);
+			Destroy(gold, delay);
 		}
 		golds.Clear();
 	}
