@@ -55,6 +55,8 @@ public class Walker : MonoBehaviour {
 	}
 
 	IEnumerator stepCo() {
+		float z = _transform.position.z;
+
 		if (_targetPos.x != _currentPos.x) {
 			_renderer.flipX = _targetPos.x < _currentPos.x;
 			if (flipped)
@@ -68,6 +70,7 @@ public class Walker : MonoBehaviour {
 			float jumpParam = Mathf.Sin(param * Mathf.PI);
 
 			Vector3 pos = Vector3.Lerp(_currentPos, _targetPos, param);
+			pos.z = z;
 			_shadow.position = pos + _shadowOffset;
 
 			pos += new Vector3(0, jumpDist * jumpParam, 0);
