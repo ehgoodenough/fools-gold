@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance;
 
     private double deathtimer = 1.5;
+    private bool endLevelDialogueShown = false;
 
     private GameObject gameOverUI;
     private GameObject winUI;
@@ -18,15 +19,6 @@ public class GameManager : MonoBehaviour {
     void Start()
     {
         instance = this;
-        if (gameStart)
-        {
-            Dialogue.instance.SetText("Greetings, hero! Only YOU can save the princess, and I'll help you find her... for a small fee, of course...");
-            Dialogue.instance.SetCallback(delegate
-            {
-                gameStart = false;
-            });
-            Dialogue.instance.SetVisible(true);
-        }
     
         gameOverUI = GameObject.Find("Game Over UI");
         gameOverUI.SetActive(false);
@@ -38,6 +30,16 @@ public class GameManager : MonoBehaviour {
         {
             Hero.instance.gold = playerGoldAtEndOfLevel;
         }
+
+        if (gameStart)
+        {
+            Dialogue.instance.SetText("Greetings, hero! Only YOU can save the princess, and I'll help you find her... for a small fee, of course...");
+            Dialogue.instance.SetCallback(delegate
+            {
+                gameStart = false;
+            });
+            Dialogue.instance.SetVisible(true);
+        }
     }
 
     void Update () {
@@ -48,9 +50,15 @@ public class GameManager : MonoBehaviour {
             {
                 gameOverUI.SetActive(true);
             }
-        } else if (Hero.instance.isDone)
+        } else if (Hero.instance.isDone && !endLevelDialogueShown)
         {
-            winUI.SetActive(true);
+            Dialogue.instance.SetText("Ah, hero, the princess was JUST here. I promise. For a small fee, I can take you to the castle where she is now...");
+            Dialogue.instance.SetCallback(delegate
+            {
+                endLevelDialogueShown = true;
+                winUI.SetActive(true);
+            });
+            Dialogue.instance.SetVisible(true);
         }
     }
 

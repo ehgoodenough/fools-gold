@@ -11,10 +11,11 @@ public class Dialogue : MonoBehaviour {
 
     private Action callback;
 
-	void Start () {
+    private void Awake()
+    {
         instance = this;
         this.SetVisible(false);
-	}
+    }
 
     private void Update()
     {
