@@ -72,24 +72,40 @@ public class GameManager : MonoBehaviour {
 
     public void OnTryAgain()
     {
-		// Start back at the beginning, or just the current level?
-		// currentLevel = 0;
+        UIAudioSource.instance.Play();
+
+        // Start back at the beginning, or just the current level?
+        // currentLevel = 0;
         playerGoldAtEndOfLevel = -1;
 
 		Room.rooms.Clear ();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Invoke("Reload", .5f);
     }
 
     public void OnNextLevel()
     {
-		currentLevel = ++currentLevel % 3;
+        UIAudioSource.instance.Play();
+
+        currentLevel = ++currentLevel % 3;
         playerGoldAtEndOfLevel = Hero.instance.gold;
 
         Room.rooms.Clear();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        Invoke("Reload", .5f);
     }
 
     public void OnQuit()
+    {
+        UIAudioSource.instance.Play();
+        Invoke("Quit", .5f);
+    }
+
+    private void Reload()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void Quit()
     {
         Application.Quit();
     }
