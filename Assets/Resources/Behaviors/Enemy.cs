@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 using Coords = Map.Coords;
 
@@ -175,17 +176,49 @@ public class Enemy : Walker {
 		_isFlashing = true;
 
 		_damage += damage;
-		float deathDuration = playHitEffect("Bones Splash") * 0.3f;
+		playHitEffect("Bones Splash");
 
 		if (_damage >= health) {
 			_isDead = true;
-			Map.instance.CreateGold(currentCoords, deathDuration);
-			Destroy(gameObject, deathDuration);
+			StartCoroutine(deathAnimationCo());
 			return;
 		}
 
 		_timer = 0; // reset timer for next move
 		StartCoroutine(hitFlashAnimCo());
+	}
+
+	IEnumerator deathAnimationCo() {
+		const float duration = 1;
+		float t = 0;
+		Vector3 startPos = _transform.position;
+		Vector3 startShadowPos = _shadow.position;
+
+		// replace skelaton sprite with skull
+		string path = "Images/Skull";
+		Sprite[] sprites = Resources.LoadAll<Sprite>(path);
+		Assert.IsTrue(sprites.Length == 1);
+		_renderer.sprite = sprites[0];
+		Color color = _renderer.material.color;
+
+		while (t < duration) {
+			float param = t / duration;
+			float param2 = param * param;
+			float y = Mathf.Abs(Mathf.Cos(param2 * Mathf.PI * 3)) / (1f + param2 * 5f) - 1;
+
+			Vector3 pos = startPos + new Vector3(0, y, 0);
+			color.a = 1f - param2 * param2;
+
+			_transform.position = pos;
+			_shadow.position = startShadowPos;
+			_renderer.material.color = color;
+
+			t += Time.deltaTime;
+			yield return null;
+		}
+
+		Map.instance.CreateGold(currentCoords);
+		Destroy(gameObject);
 	}
 
 	void OnDestroy() {

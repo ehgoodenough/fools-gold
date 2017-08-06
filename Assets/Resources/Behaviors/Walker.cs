@@ -12,12 +12,12 @@ public class Walker : MonoBehaviour {
 	public bool flipped = true;
 
 	protected SpriteRenderer _renderer;
-	Transform _transform;
+	protected Transform _transform;
 	Vector3 _currentPos;
 	Vector3 _velocity;
 
 	protected float _zIndex = 0;
-	Transform _shadow;
+	protected Transform _shadow;
 	Vector3 _shadowOffset;
 
 	protected bool _isStepping = false;
