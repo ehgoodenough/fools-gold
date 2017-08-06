@@ -202,8 +202,13 @@ public class Map : MonoBehaviour {
 		gold[key].Add(g);
 	}
 
-	public void CreateGold(Coords position) {
-		CreateGold(new Vector2(position.x, position.y));
+	public void CreateGold(Coords coords, float delay = 0) {
+		StartCoroutine(CreateGoldCo(coords, delay));
+	}
+
+	IEnumerator CreateGoldCo(Coords coords, float delay) {
+		yield return new WaitForSeconds(delay);
+		CreateGold(new Vector2(coords.x, coords.y));
 	}
 
 	public bool HasGold(Vector2 position) {

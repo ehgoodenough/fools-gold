@@ -50,7 +50,7 @@ ParticleSystem:
   serializedVersion: 5
   lengthInSec: 1
   simulationSpeed: 1
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -100,7 +100,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 640868359
+  randomSeed: 545016011
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -565,7 +565,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.18
+      value: 0.5
       mode: 0
       spread: 0
       speed:
@@ -758,15 +758,9 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 0
-          inSlope: 18.917416
-          outSlope: 18.917416
-          tangentMode: 0
-        - serializedVersion: 2
-          time: 0.14544317
-          value: 0.9459456
-          inSlope: -0.06899672
-          outSlope: -0.06899672
+          value: 1
+          inSlope: 0
+          outSlope: 0
           tangentMode: 0
         - serializedVersion: 2
           time: 1

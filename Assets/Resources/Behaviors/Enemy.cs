@@ -180,18 +180,13 @@ public class Enemy : Walker {
 		if (_damage >= health) {
 			_isDead = true;
 			Map.instance.removeEnemy(this);
-			Destroy(gameObject, deathDuration);
-			Invoke("createGold", deathDuration);
-			_renderer.enabled = false;
+			Map.instance.CreateGold(currentCoords, deathDuration);
+			Destroy(gameObject, deathDuration * 0.3f);
 			return;
 		}
 
 		_timer = 0; // reset timer for next move
 		StartCoroutine(hitFlashAnimCo());
-	}
-
-	void createGold() {
-		Map.instance.CreateGold(currentCoords);
 	}
 
 	protected override void Awake() {
