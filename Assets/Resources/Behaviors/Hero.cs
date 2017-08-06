@@ -87,6 +87,7 @@ public class Hero : Walker {
 
 	private bool canMoveTo(Vector3 position) {
 		if(Map.instance == null) {
+			// Debug.Log ("Map.instance == null");
 			return true;
 		}
 
@@ -97,6 +98,7 @@ public class Hero : Walker {
 			return false;
 		}
 
+		// Debug.Log ("Map.instance.canMoveTo(position): " + Map.instance.canMoveTo(position));
 		return Map.instance.canMoveTo(position);
 	}
 
