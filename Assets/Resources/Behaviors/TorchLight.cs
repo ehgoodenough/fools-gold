@@ -4,17 +4,27 @@ using UnityEngine;
 
 public class TorchLight : MonoBehaviour {
 
+	public static TorchLight instance;
+
 	public float fadeTotalTime = 100;
 
 	Transform _transform;
 	Material _material;
 	float _startTime;
+
 	float _dist0;
 	float _dist1;
 	int _distance0ID;
 	int _distance1ID;
 
+	public float getLightInPosition(Vector2 pos) {
+		Vector2 heroPos = Hero.instance.transform.position;
+		float distFromHero = Vector2.Distance(heroPos, pos);
+		return Mathf.InverseLerp(_dist1, _dist0, distFromHero);
+	}
+
 	void Awake() {
+		instance = this;
 		_transform = transform;
 		_material = GetComponent<Renderer>().material;
 

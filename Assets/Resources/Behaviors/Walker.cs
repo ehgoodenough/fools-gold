@@ -37,8 +37,8 @@ public class Walker : MonoBehaviour {
 		}
 	}
 
-	public static Sprite getSpriteResource(string path) {
-		Sprite[] sprites = Resources.LoadAll<Sprite>(path);
+	public static Sprite getSpriteResource(string name) {
+		Sprite[] sprites = Resources.LoadAll<Sprite>("Images/" + name);
 		Assert.IsTrue(sprites.Length == 1);
 		return sprites[0];
 	}

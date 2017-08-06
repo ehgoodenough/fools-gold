@@ -31,6 +31,7 @@ public class Enemy : Walker {
 	bool _isFollowing = false;
 	Color _defalutColor;
 	int _stepCounter = 0;
+	SpriteRenderer _eyes;
 
 	bool _isDead = false;
 	public bool isAlive { get { return !_isDead; } }
@@ -88,10 +89,20 @@ public class Enemy : Walker {
 		return newEnemy;
 	}
 
+	void createEyes() {
+		GameObject obj = Instantiate(Resources.Load("Prefabs/SkeletonEyes") as GameObject);
+		Vector3 scale = obj.transform.localScale;
+		obj.transform.SetParent(_transform);
+		obj.transform.localPosition = new Vector3(0, 0, -100);
+		obj.transform.localScale = scale;
+		_eyes = obj.GetComponent<SpriteRenderer>();
+	}
+
 	void init() {
 		Map.instance.addEnemy(this);
 		setPosition(getCurrentPos());
 		_timer = Random.value * moveInterval;
+		createEyes();
 	}
 
 	void updateValidMoves() {
@@ -203,7 +214,7 @@ public class Enemy : Walker {
 		yield return new WaitForSeconds(0.2f);
 
 		// replace skelaton sprite with skull
-		_renderer.sprite = getSpriteResource("Images/Skull");
+		_renderer.sprite = getSpriteResource("Skull");
 		Color color = _renderer.material.color;
 		bool goldDropped = false;
 
@@ -240,7 +251,15 @@ public class Enemy : Walker {
 		Color c = _renderer.material.color;
 		_defalutColor = new Color(c.r, c.g, c.b);
 		_zIndex = Z_INDEX;
-		_attackSprite = getSpriteResource("Images/SkeletonAttack");
+		_attackSprite = getSpriteResource("SkeletonAttack");
+	}
+	
+	void updateEyes() {
+		float a = 0;
+		if (_isDead == false)
+			a = 1f - TorchLight.instance.getLightInPosition(_transform.position);
+		_eyes.flipX = _renderer.flipX;
+		_eyes.material.color = new Color(1, 1, 1, a);
 	}
 
 	void Update() {
@@ -252,6 +271,8 @@ public class Enemy : Walker {
 		if(GameManager.instance.IsPaused()) {
 			return;
 		}
+
+		updateEyes();
 
 		float delay = _stepCounter == 0 ? moveInterval : extraStepDelay;
 		if (_timer >= delay) {
