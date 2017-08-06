@@ -97,7 +97,7 @@ public class Hero : Walker {
 			return;
 
 		health -= damage;
-		playHitEffect("Blood Splash");
+		playHitEffect("Blood Splash", false);
 
 		if (health <= 0) {
 			health = 0;
