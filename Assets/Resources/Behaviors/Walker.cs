@@ -49,7 +49,7 @@ public class Walker : MonoBehaviour {
 		string path = "Prefabs/FX/" + prefabName;
 		GameObject prefab = Resources.Load(path) as GameObject;
 		ParticleSystem fx = Instantiate(prefab).GetComponent<ParticleSystem>();
-		fx.transform.position = _transform.position;
+		fx.transform.position = _transform.position + Vector3.up * 0.5f;
 		Destroy(fx.gameObject, fx.main.duration);
 		return fx.main.duration;
 	}
