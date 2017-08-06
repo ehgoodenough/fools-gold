@@ -9,10 +9,14 @@ public class Dialogue : MonoBehaviour {
     [SerializeField]
     private Text textField;
 
+    private AudioSource audioSource;
+
+    private AudioClip clip;
     private Action callback;
 
     private void Awake()
     {
+        audioSource = this.gameObject.GetComponent<AudioSource>();
         instance = this;
         this.SetVisible(false);
     }
@@ -39,9 +43,23 @@ public class Dialogue : MonoBehaviour {
         return this.gameObject.activeSelf;
     }
 
-    public void SetVisible(bool visible)
+    private void SetVisible(bool visible)
     {
         this.gameObject.SetActive(visible);
+    }
+
+    public void Show()
+    {
+        this.SetVisible(true);
+        if (clip != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(clip);
+        }
+    }
+
+    public void SetAudioClip(AudioClip clip)
+    {
+        this.clip = clip;
     }
 
     public void SetCallback(Action callback)

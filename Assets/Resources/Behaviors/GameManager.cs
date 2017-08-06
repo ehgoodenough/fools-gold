@@ -17,6 +17,10 @@ public class GameManager : MonoBehaviour {
     private double deathtimer = 1.5;
     private bool endLevelDialogueShown = false;
 
+    private AudioClip introClip;
+    private AudioClip victoryClip;
+    private AudioClip notEnoughGoldClip;
+
     private GameObject gameOverUI;
     private GameObject winUI;
 
@@ -26,6 +30,10 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
+        introClip = Resources.Load("Audio/Speech_Intro") as AudioClip;
+        victoryClip = Resources.Load("Audio/Speech_Victory") as AudioClip;
+        notEnoughGoldClip = Resources.Load("Audio/Speech_Not_Enough_Coin") as AudioClip;
+
         instance = this;
 
 		if (onGameStart != null)
@@ -45,11 +53,12 @@ public class GameManager : MonoBehaviour {
         if (gameStart)
         {
             Dialogue.instance.SetText("Greetings, hero! Only YOU can save the princess, and I'll help you find her... for a small fee, of course...");
+            Dialogue.instance.SetAudioClip(introClip);
             Dialogue.instance.SetCallback(delegate
             {
                 gameStart = false;
             });
-            Dialogue.instance.SetVisible(true);
+            Dialogue.instance.Show();
         }
 
         musics = GetComponents<AudioSource>();
@@ -67,13 +76,14 @@ public class GameManager : MonoBehaviour {
             }
         } else if (Hero.instance.isDone && !endLevelDialogueShown)
         {
+            endLevelDialogueShown = true;
             Dialogue.instance.SetText("Ah, hero, the princess was JUST here. I promise. For a small fee, I can take you to the castle where she is now...");
+            Dialogue.instance.SetAudioClip(victoryClip);
             Dialogue.instance.SetCallback(delegate
             {
-                endLevelDialogueShown = true;
                 winUI.SetActive(true);
             });
-            Dialogue.instance.SetVisible(true);
+            Dialogue.instance.Show();
         }
     }
 
@@ -130,7 +140,8 @@ public class GameManager : MonoBehaviour {
     public void ShowNotEnoughGoldDialogue()
     {
         Dialogue.instance.SetText(string.Format("What's this? Not enough coin! Don't come back until you have {0} gold!", GoldNeeded()));
+        Dialogue.instance.SetAudioClip(notEnoughGoldClip);
         Dialogue.instance.SetCallback(null);
-        Dialogue.instance.SetVisible(true);
+        Dialogue.instance.Show();
     }
 }
