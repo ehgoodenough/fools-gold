@@ -32,7 +32,7 @@ public class Walker : MonoBehaviour {
 		}
 	}
 
-	protected void setPosition(Vector3 pos) {
+	public void setPosition(Vector3 pos) {
 		_targetPos = pos;
 		_currentPos = pos;
 		_transform.localPosition = pos;

@@ -52,48 +52,6 @@ public class Map : MonoBehaviour {
 
 	public Vector2 endPosition;
 
-	// Temp
-	void createSomeRandomEnemies() {
-		foreach (Room room in Room.rooms.Values)
-		{
-			int posX = (int) room.GetPosition ().x;
-			int posY = (int) room.GetPosition ().y;
-			int width = (int) room.GetDimensions ().x;
-			int height = (int) room.GetDimensions ().y;
-
-			// NOTE: Ignoring the final room
-			if (17 <= posY) {
-				continue;
-			}
-
-			// Generate a number of enemies proportionate to the size of the room
-			int numEnemies = Mathf.CeilToInt((width-1) * (height-1) / 64f);
-			// Debug.Log ("room Area: " + (width-1) * (height-1));
-			// Debug.Log ("numEnemies: " + numEnemies);
-
-			for (int i = 0; i < numEnemies; i++) {
-				int attempts = 0;
-				int maxAttempts = 10;
-				Enemy enemyCreated = null;
-				while (null == enemyCreated && maxAttempts > attempts)
-				{
-					attempts++;
-
-					int randPosX = posX + Random.Range (1, width - 1);
-					int randPosY = posY + Random.Range (1, height - 1);
-
-					// Avoid spawning enemies too close to the final room
-					if (10 < randPosY) {
-						continue;
-					}
-
-					enemyCreated = Enemy.create (new Coords (randPosX, randPosY));
-					// Debug.Log ("Enemy Created!");
-				}
-			}
-		}
-	}
-
 	void Awake() {
 		instance = this;
 		wallObject = Resources.Load("Prefabs/Wall") as Object;
@@ -111,18 +69,81 @@ public class Map : MonoBehaviour {
 		Room nwRoom = mapGen.CreateRoom (11, 10, new Vector3 (-14, 6, 10));
 		mapGen.CreateCorridor (hubRoom, nwRoom, 5);
 		Room swRoom = mapGen.CreateRoom (8, 6, new Vector3 (-10, -11, 10));
+		swRoom.DesignateStart ();
 		mapGen.CreateCorridor (swRoom, hubRoom, 4);
 		Room seRoom = mapGen.CreateRoom (10, 4, new Vector3 (-1, -9, 10));
 		mapGen.CreateCorridor (seRoom, hubRoom, 10);
 		Room nCorridor = mapGen.CreateRoom (5, 12, new Vector3 (-2, 6, 10));
 		mapGen.CreateCorridor (hubRoom, nCorridor, 5);
 		Room finalRoom = mapGen.CreateRoom (9, 9, new Vector3 (-4, 17, 10));
+		finalRoom.DesignateEnd ();
 		mapGen.CreateCorridor (nCorridor, finalRoom, 5);
 		mapGen.CreateTiles ();
 		createSomeRandomEnemies();
+		setHeroStartPosition ();
+		setScammerStartPosition ();
 
 		// ...Just for debugging the end logic. Thanks!!
-		this.endPosition = new Vector2(0, 21);
+		// this.endPosition = new Vector2(0, 21);
+	}
+
+	void createSomeRandomEnemies() {
+		foreach (Room room in Room.rooms.Values)
+		{
+			int posX = (int) room.GetPosition ().x;
+			int posY = (int) room.GetPosition ().y;
+			int width = (int) room.GetDimensions ().x;
+			int height = (int) room.GetDimensions ().y;
+
+			// NOTE: Ignoring the start and end rooms
+			if (Room.GetStart() == room || Room.GetEnd() == room) {
+				continue;
+			}
+
+			// Generate a number of enemies proportionate to the size of the room
+			int numEnemies = Mathf.CeilToInt(room.GetInnerArea() / 64f);
+			// Debug.Log ("room Area: " + room.GetInnerArea());
+			// Debug.Log ("numEnemies: " + numEnemies);
+
+			for (int i = 0; i < numEnemies; i++) {
+				int attempts = 0;
+				int maxAttempts = 10;
+				Enemy enemyCreated = null;
+				while (null == enemyCreated && maxAttempts > attempts)
+				{
+					attempts++;
+
+					int randPosX = posX + Random.Range (1, width - 1);
+					int randPosY = posY + Random.Range (1, height - 1);
+
+					enemyCreated = Enemy.create (new Coords (randPosX, randPosY));
+					// Debug.Log ("Enemy Created!");
+				}
+			}
+		}
+	}
+
+	public void createSomeRandomGold() {
+		// TODO: Create gold randomly along the walls and in corners
+	}
+
+	public void setHeroStartPosition() {
+		Room startRoom = Room.GetStart ();
+		int x = (int) startRoom.GetPosition().x + Mathf.FloorToInt (startRoom.GetWidth () / 2f);
+		int y = (int) startRoom.GetPosition().y + Mathf.FloorToInt (startRoom.GetHeight () / 2f);
+		Hero.instance.setPosition ( new Vector3 (x, y, y));
+		GameObject camera = GameObject.Find ("Camera");
+		camera.transform.position = new Vector3 (x, y, camera.transform.position.z);
+	}
+
+	public void setScammerStartPosition() {
+		Room endRoom = Room.GetEnd ();
+		int x = (int) endRoom.GetPosition().x + Mathf.FloorToInt (endRoom.GetWidth () / 2f);
+		int y = (int) endRoom.GetPosition().y + Mathf.FloorToInt (endRoom.GetHeight () / 2f);
+		GameObject scammer = GameObject.Find ("Scammer");
+		scammer.transform.position = new Vector3 (x, y, y);
+		Vector3 scammerPos = scammer.transform.position;
+		endPosition = new Vector2 (scammerPos.x, scammerPos.y - 2);
 	}
 
 	public void addTile(Vector3 position, Tile tileType) {
@@ -219,9 +240,9 @@ public class Map : MonoBehaviour {
 			return null;
 		}
 	}
-
-
+		
 	public void CreateGold(Vector2 position) {
+		// Debug.Log ("Creating Gold...");
 		Transform parent = this.transform;
 		Quaternion rotation = Quaternion.identity;
 		Object g = Object.Instantiate(goldObject, position, rotation, parent);

@@ -6,6 +6,8 @@ public class Room {
 
 	public static int numRooms = 0;
 	public static Dictionary<int, Room> rooms = new Dictionary<int, Room> ();
+	private static Room startRoom;
+	private static Room endRoom;
 
 	private int uid;
 	private Vector2 pos;
@@ -13,7 +15,8 @@ public class Room {
 	private int area;
 	private Map.Tile[] tiles;
 	private List<int> connections;
-
+	private bool start;
+	private bool end;
 
 	public Room(int width, int height, int posX, int posY)
 	{
@@ -24,6 +27,49 @@ public class Room {
 		rooms.Add (this.uid, this);
 		this.tiles = new Map.Tile [width * height];
 		this.connections = new List<int> ();
+		this.start = false;
+		this.end = false;
+	}
+
+	public Room GetRoom(int uid)
+	{
+		if (rooms.ContainsKey (uid))
+		{
+			return rooms [uid];
+		}
+		return null;
+	}
+
+	public static Room GetStart()
+	{
+		return startRoom;
+	}
+
+	public static Room GetEnd()
+	{
+		return endRoom;
+	}
+
+	public void DesignateStart()
+	{
+		startRoom = this;
+		this.start = true;
+	}
+
+	public void DesignateEnd()
+	{
+		endRoom = this;
+		this.end = true;
+	}
+
+	public bool IsStart()
+	{
+		return this.start;
+	}
+
+	public bool IsEnd()
+	{
+		return this.end;
 	}
 
 	// Set tiles in terms of global coordinates
@@ -76,7 +122,12 @@ public class Room {
 		this.pos = new Vector2 (posX, posY);
 	}
 
-	public int GetArea()
+	public int GetInnerArea()
+	{
+		return (GetWidth () - 2) * (GetHeight () - 2);
+	}
+
+	public int GetTotalArea()
 	{
 		return GetWidth () * GetHeight ();
 	}
