@@ -49,6 +49,8 @@ public class Map : MonoBehaviour {
 	private Dictionary<string, Enemy> _enemies = new Dictionary<string, Enemy>();
 	private Dictionary<string, List<Object>> gold = new Dictionary<string, List<Object>>();
 
+	public Vector2 endPosition;
+
 	// Temp
 	void createSomeRandomEnemies() {
 		Enemy.create(new Coords(1, 1));
@@ -74,6 +76,9 @@ public class Map : MonoBehaviour {
 		mapGen.CreateCorridor (room1, room2, 5);
 		mapGen.CreateTiles ();
 		createSomeRandomEnemies();
+
+		// ...Just for debugging the end logic. Thanks!!
+		this.endPosition = new Vector2(2, 2);
 	}
 
 	public void addTile(Vector3 position, Tile tileType) {
@@ -149,6 +154,15 @@ public class Map : MonoBehaviour {
 		if (isHeroInCoords(coords))
 			return false;
 		return true;
+	}
+
+	public Tile getTile(Vector2 position) {
+		string key = position.x + "-" + position.y;
+		if(tiles.ContainsKey(key)) {
+			return tiles[key];
+		} else {
+			return Tile.Floor;
+		}
 	}
 
 	public Enemy getEnemy(Vector2 position) {
