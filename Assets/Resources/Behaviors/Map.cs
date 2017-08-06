@@ -43,7 +43,8 @@ public class Map : MonoBehaviour {
 		CrackedFloor,
 		BloodyFloor,
 		RugFloor,
-		RugEndFloor
+		RugEndFloor,
+		FinalRoomFloor
 	}
 
 	private const float TILE_Z_INDEX = 0.9f;
@@ -61,6 +62,7 @@ public class Map : MonoBehaviour {
 	private Object bloodyFloorObject;
 	private Object rugFloorObject;
 	private Object rugEndFloorObject;
+	private Object finalRoomFloorObject;
 
 	public static Map instance;
 
@@ -85,6 +87,7 @@ public class Map : MonoBehaviour {
 		bloodyFloorObject = Resources.Load("Prefabs/BloodyFloor") as Object;
 		rugFloorObject = Resources.Load("Prefabs/RugFloor") as Object;
 		rugEndFloorObject = Resources.Load("Prefabs/RugEndFloor") as Object;
+		finalRoomFloorObject = Resources.Load("Prefabs/FinalRoomFloor") as Object;
 	}
 
 	void Start() {
@@ -200,6 +203,10 @@ public class Map : MonoBehaviour {
 				position.z = 900;
 				Object.Instantiate (this.rugEndFloorObject, position, rotation, parent);
 				break;
+			case Tile.FinalRoomFloor:
+				position.z = 900;
+				Object.Instantiate (this.finalRoomFloorObject, position, rotation, parent);
+				break;
 			case Tile.GoldWall:
 				position.z = position.y + TILE_Z_INDEX;
 				Object.Instantiate (this.goldWallObject, position, rotation, parent);
@@ -265,7 +272,7 @@ public class Map : MonoBehaviour {
 			return true;
 		} else if (tiles [key] == Tile.CrackedFloor || tiles [key] == Tile.BloodyFloor) {
 			return true;
-		} else if (tiles [key] == Tile.RugFloor || tiles [key] == Tile.RugEndFloor) {
+		} else if (tiles [key] == Tile.FinalRoomFloor || tiles [key] == Tile.RugFloor || tiles [key] == Tile.RugEndFloor) {
 			return true;
 		} else {
 			return false;
