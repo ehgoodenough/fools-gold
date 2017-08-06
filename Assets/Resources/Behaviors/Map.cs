@@ -83,11 +83,12 @@ public class Map : MonoBehaviour {
 					int randPosY = posY + Random.Range (1, height - 1);
 
 					// Avoid spawning enemies too close to the final room
-					if (10 > randPosY) {
+					if (10 < randPosY) {
 						continue;
 					}
 
 					enemyCreated = Enemy.create (new Coords (randPosX, randPosY));
+					// Debug.Log ("Enemy Created!");
 				}
 			}
 		}
