@@ -77,7 +77,22 @@ public class GameManager : MonoBehaviour {
         } else if (Hero.instance.isDone && !endLevelDialogueShown)
         {
             endLevelDialogueShown = true;
-            Dialogue.instance.SetText("Ah, hero, the princess was JUST here. I promise. For a small fee, I can take you to the castle where she is now...");
+            
+            switch (currentLevel)
+            {
+                case 0:
+                    Dialogue.instance.SetText(
+                        "Great work, brave adventurer, but the princess is in another castle! I can take you there for a few gold pieces...");
+                    break;
+                case 1:
+                    Dialogue.instance.SetText(
+                        "Hero! You'll never believe what happened. The princess was kidnapped AGAIN. For a bit of coin, I can show you where she went...");
+                    break;
+                case 2:
+                    Dialogue.instance.SetText(
+                        "Ah, hero, the princess was JUST here. I promise. For a small fee, I can take you to the castle where she is now...");
+                    break;
+            }
             Dialogue.instance.SetAudioClip(victoryClip);
             Dialogue.instance.SetCallback(delegate
             {
