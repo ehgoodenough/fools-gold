@@ -5,7 +5,7 @@ using UnityEngine;
 using Coords = Map.Coords;
 
 public class Gold : MonoBehaviour {
-    private const float Z_INDEX = 0.15f;
+    private const float Z_INDEX = 0.75f;
 
     void Update() {
         // Do the z-indexing off their y position.

@@ -196,6 +196,7 @@ public class Enemy : Walker {
 
 		if (_damage >= health) {
 			_isDead = true;
+			Hero.instance.audios[3].Play();
 			StartCoroutine(deathAnimationCo());
 			return;
 		}
