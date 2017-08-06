@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour {
 
 	public static event Action onGameStart;
 
+    private AudioSource[] musics;
+
     void Start()
     {
         instance = this;
@@ -49,6 +51,10 @@ public class GameManager : MonoBehaviour {
             });
             Dialogue.instance.SetVisible(true);
         }
+
+        musics = GetComponents<AudioSource>();
+        Debug.Log(musics.Length + ", " + GameManager.currentLevel);
+        musics[GameManager.currentLevel].Play();
     }
 
     void Update () {
