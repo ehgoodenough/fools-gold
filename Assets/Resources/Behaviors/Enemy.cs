@@ -204,6 +204,10 @@ public class Enemy : Walker {
 
 		_timer += Time.deltaTime;
 
+		if(Hero.instance.isDone || Hero.instance.isDead) {
+			return;
+		}
+
 		if (_timer >= moveInterval) {
 			_timer = 0;
 			Vector2 pos = targetPos;
