@@ -14,6 +14,8 @@ public class Dialogue : MonoBehaviour {
     private AudioClip clip;
     private Action callback;
 
+    private float openedTime;
+
     private void Awake()
     {
         audioSource = this.gameObject.GetComponent<AudioSource>();
@@ -23,7 +25,7 @@ public class Dialogue : MonoBehaviour {
 
     private void Update()
     {
-        if (Input.anyKeyDown)
+        if (Input.anyKeyDown && Time.time - openedTime >= 1.0f)
         {
             this.SetVisible(false);
             if (callback != null)
@@ -50,6 +52,7 @@ public class Dialogue : MonoBehaviour {
 
     public void Show()
     {
+        openedTime = Time.time;
         this.SetVisible(true);
         if (clip != null && audioSource != null)
         {
