@@ -61,7 +61,7 @@ public class Map : MonoBehaviour {
 
 	void Start() {
 		// Debug.Log ("Map.Start()");
-		// Debug.Log ("GameManager.currentLevel: " + GameManager.currentLevel);
+		Debug.Log ("GameManager.currentLevel: " + GameManager.currentLevel);
 		// Debug.Log ("Tiles: " + tiles.Count);
 		MapGenerator mapGen = GetComponent<MapGenerator> ();
 		Room hubRoom = mapGen.CreateRoom (17, 11, new Vector3 (-8, -5, 10));
@@ -101,9 +101,10 @@ public class Map : MonoBehaviour {
 			}
 
 			// Generate a number of enemies proportionate to the size of the room
-			int numEnemies = Mathf.CeilToInt(room.GetInnerArea() / 64f);
+			int avgSpawnDist = 7 - GameManager.currentLevel;
+			int numEnemies = Mathf.CeilToInt(room.GetInnerArea() / (float) (avgSpawnDist * avgSpawnDist));
 			// Debug.Log ("room Area: " + room.GetInnerArea());
-			// Debug.Log ("numEnemies: " + numEnemies);
+			Debug.Log ("numEnemies: " + numEnemies);
 
 			for (int i = 0; i < numEnemies; i++) {
 				int attempts = 0;
