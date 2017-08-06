@@ -196,6 +196,9 @@ public class Enemy : Walker {
 		Vector3 startPos = _transform.position;
 		Vector3 startShadowPos = _shadow.position;
 
+		// delay so that particlse can catch up
+		yield return new WaitForSeconds(0.2f);
+
 		// replace skelaton sprite with skull
 		_renderer.sprite = getSpriteResource("Images/Skull");
 		Color color = _renderer.material.color;
@@ -253,7 +256,6 @@ public class Enemy : Walker {
 			Vector2 heroPos = Hero.instance.targetPos;
 
 			if (canDamageHero()) {
-				Debug.DrawLine(pos, heroPos, Color.red, moveInterval);
 				attack(Hero.instance.targetPos);
 				Hero.instance.takeDamage(1);
 			} else {
