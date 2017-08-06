@@ -175,18 +175,21 @@ public class Enemy : Walker {
 		_isFlashing = true;
 
 		_damage += damage;
-		float deathDuration = playHitEffect("Bones Splash");
+		float deathDuration = playHitEffect("Bones Splash") * 0.3f;
 
 		if (_damage >= health) {
 			_isDead = true;
-			Map.instance.removeEnemy(this);
 			Map.instance.CreateGold(currentCoords, deathDuration);
-			Destroy(gameObject, deathDuration * 0.3f);
+			Destroy(gameObject, deathDuration);
 			return;
 		}
 
 		_timer = 0; // reset timer for next move
 		StartCoroutine(hitFlashAnimCo());
+	}
+
+	void OnDestroy() {
+		Map.instance.removeEnemy(this);
 	}
 
 	protected override void Awake() {
