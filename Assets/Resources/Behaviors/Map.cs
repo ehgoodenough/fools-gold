@@ -36,6 +36,8 @@ public class Map : MonoBehaviour {
 		Floor=0,
 		Wall,
 		GoldWall,
+		CrackedGoldWall,
+		BloodyGoldWall,
 		VineWall,
 		BloodyWall,
 		CrackedFloor,
@@ -49,6 +51,8 @@ public class Map : MonoBehaviour {
 	private Object floorObject;
 	private Object goldObject;
 	private Object goldWallObject;
+	private Object crackedGoldWallObject;
+	private Object bloodyGoldWallObject;
 	private Object vineWallObject;
 	private Object bloodyWallObject;
 	private Object crackedFloorObject;
@@ -69,6 +73,8 @@ public class Map : MonoBehaviour {
 		floorObject = Resources.Load("Prefabs/Floor") as Object;
 		goldObject = Resources.Load("Prefabs/Gold") as Object;
 		goldWallObject = Resources.Load("Prefabs/GoldWall") as Object;
+		crackedGoldWallObject = Resources.Load("Prefabs/CrackedGoldWall") as Object;
+		bloodyGoldWallObject = Resources.Load("Prefabs/BloodyGoldWall") as Object;
 		vineWallObject = Resources.Load("Prefabs/VineWall") as Object;
 		bloodyWallObject = Resources.Load("Prefabs/BloodyWall") as Object;
 		crackedFloorObject = Resources.Load("Prefabs/CrackedFloor") as Object;
@@ -126,6 +132,7 @@ public class Map : MonoBehaviour {
 			}
 		}
 		Debug.Log ("numGoldOnMap: " + numGoldOnMap);
+		Debug.Log ("Gold Needed: " + GameManager.instance.GoldNeeded ());
 	}
 
 	public void createSomeRandomGold() {
@@ -182,6 +189,14 @@ public class Map : MonoBehaviour {
 			case Tile.GoldWall:
 				position.z = position.y + TILE_Z_INDEX;
 				Object.Instantiate (this.goldWallObject, position, rotation, parent);
+				break;
+			case Tile.CrackedGoldWall:
+				position.z = position.y + TILE_Z_INDEX;
+				Object.Instantiate (this.crackedGoldWallObject, position, rotation, parent);
+				break;
+			case Tile.BloodyGoldWall:
+				position.z = position.y + TILE_Z_INDEX;
+				Object.Instantiate (this.bloodyGoldWallObject, position, rotation, parent);
 				break;
 			case Tile.VineWall:
 				position.z = position.y + TILE_Z_INDEX;
