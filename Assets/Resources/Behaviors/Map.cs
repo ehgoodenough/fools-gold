@@ -43,7 +43,7 @@ public class Map : MonoBehaviour {
 		CrackedFloor,
 		BloodyFloor
 	}
-			
+
 	private const float TILE_Z_INDEX = 0.9f;
 	public float tileSize = 1;
 
@@ -153,7 +153,7 @@ public class Map : MonoBehaviour {
 		int x = (int) endRoom.GetPosition().x + Mathf.FloorToInt (endRoom.GetWidth () / 2f);
 		int y = (int) endRoom.GetPosition().y + Mathf.FloorToInt (endRoom.GetHeight () / 2f);
 		GameObject scammer = GameObject.Find ("Scammer");
-		scammer.transform.position = new Vector3 (x, y, y);
+		scammer.transform.position = new Vector3 (x, y, y + 0.49f);
 		Vector3 scammerPos = scammer.transform.position;
 		endPosition = new Vector2 (scammerPos.x, scammerPos.y);
 		// Andrew says: "I'm repurposing the "end position" as the position of the scammer."
@@ -291,7 +291,7 @@ public class Map : MonoBehaviour {
 
 	public void CreateGold(Coords coords, int amount) {
 		Vector2 position = new Vector2(coords.x, coords.y);
-		
+
 		// Debug.Log ("Creating Gold...");
 		Transform parent = this.transform;
 		Quaternion rotation = Quaternion.identity;
