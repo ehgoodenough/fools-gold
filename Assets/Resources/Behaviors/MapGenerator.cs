@@ -185,7 +185,21 @@ public class MapGenerator : MonoBehaviour {
 						}
 					}
 				} else {
-					room.SetTile (row, col, Map.Tile.Floor);
+					float crackedChance = 0.025f;
+					float bloodyChance = crackedChance + 0.0225f * (1 + GameManager.currentLevel);
+					float randRoll = Random.Range (0f, 1f);
+					if (crackedChance > randRoll)
+					{
+						room.SetTile (row, col, Map.Tile.CrackedFloor);
+					}
+					else if (bloodyChance > randRoll)
+					{
+						room.SetTile (row, col, Map.Tile.BloodyFloor);
+					}
+					else
+					{
+						room.SetTile (row, col, Map.Tile.Floor);
+					}
 				}
 			}
 		}
