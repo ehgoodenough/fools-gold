@@ -25,7 +25,7 @@ public class Walker : MonoBehaviour {
 		get { return _targetPos; }
 
 		protected set {
-			if (_isStepping)
+			if (_isStepping || _targetPos == value)
 				return;
 			_targetPos = value;
 			StartCoroutine(stepCo());
