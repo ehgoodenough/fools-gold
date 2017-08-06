@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
 
     public static int currentLevel; // NOTE: Zero indexed
+    private const int AMOUNT_OF_LEVELS = 3;
 
     private static int playerGoldAtEndOfLevel = -1;
     private static bool gameStart = true;
@@ -86,7 +87,7 @@ public class GameManager : MonoBehaviour {
     {
         UIAudioSource.instance.Play();
 
-        currentLevel = ++currentLevel % 3;
+        currentLevel = ++currentLevel % AMOUNT_OF_LEVELS;
         playerGoldAtEndOfLevel = Hero.instance.gold;
 
         Room.rooms.Clear();
