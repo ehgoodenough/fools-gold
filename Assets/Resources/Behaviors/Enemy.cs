@@ -179,7 +179,9 @@ public class Enemy : Walker {
 
 		if (_damage >= health) {
 			_isDead = true;
+			Map.instance.removeEnemy(this);
 			Destroy(gameObject, deathDuration);
+			Invoke("createGold", deathDuration);
 			_renderer.enabled = false;
 			return;
 		}
@@ -188,8 +190,7 @@ public class Enemy : Walker {
 		StartCoroutine(hitFlashAnimCo());
 	}
 
-	void OnDestroy() {
-		Map.instance.removeEnemy(this);
+	void createGold() {
 		Map.instance.CreateGold(currentCoords);
 	}
 
