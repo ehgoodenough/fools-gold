@@ -6,14 +6,28 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
 
     private static int playerGoldAtEndOfLevel = -1;
+    private static bool gameStart = true;
+
+    public static GameManager instance;
 
     private double deathtimer = 1.5;
 
     private GameObject gameOverUI;
     private GameObject winUI;
 
-    private void Start()
+    void Start()
     {
+        instance = this;
+        if (gameStart)
+        {
+            Dialogue.instance.SetText("Greetings, hero! Only YOU can save the princess, and I'll help you find her... for a small fee, of course...");
+            Dialogue.instance.SetCallback(delegate
+            {
+                gameStart = false;
+            });
+            Dialogue.instance.SetVisible(true);
+        }
+    
         gameOverUI = GameObject.Find("Game Over UI");
         gameOverUI.SetActive(false);
 
@@ -59,5 +73,10 @@ public class GameManager : MonoBehaviour {
     public void OnQuit()
     {
         Application.Quit();
+    }
+
+    public bool IsPaused()
+    {
+        return Hero.instance.isDead || Hero.instance.isDone || gameStart;
     }
 }

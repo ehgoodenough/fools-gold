@@ -204,7 +204,7 @@ public class Enemy : Walker {
 
 		_timer += Time.deltaTime;
 
-		if(Hero.instance.isDone || Hero.instance.isDead) {
+		if(GameManager.instance.IsPaused()) {
 			return;
 		}
 
