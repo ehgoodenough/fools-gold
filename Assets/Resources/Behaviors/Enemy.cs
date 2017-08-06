@@ -202,6 +202,7 @@ public class Enemy : Walker {
 		Assert.IsTrue(sprites.Length == 1);
 		_renderer.sprite = sprites[0];
 		Color color = _renderer.material.color;
+		bool goldDropped = false;
 
 		while (t < duration) {
 			float param = t / duration;
@@ -215,11 +216,15 @@ public class Enemy : Walker {
 			_shadow.position = startShadowPos;
 			_renderer.material.color = color;
 
+			if (goldDropped == false && param > 0.5f) {
+				goldDropped = true;
+				Map.instance.CreateGold(currentCoords);
+			}
+
 			t += Time.deltaTime;
 			yield return null;
 		}
 
-		Map.instance.CreateGold(currentCoords);
 		Destroy(gameObject);
 	}
 

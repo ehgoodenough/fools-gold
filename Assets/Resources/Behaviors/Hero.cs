@@ -49,16 +49,16 @@ public class Hero : Walker {
 		// Poll the keyboard.
 		if (_isStepping == false) {
 			Vector3 stepDir = new Vector3();
-			if (Input.GetKey("up")) {
+			if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) {
 				stepDir += Vector3.up;
 			}
-			if (Input.GetKey("down")) {
+			if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) {
 				stepDir += Vector3.down;
 			}
-			if (Input.GetKey("left")) {
+			if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
 				stepDir += Vector3.left;
 			}
-			if (Input.GetKey("right")) {
+			if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
 				stepDir += Vector3.right;
 			}
 
