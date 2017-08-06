@@ -25,6 +25,7 @@ public class Hero : Walker {
 		base.Awake();
 		instance = this;
 		_zIndex = Z_INDEX;
+		//_attackSprite = getSpriteResource("Images/SkeletonAttack");
 	}
 
 	public float playCoinsEffect() {
@@ -91,7 +92,7 @@ public class Hero : Walker {
 
 		Enemy enemy = Map.instance.getEnemy(position);
 		if (enemy != null && enemy.isAlive) {
-			halfStep(enemy.targetPos);
+			attack(enemy.targetPos);
 			enemy.takeDamage(1);
 			return false;
 		}

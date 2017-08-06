@@ -197,10 +197,7 @@ public class Enemy : Walker {
 		Vector3 startShadowPos = _shadow.position;
 
 		// replace skelaton sprite with skull
-		string path = "Images/Skull";
-		Sprite[] sprites = Resources.LoadAll<Sprite>(path);
-		Assert.IsTrue(sprites.Length == 1);
-		_renderer.sprite = sprites[0];
+		_renderer.sprite = getSpriteResource("Images/Skull");
 		Color color = _renderer.material.color;
 		bool goldDropped = false;
 
@@ -237,6 +234,7 @@ public class Enemy : Walker {
 		Color c = _renderer.material.color;
 		_defalutColor = new Color(c.r, c.g, c.b);
 		_zIndex = Z_INDEX;
+		_attackSprite = getSpriteResource("Images/SkeletonAttack");
 	}
 
 	void Update() {
@@ -256,7 +254,7 @@ public class Enemy : Walker {
 
 			if (canDamageHero()) {
 				Debug.DrawLine(pos, heroPos, Color.red, moveInterval);
-				halfStep(Hero.instance.targetPos);
+				attack(Hero.instance.targetPos);
 				Hero.instance.takeDamage(1);
 			} else {
 				float distToHero = Vector2.Distance(pos, heroPos);
