@@ -1219,7 +1219,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 280, y: -70}
+  m_AnchoredPosition: {x: 240, y: -70}
   m_SizeDelta: {x: 270, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &532480790
@@ -1700,7 +1700,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 687293903}
   m_LocalRotation: {x: -0, y: -0, z: 0.05220736, w: 0.9986363}
-  m_LocalPosition: {x: -402.75, y: -226.36, z: -2.5157204}
+  m_LocalPosition: {x: -403.44, y: -226.26, z: -2.5157204}
   m_LocalScale: {x: 2.7, y: 2.7, z: 0.83857435}
   m_Children: []
   m_Father: {fileID: 954093732}
@@ -2111,7 +2111,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Princess Scam
+  m_Text: Fool's Gold
 --- !u!222 &850798795
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3000,7 +3000,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Princess Scam
+  m_Text: Fool's Gold
 --- !u!222 &1611809762
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3818,7 +3818,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 280, y: 0}
+  m_AnchoredPosition: {x: 240, y: 0}
   m_SizeDelta: {x: 270, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1998969596
