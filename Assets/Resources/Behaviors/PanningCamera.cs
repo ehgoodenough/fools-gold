@@ -9,7 +9,7 @@ public class PanningCamera : MonoBehaviour {
 
 	void Update() {
 		this.transform.position = Vector3.SmoothDamp(this.transform.position, Hero.instance.targetPos, ref this.velocity, smoothTime);
-		this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -10);
+		this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -100);
 		this.velocity.Set(this.velocity.x, this.velocity.y, 0);
 	}
 }

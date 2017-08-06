@@ -37,6 +37,7 @@ public class Map : MonoBehaviour {
 		Wall=1
 	}
 
+	private const float TILE_Z_INDEX = 0.9f;
 	public float tileSize = 1;
 
 	private Object wallObject;
@@ -98,6 +99,8 @@ public class Map : MonoBehaviour {
 			// Instantiate in the scene.
 			Transform parent = this.transform;
 			Quaternion rotation = Quaternion.identity;
+
+			position.z = position.y + TILE_Z_INDEX;
 
 			switch (tileType)
 			{
