@@ -13,6 +13,9 @@ public class Walker : MonoBehaviour {
 	Vector3 _currentPos;
 	Vector3 _velocity;
 
+	Transform _shadow;
+	Vector3 _shadowOffset;
+
 	bool _isStepping = false;
 	Vector3 _targetPos;
 	public Vector3 targetPos {
@@ -34,6 +37,8 @@ public class Walker : MonoBehaviour {
 
 	protected virtual void Awake() {
 		_transform = transform;
+		_shadow = _transform.Find("Shadow");
+		_shadowOffset = _shadow.position - _transform.position;
 	}
 
 	IEnumerator stepCo() {
@@ -44,14 +49,17 @@ public class Walker : MonoBehaviour {
 			float jumpParam = Mathf.Sin(param * Mathf.PI);
 
 			Vector3 pos = Vector3.Lerp(_currentPos, _targetPos, param);
+			_shadow.position = pos + _shadowOffset;
+
 			pos += new Vector3(0, jumpDist * jumpParam, 0);
-			_transform.localPosition = pos;
+			_transform.position = pos;
 
 			yield return null;
 			t += Time.deltaTime;
 		}
 
-		_transform.localPosition = _targetPos;
+		_shadow.position = _targetPos + _shadowOffset;
+		_transform.position = _targetPos;
 		_currentPos = _targetPos;
 		_isStepping = false;
 	}
