@@ -42,7 +42,7 @@ public class Hero : Walker {
 			return;
 		}
 
-		if(this.isDone) {
+		if(GameManager.instance.IsPaused()) {
 			return;
 		}
 

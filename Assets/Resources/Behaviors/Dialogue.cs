@@ -22,7 +22,10 @@ public class Dialogue : MonoBehaviour {
         if (Input.anyKeyDown)
         {
             this.SetVisible(false);
-            callback();
+            if (callback != null)
+            {
+                callback();
+            }
         }
     }
 

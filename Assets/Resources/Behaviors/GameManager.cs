@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
+    public static int currentLevel; // NOTE: Zero indexed
+
     private static int playerGoldAtEndOfLevel = -1;
     private static bool gameStart = true;
 
@@ -15,8 +17,6 @@ public class GameManager : MonoBehaviour {
 
     private GameObject gameOverUI;
     private GameObject winUI;
-
-	public static int currentLevel; // NOTE: Zero indexed
 
     void Start()
     {
@@ -91,5 +91,27 @@ public class GameManager : MonoBehaviour {
     public bool IsPaused()
     {
         return Hero.instance.isDead || Hero.instance.isDone || Dialogue.instance.IsVisible();
+    }
+
+    public int GoldNeeded()
+    {
+        switch (currentLevel)
+        {
+            case 0:
+                return 25;
+            case 1:
+                return 25;
+            case 2:
+                return 25;
+            default:
+                return 25;
+        }
+    }
+
+    public void ShowNotEnoughGoldDialogue()
+    {
+        Dialogue.instance.SetText(string.Format("What's this? Not enough coin! Don't come back until you have {0} gold!", GoldNeeded()));
+        Dialogue.instance.SetCallback(null);
+        Dialogue.instance.SetVisible(true);
     }
 }
