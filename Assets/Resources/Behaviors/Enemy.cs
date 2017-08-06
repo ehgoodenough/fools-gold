@@ -12,6 +12,7 @@ public class Enemy : Walker {
 
 	[Header("Stats")]
 	public int health = 1;
+	public int gold = 1;
 
 	[Header("Movement")]
 	public bool canMoveHorizontal = true;
@@ -233,7 +234,7 @@ public class Enemy : Walker {
 
 			if (goldDropped == false && param > 0.5f) {
 				goldDropped = true;
-				Map.instance.CreateGold(currentCoords);
+				Map.instance.CreateGold(currentCoords, gold);
 			}
 
 			t += Time.deltaTime;

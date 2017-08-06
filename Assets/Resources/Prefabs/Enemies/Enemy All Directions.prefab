@@ -87,6 +87,7 @@ MonoBehaviour:
   jumpDist: 0.2
   flipped: 1
   health: 4
+  gold: 10
   canMoveHorizontal: 1
   canMoveVertical: 1
   canMoveDiagonal: 1

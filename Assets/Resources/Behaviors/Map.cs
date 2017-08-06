@@ -267,28 +267,23 @@ public class Map : MonoBehaviour {
 		}
 	}
 
-	public void CreateGold(Vector2 position) {
+	public void CreateGold(Coords coords, int amount) {
+		Vector2 position = new Vector2(coords.x, coords.y);
+		
 		// Debug.Log ("Creating Gold...");
 		Transform parent = this.transform;
 		Quaternion rotation = Quaternion.identity;
-		Object g = Object.Instantiate(goldObject, position, rotation, parent);
+		Object g = Instantiate(goldObject, position, rotation, parent);
 
 		string key = position.x + "-" + position.y;
 
-		if(this.gold.ContainsKey(key) == false) {
-			this.gold.Add(key, new List<Object>());
+		if (gold.ContainsKey(key) == false) {
+			gold.Add(key, new List<Object>());
 		}
 
-		gold[key].Add(g);
-	}
-
-	public void CreateGold(Coords coords, float delay = 0) {
-		StartCoroutine(CreateGoldCo(coords, delay));
-	}
-
-	IEnumerator CreateGoldCo(Coords coords, float delay) {
-		yield return new WaitForSeconds(delay);
-		CreateGold(new Vector2(coords.x, coords.y));
+		for (int i = 0; i < amount; i++) {
+			gold[key].Add(g);
+		}
 	}
 
 	public bool HasGold(Vector2 position) {

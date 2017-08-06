@@ -87,10 +87,13 @@ MonoBehaviour:
   jumpDist: 0.2
   flipped: 1
   health: 2
+  gold: 2
   canMoveHorizontal: 0
   canMoveVertical: 0
   canMoveDiagonal: 1
   moveInterval: 2
+  numSteps: 1
+  extraStepDelay: 0.1
   chaseRadius: 4
 --- !u!212 &212366851192291652
 SpriteRenderer:
