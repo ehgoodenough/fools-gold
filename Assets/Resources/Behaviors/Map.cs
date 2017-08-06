@@ -70,10 +70,20 @@ public class Map : MonoBehaviour {
 		// Debug.Log ("Map.Start()");
 		// Debug.Log ("Tiles: " + tiles.Count);
 		MapGenerator mapGen = GetComponent<MapGenerator> ();
-		Room room1 = mapGen.CreateRoom (17, 11, new Vector3 (-8, -5, 10));
-		Room room2 = mapGen.CreateRoom (6, 6, new Vector3 (3, 6, 10));
-		Debug.Log ("Room 2 is " + mapGen.GetRelativePosition (room1, room2, 5) + " relative to Room 1.");
-		mapGen.CreateCorridor (room1, room2, 5);
+		Room hubRoom = mapGen.CreateRoom (17, 11, new Vector3 (-8, -5, 10));
+		Room neRoom = mapGen.CreateRoom (6, 6, new Vector3 (4, 6, 10));
+		Debug.Log ("Room 2 is " + mapGen.GetRelativePosition (hubRoom, neRoom, 5) + " relative to Room 1.");
+		mapGen.CreateCorridor (hubRoom, neRoom, 4);
+		Room nwRoom = mapGen.CreateRoom (11, 10, new Vector3 (-14, 6, 10));
+		mapGen.CreateCorridor (hubRoom, nwRoom, 5);
+		Room swRoom = mapGen.CreateRoom (8, 6, new Vector3 (-10, -11, 10));
+		mapGen.CreateCorridor (swRoom, hubRoom, 4);
+		Room seRoom = mapGen.CreateRoom (10, 4, new Vector3 (-1, -10, 10));
+		mapGen.CreateCorridor (seRoom, hubRoom, 10);
+		Room nCorridor = mapGen.CreateRoom (5, 12, new Vector3 (-2, 6, 10));
+		mapGen.CreateCorridor (hubRoom, nCorridor, 5);
+		Room finalRoom = mapGen.CreateRoom (9, 8, new Vector3 (-4, 17, 10));
+		mapGen.CreateCorridor (nCorridor, finalRoom, 5);
 		mapGen.CreateTiles ();
 		createSomeRandomEnemies();
 
