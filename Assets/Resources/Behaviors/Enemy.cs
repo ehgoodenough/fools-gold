@@ -27,8 +27,10 @@ public class Enemy : Walker {
 	int _damage = 0;
 	bool _isFlashing = false;
 	bool _isFollowing = false;
-	bool _isDead = false;
 	Color _defalutColor;
+
+	bool _isDead = false;
+	public bool isAlive { get { return !_isDead; } }
 
 	List<Coords> _validNeighbors = new List<Coords>();
 
