@@ -98,6 +98,7 @@ public class Hero : Walker {
 			Debug.Log("Talking to the scammer!");
 			int REQUIRED_GOLD = 10; // GET THIS FROM THE GAME MANAGER
 			if(this.gold >= REQUIRED_GOLD) {
+				this.gold -= REQUIRED_GOLD;
 				this.isDone = true;
 			} else {
 				// PULL UP THE DIALOGUE BOX FROM THE SCAMMER IN THE GAME MANAGER
