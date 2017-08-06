@@ -34,8 +34,9 @@ public class Map : MonoBehaviour {
 	public enum Tile
 	{
 		Floor=0,
-		Wall=1,
-		GoldWall=2
+		Wall,
+		GoldWall,
+		VineWall
 	}
 			
 	private const float TILE_Z_INDEX = 0.9f;
@@ -45,6 +46,7 @@ public class Map : MonoBehaviour {
 	private Object floorObject;
 	private Object goldObject;
 	private Object goldWallObject;
+	private Object vineWallObject;
 
 	public static Map instance;
 
@@ -61,6 +63,7 @@ public class Map : MonoBehaviour {
 		floorObject = Resources.Load("Prefabs/Floor") as Object;
 		goldObject = Resources.Load("Prefabs/Gold") as Object;
 		goldWallObject = Resources.Load("Prefabs/GoldWall") as Object;
+		vineWallObject = Resources.Load("Prefabs/VineWall") as Object;
 	}
 
 	void Start() {
@@ -162,6 +165,10 @@ public class Map : MonoBehaviour {
 			case Tile.GoldWall:
 				position.z = position.y + TILE_Z_INDEX;
 				Object.Instantiate (this.goldWallObject, position, rotation, parent);
+				break;
+			case Tile.VineWall:
+				position.z = position.y + TILE_Z_INDEX;
+				Object.Instantiate (this.vineWallObject, position, rotation, parent);
 				break;
 			default:
 				break;
