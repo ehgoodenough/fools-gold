@@ -56,7 +56,7 @@ public class Map : MonoBehaviour {
 
 	public Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
 	private Dictionary<string, Enemy> _enemies = new Dictionary<string, Enemy>();
-	private Dictionary<string, List<Object>> gold = new Dictionary<string, List<Object>>();
+	private Dictionary<string, List<Gold>> gold = new Dictionary<string, List<Gold>>();
 
 	public Vector2 endPosition;
 	public int numGoldOnMap;
@@ -273,12 +273,14 @@ public class Map : MonoBehaviour {
 		// Debug.Log ("Creating Gold...");
 		Transform parent = this.transform;
 		Quaternion rotation = Quaternion.identity;
-		Object g = Instantiate(goldObject, position, rotation, parent);
+		GameObject obj = Instantiate(goldObject, position, rotation, parent) as GameObject;
+		Gold g = obj.GetComponent<Gold>();
+		g.setAmount(amount);
 
 		string key = position.x + "-" + position.y;
 
 		if (gold.ContainsKey(key) == false) {
-			gold.Add(key, new List<Object>());
+			gold.Add(key, new List<Gold>());
 		}
 
 		for (int i = 0; i < amount; i++) {
@@ -292,14 +294,14 @@ public class Map : MonoBehaviour {
 			&& gold[key].Count > 0;
 	}
 
-	public List<Object> GetGolds(Vector2 position) {
-		return this.gold[position.x + "-" + position.y];
+	public List<Gold> GetGolds(Vector2 position) {
+		return gold[position.x + "-" + position.y];
 	}
 
 	public void RemoveGold(Vector2 position, float delay = 0) {
-		List<Object> golds = GetGolds(position);
-		foreach(Object gold in golds) {
-			Destroy(gold, delay);
+		List<Gold> golds = GetGolds(position);
+		foreach(Gold gold in golds) {
+			Destroy(gold.gameObject, delay);
 		}
 		golds.Clear();
 	}

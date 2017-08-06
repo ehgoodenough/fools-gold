@@ -32,11 +32,12 @@ public class Hero : Walker {
 		audios = GetComponents<AudioSource>();
 	}
 
-	public float playCoinsEffect() {
+	public float playCoinsEffect(int amount) {
 		string path = "Prefabs/FX/Coins FX";
 		GameObject prefab = Resources.Load(path) as GameObject;
 		ParticleSystem fx = Instantiate(prefab).GetComponent<ParticleSystem>();
 		fx.transform.position = targetPos;
+		fx.Emit(amount);
 		Destroy(fx.gameObject, fx.main.duration);
 		return fx.main.duration;
 	}
@@ -77,9 +78,10 @@ public class Hero : Walker {
 
 		if (Map.instance != null) {
 			if(Map.instance.HasGold(targetPos)) {
-				this.gold += Map.instance.GetGolds(targetPos).Count;
-				Map.instance.RemoveGold(targetPos, 0.3f);
-				playCoinsEffect();
+				int amount = Map.instance.GetGolds(targetPos).Count;
+				this.gold += amount;
+				Map.instance.RemoveGold(targetPos, 0.1f);
+				playCoinsEffect(amount);
 				audios[2].Play();
 			}
 		}
