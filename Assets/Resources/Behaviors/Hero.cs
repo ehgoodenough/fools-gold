@@ -86,6 +86,13 @@ public class Hero : Walker {
 			}
 		}
 
+		if(this.health == 1) {
+			if(!audios[6].isPlaying) {
+				audios[6].Play();
+			}
+		} else {
+			audios[6].Stop();
+		}
 	}
 
 	private bool canMoveTo(Vector3 position) {

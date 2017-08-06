@@ -36,7 +36,10 @@ public class Map : MonoBehaviour {
 		Floor=0,
 		Wall,
 		GoldWall,
+		CrackedGoldWall,
+		BloodyGoldWall,
 		VineWall,
+		BloodyWall,
 		CrackedFloor,
 		BloodyFloor
 	}
@@ -48,7 +51,10 @@ public class Map : MonoBehaviour {
 	private Object floorObject;
 	private Object goldObject;
 	private Object goldWallObject;
+	private Object crackedGoldWallObject;
+	private Object bloodyGoldWallObject;
 	private Object vineWallObject;
+	private Object bloodyWallObject;
 	private Object crackedFloorObject;
 	private Object bloodyFloorObject;
 
@@ -67,7 +73,10 @@ public class Map : MonoBehaviour {
 		floorObject = Resources.Load("Prefabs/Floor") as Object;
 		goldObject = Resources.Load("Prefabs/Gold") as Object;
 		goldWallObject = Resources.Load("Prefabs/GoldWall") as Object;
+		crackedGoldWallObject = Resources.Load("Prefabs/CrackedGoldWall") as Object;
+		bloodyGoldWallObject = Resources.Load("Prefabs/BloodyGoldWall") as Object;
 		vineWallObject = Resources.Load("Prefabs/VineWall") as Object;
+		bloodyWallObject = Resources.Load("Prefabs/BloodyWall") as Object;
 		crackedFloorObject = Resources.Load("Prefabs/CrackedFloor") as Object;
 		bloodyFloorObject = Resources.Load("Prefabs/BloodyFloor") as Object;
 	}
@@ -98,10 +107,10 @@ public class Map : MonoBehaviour {
 			}
 
 			// Generate a number of enemies proportionate to the size of the room
-			int avgSpawnDist = 7 - GameManager.currentLevel;
+			int avgSpawnDist = 8 - GameManager.currentLevel;
 			int numEnemies = Mathf.CeilToInt(room.GetInnerArea() / (float) (avgSpawnDist * avgSpawnDist));
 			// Debug.Log ("room Area: " + room.GetInnerArea());
-			Debug.Log ("numEnemies: " + numEnemies);
+			// Debug.Log ("numEnemies: " + numEnemies);
 
 			for (int i = 0; i < numEnemies; i++) {
 				int attempts = 0;
@@ -116,13 +125,14 @@ public class Map : MonoBehaviour {
 
 					enemyCreated = Enemy.create (new Coords (randPosX, randPosY));
 					if (enemyCreated) {
-						Debug.Log ("Enemy Created!");
-						numGoldOnMap++;
+						// Debug.Log ("Enemy Created!");
+						numGoldOnMap += enemyCreated.gold;
 					}
 				}
 			}
-			Debug.Log ("numGoldOnMap: " + numGoldOnMap);
 		}
+		Debug.Log ("numGoldOnMap: " + numGoldOnMap);
+		Debug.Log ("Gold Needed: " + GameManager.instance.GoldNeeded ());
 	}
 
 	public void createSomeRandomGold() {
@@ -180,9 +190,21 @@ public class Map : MonoBehaviour {
 				position.z = position.y + TILE_Z_INDEX;
 				Object.Instantiate (this.goldWallObject, position, rotation, parent);
 				break;
+			case Tile.CrackedGoldWall:
+				position.z = position.y + TILE_Z_INDEX;
+				Object.Instantiate (this.crackedGoldWallObject, position, rotation, parent);
+				break;
+			case Tile.BloodyGoldWall:
+				position.z = position.y + TILE_Z_INDEX;
+				Object.Instantiate (this.bloodyGoldWallObject, position, rotation, parent);
+				break;
 			case Tile.VineWall:
 				position.z = position.y + TILE_Z_INDEX;
 				Object.Instantiate (this.vineWallObject, position, rotation, parent);
+				break;
+			case Tile.BloodyWall:
+				position.z = position.y + TILE_Z_INDEX;
+				Object.Instantiate (this.bloodyWallObject, position, rotation, parent);
 				break;
 			default:
 				break;
