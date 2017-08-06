@@ -215,6 +215,7 @@ public class Enemy : Walker {
 
 			if (canDamageHero()) {
 				Debug.DrawLine(pos, heroPos, Color.red, moveInterval);
+				halfStep(Hero.instance.targetPos);
 				Hero.instance.takeDamage(1);
 			} else {
 				float distToHero = Vector2.Distance(pos, heroPos);

@@ -84,6 +84,7 @@ public class Hero : Walker {
 
 		if(Map.instance.getEnemy(position) != null) {
 			Enemy enemy = Map.instance.getEnemy(position);
+			halfStep(enemy.targetPos);
 			enemy.takeDamage(1);
 
 			return false;

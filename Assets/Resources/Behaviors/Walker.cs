@@ -59,7 +59,12 @@ public class Walker : MonoBehaviour {
 		return fx.main.duration;
 	}
 
-	IEnumerator stepCo() {
+	protected void halfStep(Vector3 toPos) {
+		_targetPos = toPos;
+		StartCoroutine(stepCo(true));
+	}
+
+	IEnumerator stepCo(bool halfStep = false) {
 		float z = _transform.position.z;
 
 		if (_targetPos.x != _currentPos.x) {
@@ -72,6 +77,9 @@ public class Walker : MonoBehaviour {
 		float t = 0;
 		while (t < moveDuration) {
 			float param = t / moveDuration;
+			if (halfStep && param > 0.5f)
+				param = 1f - param;
+
 			float jumpParam = Mathf.Sin(param * Mathf.PI);
 
 			Vector3 pos = Vector3.Lerp(_currentPos, _targetPos, param);
@@ -85,9 +93,16 @@ public class Walker : MonoBehaviour {
 			t += Time.deltaTime;
 		}
 
-		_shadow.position = _targetPos + _shadowOffset;
-		_transform.position = _targetPos;
-		_currentPos = _targetPos;
+		if (halfStep) {
+			_shadow.position = _currentPos + _shadowOffset;
+			_transform.position = _currentPos;
+			_targetPos = _currentPos;
+		} else {
+			_shadow.position = _targetPos + _shadowOffset;
+			_transform.position = _targetPos;
+			_currentPos = _targetPos;
+		}
+		
 		_isStepping = false;
 	}
 }
