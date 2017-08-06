@@ -37,6 +37,7 @@ public class Map : MonoBehaviour {
 		Wall,
 		GoldWall,
 		VineWall,
+		BloodyWall,
 		CrackedFloor,
 		BloodyFloor
 	}
@@ -49,6 +50,7 @@ public class Map : MonoBehaviour {
 	private Object goldObject;
 	private Object goldWallObject;
 	private Object vineWallObject;
+	private Object bloodyWallObject;
 	private Object crackedFloorObject;
 	private Object bloodyFloorObject;
 
@@ -68,6 +70,7 @@ public class Map : MonoBehaviour {
 		goldObject = Resources.Load("Prefabs/Gold") as Object;
 		goldWallObject = Resources.Load("Prefabs/GoldWall") as Object;
 		vineWallObject = Resources.Load("Prefabs/VineWall") as Object;
+		bloodyWallObject = Resources.Load("Prefabs/BloodyWall") as Object;
 		crackedFloorObject = Resources.Load("Prefabs/CrackedFloor") as Object;
 		bloodyFloorObject = Resources.Load("Prefabs/BloodyFloor") as Object;
 	}
@@ -98,10 +101,10 @@ public class Map : MonoBehaviour {
 			}
 
 			// Generate a number of enemies proportionate to the size of the room
-			int avgSpawnDist = 7 - GameManager.currentLevel;
+			int avgSpawnDist = 8 - GameManager.currentLevel;
 			int numEnemies = Mathf.CeilToInt(room.GetInnerArea() / (float) (avgSpawnDist * avgSpawnDist));
 			// Debug.Log ("room Area: " + room.GetInnerArea());
-			Debug.Log ("numEnemies: " + numEnemies);
+			// Debug.Log ("numEnemies: " + numEnemies);
 
 			for (int i = 0; i < numEnemies; i++) {
 				int attempts = 0;
@@ -116,7 +119,7 @@ public class Map : MonoBehaviour {
 
 					enemyCreated = Enemy.create (new Coords (randPosX, randPosY));
 					if (enemyCreated) {
-						Debug.Log ("Enemy Created!");
+						// Debug.Log ("Enemy Created!");
 						numGoldOnMap++;
 					}
 				}
@@ -183,6 +186,10 @@ public class Map : MonoBehaviour {
 			case Tile.VineWall:
 				position.z = position.y + TILE_Z_INDEX;
 				Object.Instantiate (this.vineWallObject, position, rotation, parent);
+				break;
+			case Tile.BloodyWall:
+				position.z = position.y + TILE_Z_INDEX;
+				Object.Instantiate (this.bloodyWallObject, position, rotation, parent);
 				break;
 			default:
 				break;

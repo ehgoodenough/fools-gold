@@ -175,9 +175,20 @@ public class MapGenerator : MonoBehaviour {
 					else
 					{
 						float vineChance = 0.15f;
-						if (vineChance > Random.Range (0f, 1f))
+						// Debug.Log ("vineChance: " + vineChance);
+						float bloodyChance = vineChance + 0.05f * (1 + GameManager.currentLevel);
+						// Debug.Log ("bloodyChance: " + bloodyChance);
+						float randRoll = Random.Range (0f, 1f);
+						// Debug.Log ("randRoll: " + randRoll);
+						if (vineChance > randRoll)
 						{
+							// Debug.Log ("Creating Vine Wall");
 							room.SetTile (row, col, Map.Tile.VineWall);
+						}
+						else if (bloodyChance > randRoll)
+						{
+							// Debug.Log ("Creating Bloody Wall");
+							room.SetTile (row, col, Map.Tile.BloodyWall);
 						}
 						else
 						{
