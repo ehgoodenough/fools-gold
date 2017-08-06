@@ -90,6 +90,6 @@ public class GameManager : MonoBehaviour {
 
     public bool IsPaused()
     {
-        return Hero.instance.isDead || Hero.instance.isDone || gameStart;
+        return Hero.instance.isDead || Hero.instance.isDone || Dialogue.instance.IsVisible();
     }
 }

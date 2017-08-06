@@ -31,6 +31,11 @@ public class Dialogue : MonoBehaviour {
         this.textField.text = text;
     }
 
+    public bool IsVisible()
+    {
+        return this.gameObject.activeSelf;
+    }
+
     public void SetVisible(bool visible)
     {
         this.gameObject.SetActive(visible);
