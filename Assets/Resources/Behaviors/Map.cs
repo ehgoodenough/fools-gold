@@ -61,6 +61,11 @@ public class Map : MonoBehaviour {
 			int width = (int) room.GetDimensions ().x;
 			int height = (int) room.GetDimensions ().y;
 
+			// NOTE: Ignoring the final room
+			if (17 <= posY) {
+				continue;
+			}
+
 			// Generate a number of enemies proportionate to the size of the room
 			int numEnemies = Mathf.CeilToInt((width-1) * (height-1) / 64f);
 			// Debug.Log ("room Area: " + (width-1) * (height-1));
@@ -72,11 +77,17 @@ public class Map : MonoBehaviour {
 				Enemy enemyCreated = null;
 				while (null == enemyCreated && maxAttempts > attempts)
 				{
-					enemyCreated = Enemy.create (new Coords (posX + Random.Range (1, width - 1), posY + Random.Range (1, height - 1)));
 					attempts++;
-					/* if (null != enemyCreated) {
-						Debug.Log ("Created Enemy!");
-					}*/
+
+					int randPosX = posX + Random.Range (1, width - 1);
+					int randPosY = posY + Random.Range (1, height - 1);
+
+					// Avoid spawning enemies too close to the final room
+					if (10 > randPosY) {
+						continue;
+					}
+
+					enemyCreated = Enemy.create (new Coords (randPosX, randPosY));
 				}
 			}
 		}
@@ -104,7 +115,7 @@ public class Map : MonoBehaviour {
 		mapGen.CreateCorridor (seRoom, hubRoom, 10);
 		Room nCorridor = mapGen.CreateRoom (5, 12, new Vector3 (-2, 6, 10));
 		mapGen.CreateCorridor (hubRoom, nCorridor, 5);
-		Room finalRoom = mapGen.CreateRoom (9, 8, new Vector3 (-4, 17, 10));
+		Room finalRoom = mapGen.CreateRoom (9, 9, new Vector3 (-4, 17, 10));
 		mapGen.CreateCorridor (nCorridor, finalRoom, 5);
 		mapGen.CreateTiles ();
 		createSomeRandomEnemies();
