@@ -73,7 +73,6 @@ public class Map : MonoBehaviour {
 		MapGenerator mapGen = GetComponent<MapGenerator> ();
 		Room hubRoom = mapGen.CreateRoom (17, 11, new Vector3 (-8, -5, 10));
 		Room neRoom = mapGen.CreateRoom (6, 6, new Vector3 (4, 6, 10));
-		Debug.Log ("Room 2 is " + mapGen.GetRelativePosition (hubRoom, neRoom, 5) + " relative to Room 1.");
 		mapGen.CreateCorridor (hubRoom, neRoom, 4);
 		Room nwRoom = mapGen.CreateRoom (11, 10, new Vector3 (-14, 6, 10));
 		mapGen.CreateCorridor (hubRoom, nwRoom, 5);
@@ -89,7 +88,7 @@ public class Map : MonoBehaviour {
 		createSomeRandomEnemies();
 
 		// ...Just for debugging the end logic. Thanks!!
-		this.endPosition = new Vector2(2, 2);
+		this.endPosition = new Vector2(0, 21);
 	}
 
 	public void addTile(Vector3 position, Tile tileType) {
