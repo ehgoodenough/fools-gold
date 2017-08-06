@@ -60,6 +60,19 @@ public class Room {
 	{
 		endRoom = this;
 		this.end = true;
+		for (int i = 0; i < this.tiles.Length; i++)
+		{
+			if (i > (this.GetWidth() * 2) + 1 && i < (this.GetWidth() * 3) - 2)
+			{
+				this.tiles [i] = Map.Tile.RugEndFloor;
+			}
+			else if (i > (this.GetWidth() * 3) + 1 && i < this.GetWidth() * this.GetHeight() - (this.GetWidth() * 2) - 2)
+			{
+				if (i % this.GetWidth() > 1 && i % this.GetWidth() < this.GetWidth() - 2) {
+					this.tiles [i] = Map.Tile.RugFloor;
+				}
+			}
+		}
 	}
 
 	public bool IsStart()
