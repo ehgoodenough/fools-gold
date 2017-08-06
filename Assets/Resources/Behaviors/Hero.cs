@@ -94,7 +94,7 @@ public class Hero : Walker {
 		// The "end position" is now the scammer's position.
 		if(position.x == Map.instance.endPosition.x
 		&& position.y == Map.instance.endPosition.y) {
-			halfStep(position);
+			attack(position);
 			Debug.Log("Talking to the scammer!");
 			int REQUIRED_GOLD = 10; // GET THIS FROM THE GAME MANAGER
 			if(this.gold >= REQUIRED_GOLD) {
