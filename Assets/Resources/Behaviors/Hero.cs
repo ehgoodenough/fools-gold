@@ -61,8 +61,8 @@ public class Hero : Walker {
 				this.gold += Map.instance.GetGolds(targetPos).Count;
 				Map.instance.RemoveGold(targetPos);
 			}
-			if(this._targetPosition.x == Map.instance.endPosition.x
-			&& this._targetPosition.y == Map.instance.endPosition.y) {
+			if(this.targetPos.x == Map.instance.endPosition.x
+			&& this.targetPos.y == Map.instance.endPosition.y) {
 				if(this.isDone != true) {
 					this.isDone = true;
 					Debug.Log("DONE");
