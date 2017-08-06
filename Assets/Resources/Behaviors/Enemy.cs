@@ -196,6 +196,7 @@ public class Enemy : Walker {
 		base.Awake();
 		Color c = _renderer.material.color;
 		_defalutColor = new Color(c.r, c.g, c.b);
+		_zIndex = Z_INDEX;
 	}
 
 	void Update() {
@@ -227,11 +228,6 @@ public class Enemy : Walker {
 				}
 			}
 		}
-
-		// Do the z-indexing off their y position.
-		Vector3 position = transform.position;
-		position.z = position.y + Z_INDEX;
-		transform.position = position;
 	}
 
 	void OnDrawGizmos() {

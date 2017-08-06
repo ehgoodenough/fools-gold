@@ -24,6 +24,7 @@ public class Hero : Walker {
 	protected override void Awake() {
 		base.Awake();
 		instance = this;
+		_zIndex = Z_INDEX;
 	}
 
 	public float playCoinsEffect() {
@@ -80,11 +81,7 @@ public class Hero : Walker {
 				}
 			}
 		}
-
-		// Do the z-indexing off their y position.
-		Vector3 position = transform.position;
-		position.z = position.y + Z_INDEX;
-		transform.position = position;
+		
 	}
 
 	private bool canMoveTo(Vector3 position) {

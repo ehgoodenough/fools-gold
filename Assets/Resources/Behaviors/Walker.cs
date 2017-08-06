@@ -16,6 +16,7 @@ public class Walker : MonoBehaviour {
 	Vector3 _currentPos;
 	Vector3 _velocity;
 
+	protected float _zIndex = 0;
 	Transform _shadow;
 	Vector3 _shadowOffset;
 
@@ -65,8 +66,6 @@ public class Walker : MonoBehaviour {
 	}
 
 	IEnumerator stepCo(bool halfStep = false) {
-		float z = _transform.position.z;
-
 		if (_targetPos.x != _currentPos.x) {
 			_renderer.flipX = _targetPos.x < _currentPos.x;
 			if (flipped)
@@ -83,7 +82,6 @@ public class Walker : MonoBehaviour {
 			float jumpParam = Mathf.Sin(param * Mathf.PI);
 
 			Vector3 pos = Vector3.Lerp(_currentPos, _targetPos, param);
-			pos.z = z;
 			_shadow.position = pos + _shadowOffset;
 
 			pos += new Vector3(0, jumpDist * jumpParam, 0);
@@ -104,5 +102,18 @@ public class Walker : MonoBehaviour {
 		}
 		
 		_isStepping = false;
+	}
+
+	void modifyZ(Transform t, float z) {
+		Vector3 pos = t.position;
+		pos.z = z;
+		t.position = pos;
+	}
+
+	void LateUpdate() {
+		// Do the z-indexing off their y position.
+		float z = _transform.position.y + _zIndex;
+		modifyZ(_transform, z);
+		modifyZ(_shadow, z);
 	}
 }
