@@ -91,7 +91,7 @@ MonoBehaviour:
   canMoveVertical: 0
   canMoveDiagonal: 0
   moveInterval: 3
-  chaseRadius: 0
+  chaseRadius: 1
 --- !u!212 &212306979549960894
 SpriteRenderer:
   m_ObjectHideFlags: 1
