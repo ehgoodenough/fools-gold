@@ -60,7 +60,7 @@ public class Walker : MonoBehaviour {
 	public float playHitEffect(string prefabName, bool useColor = true, float moveUp = 0.5f) {
 		string path = "Prefabs/FX/" + prefabName;
 		GameObject prefab = Resources.Load(path) as GameObject;
-		ParticleSystem fx = Instantiate(prefab).GetComponent<ParticleSystem>();
+		ParticleSystem fx = Instantiate(prefab, _transform).GetComponent<ParticleSystem>();
 		fx.transform.position = _transform.position + Vector3.up * moveUp;
 		Destroy(fx.gameObject, fx.main.duration);
 
