@@ -79,7 +79,7 @@ public class Map : MonoBehaviour {
 		mapGen.CreateCorridor (hubRoom, nwRoom, 5);
 		Room swRoom = mapGen.CreateRoom (8, 6, new Vector3 (-10, -11, 10));
 		mapGen.CreateCorridor (swRoom, hubRoom, 4);
-		Room seRoom = mapGen.CreateRoom (10, 4, new Vector3 (-1, -10, 10));
+		Room seRoom = mapGen.CreateRoom (10, 4, new Vector3 (-1, -9, 10));
 		mapGen.CreateCorridor (seRoom, hubRoom, 10);
 		Room nCorridor = mapGen.CreateRoom (5, 12, new Vector3 (-2, 6, 10));
 		mapGen.CreateCorridor (hubRoom, nCorridor, 5);
