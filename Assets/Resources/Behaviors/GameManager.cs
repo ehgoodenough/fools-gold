@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour {
     private GameObject gameOverUI;
     private GameObject winUI;
 
+	public static int currentLevel; // NOTE: Zero indexed
+
     void Start()
     {
         instance = this;
@@ -64,6 +66,8 @@ public class GameManager : MonoBehaviour {
 
     public void OnTryAgain()
     {
+		// Start back at the beginning, or just the current level?
+		// currentLevel = 0;
         playerGoldAtEndOfLevel = -1;
 
 		Room.rooms.Clear ();
@@ -72,6 +76,7 @@ public class GameManager : MonoBehaviour {
 
     public void OnNextLevel()
     {
+		currentLevel = ++currentLevel % 3;
         playerGoldAtEndOfLevel = Hero.instance.gold;
 
         Room.rooms.Clear();

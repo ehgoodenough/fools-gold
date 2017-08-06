@@ -61,6 +61,7 @@ public class Map : MonoBehaviour {
 
 	void Start() {
 		// Debug.Log ("Map.Start()");
+		// Debug.Log ("GameManager.currentLevel: " + GameManager.currentLevel);
 		// Debug.Log ("Tiles: " + tiles.Count);
 		MapGenerator mapGen = GetComponent<MapGenerator> ();
 		Room hubRoom = mapGen.CreateRoom (17, 11, new Vector3 (-8, -5, 10));
@@ -82,7 +83,6 @@ public class Map : MonoBehaviour {
 		createSomeRandomEnemies();
 		setHeroStartPosition ();
 		setScammerStartPosition ();
-
 		// ...Just for debugging the end logic. Thanks!!
 		// this.endPosition = new Vector2(0, 21);
 	}
