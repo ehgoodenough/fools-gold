@@ -54,10 +54,32 @@ public class Map : MonoBehaviour {
 
 	// Temp
 	void createSomeRandomEnemies() {
-		Enemy.create(new Coords(1, 1));
-		Enemy.create(new Coords(2, 2));
-		Enemy.create(new Coords(3, 3));
-		Enemy.create(new Coords(4, 4));
+		foreach (Room room in Room.rooms.Values)
+		{
+			int posX = (int) room.GetPosition ().x;
+			int posY = (int) room.GetPosition ().y;
+			int width = (int) room.GetDimensions ().x;
+			int height = (int) room.GetDimensions ().y;
+
+			// Generate a number of enemies proportionate to the size of the room
+			int numEnemies = Mathf.CeilToInt((width-1) * (height-1) / 64f);
+			// Debug.Log ("room Area: " + (width-1) * (height-1));
+			// Debug.Log ("numEnemies: " + numEnemies);
+
+			for (int i = 0; i < numEnemies; i++) {
+				int attempts = 0;
+				int maxAttempts = 10;
+				Enemy enemyCreated = null;
+				while (null == enemyCreated && maxAttempts > attempts)
+				{
+					enemyCreated = Enemy.create (new Coords (posX + Random.Range (1, width - 1), posY + Random.Range (1, height - 1)));
+					attempts++;
+					/* if (null != enemyCreated) {
+						Debug.Log ("Created Enemy!");
+					}*/
+				}
+			}
+		}
 	}
 
 	void Awake() {

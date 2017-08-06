@@ -8,8 +8,9 @@ public class Room {
 	public static Dictionary<int, Room> rooms = new Dictionary<int, Room> ();
 
 	private int uid;
-	private Vector2 dim;
 	private Vector2 pos;
+	private Vector2 dim;
+	private int area;
 	private Map.Tile[] tiles;
 	private List<int> connections;
 
@@ -17,8 +18,9 @@ public class Room {
 	public Room(int width, int height, int posX, int posY)
 	{
 		this.uid = ++numRooms;
-		this.dim = new Vector2 (width, height);
 		this.pos = new Vector2 (posX, posY);
+		this.dim = new Vector2 (width, height);
+		this.area = width * height;
 		rooms.Add (this.uid, this);
 		this.tiles = new Map.Tile [width * height];
 		this.connections = new List<int> ();
@@ -72,6 +74,11 @@ public class Room {
 	public void SetPosition(int posX, int posY)
 	{
 		this.pos = new Vector2 (posX, posY);
+	}
+
+	public int GetArea()
+	{
+		return GetWidth () * GetHeight ();
 	}
 
 	public int GetWidth()
