@@ -45,6 +45,15 @@ public class Walker : MonoBehaviour {
 		_shadowOffset = _shadow.position - _transform.position;
 	}
 
+	public float playHitEffect(string prefabName) {
+		string path = "Prefabs/FX/" + prefabName;
+		GameObject prefab = Resources.Load(path) as GameObject;
+		ParticleSystem fx = Instantiate(prefab).GetComponent<ParticleSystem>();
+		fx.transform.position = _transform.position;
+		Destroy(fx.gameObject, fx.main.duration);
+		return fx.main.duration;
+	}
+
 	IEnumerator stepCo() {
 		if (_targetPos.x != _currentPos.x) {
 			_renderer.flipX = _targetPos.x < _currentPos.x;

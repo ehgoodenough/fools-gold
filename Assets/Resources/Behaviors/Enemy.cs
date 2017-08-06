@@ -26,9 +26,8 @@ public class Enemy : Walker {
 	int _damage = 0;
 	bool _isFlashing = false;
 	bool _isFollowing = false;
-
+	bool _isDead = false;
 	Color _defalutColor;
-	ParticleSystem _bones;
 
 	List<Coords> _validNeighbors = new List<Coords>();
 
@@ -173,16 +172,14 @@ public class Enemy : Walker {
 	public void takeDamage(int damage) {
 		if (_isFlashing)
 			return;
+		_isFlashing = true;
 
-		_bones.Play();
 		_damage += damage;
-		if (_damage >= health) {
-			_bones.transform.SetParent(null);
-			Destroy(_bones, _bones.main.duration);
+		float deathDuration = playHitEffect("Bones Splash");
 
-			Map.instance.removeEnemy(this);
-			Map.instance.CreateGold(this.currentCoords);
-			Destroy(gameObject);
+		if (_damage >= health) {
+			_isDead = true;
+			Destroy(gameObject, deathDuration);
 			return;
 		}
 
@@ -190,14 +187,21 @@ public class Enemy : Walker {
 		StartCoroutine(hitFlashAnimCo());
 	}
 
+	void OnDestroy() {
+		Map.instance.removeEnemy(this);
+		Map.instance.CreateGold(currentCoords);
+	}
+
 	protected override void Awake() {
 		base.Awake();
 		Color c = _renderer.material.color;
 		_defalutColor = new Color(c.r, c.g, c.b);
-		_bones = GetComponentInChildren<ParticleSystem>();
 	}
 
 	void Update() {
+		if (_isDead)
+			return;
+
 		_timer += Time.deltaTime;
 
 		if (_timer >= moveInterval) {

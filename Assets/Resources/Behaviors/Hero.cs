@@ -20,12 +20,10 @@ public class Hero : Walker {
 	public static Hero instance;
 
 	private const float Z_INDEX = 0.5f;
-	ParticleSystem _blood;
 
 	protected override void Awake() {
 		base.Awake();
 		instance = this;
-		_blood = GetComponentInChildren<ParticleSystem>();
 	}
 
 	void Update() {
@@ -56,9 +54,7 @@ public class Hero : Walker {
 				stepDir += Vector3.right;
 			}
 		}
-
-		if (stepDir.sqrMagnitude > 0)
-			targetPos += stepDir;
+		targetPos += stepDir;
 
 		if (Map.instance != null) {
 			if(Map.instance.HasGold(targetPos)) {
@@ -111,7 +107,7 @@ public class Hero : Walker {
 			return;
 
 		health -= damage;
-		_blood.Play();
+		playHitEffect("Blood Splash");
 
 		if (health <= 0) {
 			health = 0;
