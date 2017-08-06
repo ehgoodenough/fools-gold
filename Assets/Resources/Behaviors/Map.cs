@@ -62,24 +62,7 @@ public class Map : MonoBehaviour {
 	void Start() {
 		// Debug.Log ("Map.Start()");
 		Debug.Log ("GameManager.currentLevel: " + GameManager.currentLevel);
-		// Debug.Log ("Tiles: " + tiles.Count);
-		MapGenerator mapGen = GetComponent<MapGenerator> ();
-		Room hubRoom = mapGen.CreateRoom (17, 11, new Vector3 (-8, -5, 10));
-		Room neRoom = mapGen.CreateRoom (6, 6, new Vector3 (4, 6, 10));
-		mapGen.CreateCorridor (hubRoom, neRoom, 4);
-		Room nwRoom = mapGen.CreateRoom (11, 10, new Vector3 (-14, 6, 10));
-		mapGen.CreateCorridor (hubRoom, nwRoom, 5);
-		Room swRoom = mapGen.CreateRoom (8, 6, new Vector3 (-10, -11, 10));
-		swRoom.DesignateStart ();
-		mapGen.CreateCorridor (swRoom, hubRoom, 4);
-		Room seRoom = mapGen.CreateRoom (10, 4, new Vector3 (-1, -9, 10));
-		mapGen.CreateCorridor (seRoom, hubRoom, 10);
-		Room nCorridor = mapGen.CreateRoom (5, 12, new Vector3 (-2, 6, 10));
-		mapGen.CreateCorridor (hubRoom, nCorridor, 5);
-		Room finalRoom = mapGen.CreateRoom (9, 9, new Vector3 (-4, 17, 10));
-		finalRoom.DesignateEnd ();
-		mapGen.CreateCorridor (nCorridor, finalRoom, 5);
-		mapGen.CreateTiles ();
+		GetComponent<MapGenerator> ().GenerateLevel(GameManager.currentLevel);
 		createSomeRandomEnemies();
 		setHeroStartPosition ();
 		setScammerStartPosition ();

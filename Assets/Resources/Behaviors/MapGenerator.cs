@@ -39,6 +39,44 @@ public class MapGenerator : MonoBehaviour {
 		map = Map.instance;
 	}
 
+	public void GenerateLevel(int level)
+	{
+		switch (level) {
+		case 0:
+			GenerateLevel1 ();
+			break;
+		case 1:
+			GenerateLevel1 ();
+			break;
+		case 2:
+			GenerateLevel1 ();
+			break;
+		default:
+			GenerateLevel1 ();
+			break;
+		}
+		CreateTiles ();
+	}
+
+	private void GenerateLevel1()
+	{
+		Room hubRoom = CreateRoom (17, 11, new Vector3 (-8, -5, 10));
+		Room neRoom = CreateRoom (6, 6, new Vector3 (4, 6, 10));
+		CreateCorridor (hubRoom, neRoom, 4);
+		Room nwRoom = CreateRoom (11, 10, new Vector3 (-14, 6, 10));
+		CreateCorridor (hubRoom, nwRoom, 5);
+		Room swRoom = CreateRoom (8, 6, new Vector3 (-10, -11, 10));
+		swRoom.DesignateStart ();
+		CreateCorridor (swRoom, hubRoom, 4);
+		Room seRoom = CreateRoom (10, 4, new Vector3 (-1, -9, 10));
+		CreateCorridor (seRoom, hubRoom, 10);
+		Room nCorridor = CreateRoom (5, 12, new Vector3 (-2, 6, 10));
+		CreateCorridor (hubRoom, nCorridor, 5);
+		Room finalRoom = CreateRoom (9, 9, new Vector3 (-4, 17, 10));
+		finalRoom.DesignateEnd ();
+		CreateCorridor (nCorridor, finalRoom, 5);
+	}
+
 	// Connects room1 to room2
 	public void ConnectRooms(Room r1, Room r2)
 	{
