@@ -257,8 +257,10 @@ public class Enemy : Walker {
 	
 	void updateEyes() {
 		float a = 0;
-		if (_isDead == false)
-			a = 1f - TorchLight.instance.getLightInPosition(_transform.position);
+		if (_isDead == false) {
+			a = TorchLight.instance.getLightInPosition(_transform.position);
+			a = 1f - a * a;
+		}
 		_eyes.flipX = _renderer.flipX;
 		_eyes.material.color = new Color(1, 1, 1, a);
 	}
