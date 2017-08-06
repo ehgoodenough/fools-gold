@@ -41,7 +41,9 @@ public class Map : MonoBehaviour {
 		VineWall,
 		BloodyWall,
 		CrackedFloor,
-		BloodyFloor
+		BloodyFloor,
+		RugFloor,
+		RugEndFloor
 	}
 
 	private const float TILE_Z_INDEX = 0.9f;
@@ -57,6 +59,8 @@ public class Map : MonoBehaviour {
 	private Object bloodyWallObject;
 	private Object crackedFloorObject;
 	private Object bloodyFloorObject;
+	private Object rugFloorObject;
+	private Object rugEndFloorObject;
 
 	public static Map instance;
 
@@ -79,6 +83,8 @@ public class Map : MonoBehaviour {
 		bloodyWallObject = Resources.Load("Prefabs/BloodyWall") as Object;
 		crackedFloorObject = Resources.Load("Prefabs/CrackedFloor") as Object;
 		bloodyFloorObject = Resources.Load("Prefabs/BloodyFloor") as Object;
+		rugFloorObject = Resources.Load("Prefabs/RugFloor") as Object;
+		rugEndFloorObject = Resources.Load("Prefabs/RugEndFloor") as Object;
 	}
 
 	void Start() {
@@ -185,6 +191,14 @@ public class Map : MonoBehaviour {
 			case Tile.BloodyFloor:
 				position.z = 900;
 				Object.Instantiate (this.bloodyFloorObject, position, rotation, parent);
+				break;
+			case Tile.RugFloor:
+				position.z = 900;
+				Object.Instantiate (this.rugFloorObject, position, rotation, parent);
+				break;
+			case Tile.RugEndFloor:
+				position.z = 900;
+				Object.Instantiate (this.rugEndFloorObject, position, rotation, parent);
 				break;
 			case Tile.GoldWall:
 				position.z = position.y + TILE_Z_INDEX;
