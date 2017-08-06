@@ -36,6 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4375470634307314}
   - component: {fileID: 212466972624751350}
+  - component: {fileID: 95471069140749538}
   m_Layer: 0
   m_Name: Scammer
   m_TagString: Untagged
@@ -70,6 +71,23 @@ Transform:
   m_Father: {fileID: 4375470634307314}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &95471069140749538
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1992766545446466}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0ae26cf017f76f945a1a12c2bf81e18d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!212 &212466972624751350
 SpriteRenderer:
   m_ObjectHideFlags: 1
