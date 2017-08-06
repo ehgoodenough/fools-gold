@@ -96,12 +96,12 @@ public class Hero : Walker {
 		&& position.y == Map.instance.endPosition.y) {
 			attack(position);
 			Debug.Log("Talking to the scammer!");
-			int REQUIRED_GOLD = 10; // GET THIS FROM THE GAME MANAGER
-			if(this.gold >= REQUIRED_GOLD) {
+            int REQUIRED_GOLD = GameManager.instance.GoldNeeded();
+            if (this.gold >= REQUIRED_GOLD) {
 				this.gold -= REQUIRED_GOLD;
 				this.isDone = true;
 			} else {
-				// PULL UP THE DIALOGUE BOX FROM THE SCAMMER IN THE GAME MANAGER
+                GameManager.instance.ShowNotEnoughGoldDialogue();
 			}
 		}
 

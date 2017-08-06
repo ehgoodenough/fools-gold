@@ -104,13 +104,13 @@ public class GameManager : MonoBehaviour {
         switch (currentLevel)
         {
             case 0:
-                return 25;
+                return 5;
             case 1:
-                return 25;
+                return 7;
             case 2:
-                return 25;
+                return 10;
             default:
-                return 25;
+                return 5;
         }
     }
 
