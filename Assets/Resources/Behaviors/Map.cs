@@ -261,7 +261,11 @@ public class Map : MonoBehaviour {
 		string key = getKeyFromPosition(position);
 		if (!tiles.ContainsKey (key)) {
 			return true;
-		} else if (tiles [key] == Tile.Floor || tiles [key] == Tile.CrackedFloor || tiles [key] == Tile.BloodyFloor) {
+		} else if (tiles [key] == Tile.Floor) {
+			return true;
+		} else if (tiles [key] == Tile.CrackedFloor || tiles [key] == Tile.BloodyFloor) {
+			return true;
+		} else if (tiles [key] == Tile.RugFloor || tiles [key] == Tile.RugEndFloor) {
 			return true;
 		} else {
 			return false;
