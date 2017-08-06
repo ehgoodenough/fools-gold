@@ -30,4 +30,14 @@ public class MainMenuManager : MonoBehaviour {
         credits.SetActive(false);
         UIAudioSource.instance.Play();
     }
+
+    public void OnAdventurer()
+    {
+        Application.OpenURL("http://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=195");
+    }
+
+    public void OnCreativeCommons()
+    {
+        Application.OpenURL("https://creativecommons.org/licenses/by/4.0/legalcode");
+    }
 }
