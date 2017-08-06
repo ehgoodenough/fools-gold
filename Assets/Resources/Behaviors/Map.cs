@@ -37,7 +37,7 @@ public class Map : MonoBehaviour {
 		Wall=1,
 		GoldWall=2
 	}
-
+			
 	private const float TILE_Z_INDEX = 0.9f;
 	public float tileSize = 1;
 
@@ -53,6 +53,7 @@ public class Map : MonoBehaviour {
 	private Dictionary<string, List<Object>> gold = new Dictionary<string, List<Object>>();
 
 	public Vector2 endPosition;
+	public int numGoldOnMap;
 
 	void Awake() {
 		instance = this;
@@ -65,6 +66,7 @@ public class Map : MonoBehaviour {
 	void Start() {
 		// Debug.Log ("Map.Start()");
 		Debug.Log ("GameManager.currentLevel: " + GameManager.currentLevel);
+		numGoldOnMap = 0;
 		GetComponent<MapGenerator> ().GenerateLevel(GameManager.currentLevel);
 		createSomeRandomEnemies();
 		setHeroStartPosition ();
@@ -104,9 +106,13 @@ public class Map : MonoBehaviour {
 					int randPosY = posY + Random.Range (1, height - 1);
 
 					enemyCreated = Enemy.create (new Coords (randPosX, randPosY));
-					// Debug.Log ("Enemy Created!");
+					if (enemyCreated) {
+						Debug.Log ("Enemy Created!");
+						numGoldOnMap++;
+					}
 				}
 			}
+			Debug.Log ("numGoldOnMap: " + numGoldOnMap);
 		}
 	}
 

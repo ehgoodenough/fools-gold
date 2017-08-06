@@ -22,13 +22,21 @@ public class Dialogue : MonoBehaviour {
         if (Input.anyKeyDown)
         {
             this.SetVisible(false);
-            callback();
+            if (callback != null)
+            {
+                callback();
+            }
         }
     }
 
     public void SetText(string text)
     {
         this.textField.text = text;
+    }
+
+    public bool IsVisible()
+    {
+        return this.gameObject.activeSelf;
     }
 
     public void SetVisible(bool visible)
