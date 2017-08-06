@@ -34,7 +34,8 @@ public class Map : MonoBehaviour {
 	public enum Tile
 	{
 		Floor=0,
-		Wall=1
+		Wall=1,
+		GoldWall=2
 	}
 
 	private const float TILE_Z_INDEX = 0.9f;
@@ -43,6 +44,7 @@ public class Map : MonoBehaviour {
 	private Object wallObject;
 	private Object floorObject;
 	private Object goldObject;
+	private Object goldWallObject;
 
 	public static Map instance;
 
@@ -57,29 +59,13 @@ public class Map : MonoBehaviour {
 		wallObject = Resources.Load("Prefabs/Wall") as Object;
 		floorObject = Resources.Load("Prefabs/Floor") as Object;
 		goldObject = Resources.Load("Prefabs/Gold") as Object;
+		goldWallObject = Resources.Load("Prefabs/GoldWall") as Object;
 	}
 
 	void Start() {
 		// Debug.Log ("Map.Start()");
 		Debug.Log ("GameManager.currentLevel: " + GameManager.currentLevel);
-		// Debug.Log ("Tiles: " + tiles.Count);
-		MapGenerator mapGen = GetComponent<MapGenerator> ();
-		Room hubRoom = mapGen.CreateRoom (17, 11, new Vector3 (-8, -5, 10));
-		Room neRoom = mapGen.CreateRoom (6, 6, new Vector3 (4, 6, 10));
-		mapGen.CreateCorridor (hubRoom, neRoom, 4);
-		Room nwRoom = mapGen.CreateRoom (11, 10, new Vector3 (-14, 6, 10));
-		mapGen.CreateCorridor (hubRoom, nwRoom, 5);
-		Room swRoom = mapGen.CreateRoom (8, 6, new Vector3 (-10, -11, 10));
-		swRoom.DesignateStart ();
-		mapGen.CreateCorridor (swRoom, hubRoom, 4);
-		Room seRoom = mapGen.CreateRoom (10, 4, new Vector3 (-1, -9, 10));
-		mapGen.CreateCorridor (seRoom, hubRoom, 10);
-		Room nCorridor = mapGen.CreateRoom (5, 12, new Vector3 (-2, 6, 10));
-		mapGen.CreateCorridor (hubRoom, nCorridor, 5);
-		Room finalRoom = mapGen.CreateRoom (9, 9, new Vector3 (-4, 17, 10));
-		finalRoom.DesignateEnd ();
-		mapGen.CreateCorridor (nCorridor, finalRoom, 5);
-		mapGen.CreateTiles ();
+		GetComponent<MapGenerator> ().GenerateLevel(GameManager.currentLevel);
 		createSomeRandomEnemies();
 		setHeroStartPosition ();
 		setScammerStartPosition ();
@@ -144,13 +130,15 @@ public class Map : MonoBehaviour {
 		GameObject scammer = GameObject.Find ("Scammer");
 		scammer.transform.position = new Vector3 (x, y, y);
 		Vector3 scammerPos = scammer.transform.position;
-		endPosition = new Vector2 (scammerPos.x, scammerPos.y - 2);
+		endPosition = new Vector2 (scammerPos.x, scammerPos.y);
+		// Andrew says: "I'm repurposing the "end position" as the position of the scammer."
 	}
 
 	public void addTile(Vector3 position, Tile tileType) {
 
 		// Check if tile already exists
-		if (canMoveTo(position)) {
+		string key = getKeyFromPosition(position);
+		if (!tiles.ContainsKey(key)) {
 			// Instantiate in the scene.
 			Transform parent = this.transform;
 			Quaternion rotation = Quaternion.identity;
@@ -164,6 +152,10 @@ public class Map : MonoBehaviour {
 			case Tile.Floor:
 				position.z = 900;
 				Object.Instantiate (this.floorObject, position, rotation, parent);
+				break;
+			case Tile.GoldWall:
+				position.z = position.y + TILE_Z_INDEX;
+				Object.Instantiate (this.goldWallObject, position, rotation, parent);
 				break;
 			default:
 				break;
@@ -204,7 +196,13 @@ public class Map : MonoBehaviour {
 
 	public bool canMoveTo(Vector2 position) {
 		string key = getKeyFromPosition(position);
-		return !tiles.ContainsKey(key) || tiles[key] != Tile.Wall;
+		if (!tiles.ContainsKey (key)) {
+			return true;
+		} else if (tiles [key] == Tile.Floor) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public bool isHeroInCoords(Coords coords) {
@@ -241,7 +239,7 @@ public class Map : MonoBehaviour {
 			return null;
 		}
 	}
-		
+
 	public void CreateGold(Vector2 position) {
 		// Debug.Log ("Creating Gold...");
 		Transform parent = this.transform;

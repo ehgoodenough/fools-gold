@@ -25,6 +25,7 @@ public class Hero : Walker {
 		base.Awake();
 		instance = this;
 		_zIndex = Z_INDEX;
+		//_attackSprite = getSpriteResource("Images/SkeletonAttack");
 	}
 
 	public float playCoinsEffect() {
@@ -49,16 +50,16 @@ public class Hero : Walker {
 		// Poll the keyboard.
 		if (_isStepping == false) {
 			Vector3 stepDir = new Vector3();
-			if (Input.GetKey("up")) {
+			if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) {
 				stepDir += Vector3.up;
 			}
-			if (Input.GetKey("down")) {
+			if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) {
 				stepDir += Vector3.down;
 			}
-			if (Input.GetKey("left")) {
+			if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
 				stepDir += Vector3.left;
 			}
-			if (Input.GetKey("right")) {
+			if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
 				stepDir += Vector3.right;
 			}
 
@@ -73,28 +74,35 @@ public class Hero : Walker {
 				Map.instance.RemoveGold(targetPos, 0.3f);
 				playCoinsEffect();
 			}
-			if(this.targetPos.x == Map.instance.endPosition.x
-			&& this.targetPos.y == Map.instance.endPosition.y) {
-				if(this.isDone != true) {
-					this.isDone = true;
-					Debug.Log("DONE");
-				}
-			}
 		}
-		
+
 	}
 
 	private bool canMoveTo(Vector3 position) {
 		if(Map.instance == null) {
+			// Debug.Log ("Map.instance == null");
 			return true;
 		}
 
-		if(Map.instance.getEnemy(position) != null) {
-			Enemy enemy = Map.instance.getEnemy(position);
-			halfStep(enemy.targetPos);
+		Enemy enemy = Map.instance.getEnemy(position);
+		if (enemy != null && enemy.isAlive) {
+			attack(enemy.targetPos);
 			enemy.takeDamage(1);
-
 			return false;
+		}
+
+		// The "end position" is now the scammer's position.
+		if(position.x == Map.instance.endPosition.x
+		&& position.y == Map.instance.endPosition.y) {
+			attack(position);
+			Debug.Log("Talking to the scammer!");
+			int REQUIRED_GOLD = 10; // GET THIS FROM THE GAME MANAGER
+			if(this.gold >= REQUIRED_GOLD) {
+				this.gold -= REQUIRED_GOLD;
+				this.isDone = true;
+			} else {
+				// PULL UP THE DIALOGUE BOX FROM THE SCAMMER IN THE GAME MANAGER
+			}
 		}
 
 		return Map.instance.canMoveTo(position);

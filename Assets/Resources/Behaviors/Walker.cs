@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class Walker : MonoBehaviour {
@@ -12,13 +13,16 @@ public class Walker : MonoBehaviour {
 	public bool flipped = true;
 
 	protected SpriteRenderer _renderer;
-	Transform _transform;
+	protected Transform _transform;
 	Vector3 _currentPos;
 	Vector3 _velocity;
 
 	protected float _zIndex = 0;
-	Transform _shadow;
+	protected Transform _shadow;
 	Vector3 _shadowOffset;
+
+	Sprite _idleSprite;
+	protected Sprite _attackSprite = null;
 
 	protected bool _isStepping = false;
 	Vector3 _targetPos;
@@ -33,6 +37,12 @@ public class Walker : MonoBehaviour {
 		}
 	}
 
+	public static Sprite getSpriteResource(string path) {
+		Sprite[] sprites = Resources.LoadAll<Sprite>(path);
+		Assert.IsTrue(sprites.Length == 1);
+		return sprites[0];
+	}
+
 	public void setPosition(Vector3 pos) {
 		_targetPos = pos;
 		_currentPos = pos;
@@ -44,6 +54,7 @@ public class Walker : MonoBehaviour {
 		_renderer = GetComponent<SpriteRenderer>();
 		_shadow = _transform.Find("Shadow");
 		_shadowOffset = _shadow.position - _transform.position;
+		_idleSprite = _renderer.sprite;
 	}
 
 	public float playHitEffect(string prefabName, bool useColor = true, float moveUp = 0.5f) {
@@ -60,12 +71,16 @@ public class Walker : MonoBehaviour {
 		return fx.main.duration;
 	}
 
-	protected void halfStep(Vector3 toPos) {
+	protected void attack(Vector3 toPos) {
 		_targetPos = toPos;
 		StartCoroutine(stepCo(true));
 	}
 
-	IEnumerator stepCo(bool halfStep = false) {
+	IEnumerator stepCo(bool attack = false) {
+		if (attack && _attackSprite != null) {
+			_renderer.sprite = _attackSprite;
+		}
+
 		if (_targetPos.x != _currentPos.x) {
 			_renderer.flipX = _targetPos.x < _currentPos.x;
 			if (flipped)
@@ -76,7 +91,7 @@ public class Walker : MonoBehaviour {
 		float t = 0;
 		while (t < moveDuration) {
 			float param = t / moveDuration;
-			if (halfStep && param > 0.5f)
+			if (attack && param > 0.5f)
 				param = 1f - param;
 
 			float jumpParam = Mathf.Sin(param * Mathf.PI);
@@ -91,7 +106,7 @@ public class Walker : MonoBehaviour {
 			t += Time.deltaTime;
 		}
 
-		if (halfStep) {
+		if (attack) {
 			_shadow.position = _currentPos + _shadowOffset;
 			_transform.position = _currentPos;
 			_targetPos = _currentPos;
@@ -100,7 +115,8 @@ public class Walker : MonoBehaviour {
 			_transform.position = _targetPos;
 			_currentPos = _targetPos;
 		}
-		
+
+		_renderer.sprite = _idleSprite;
 		_isStepping = false;
 	}
 

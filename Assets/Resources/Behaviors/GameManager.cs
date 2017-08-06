@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,11 +19,16 @@ public class GameManager : MonoBehaviour {
     private GameObject gameOverUI;
     private GameObject winUI;
 
+	public static event Action onGameStart;
+
     void Start()
     {
         instance = this;
-    
-        gameOverUI = GameObject.Find("Game Over UI");
+
+		if (onGameStart != null)
+			onGameStart();
+
+		gameOverUI = GameObject.Find("Game Over UI");
         gameOverUI.SetActive(false);
 
         winUI = GameObject.Find("Level Won UI");

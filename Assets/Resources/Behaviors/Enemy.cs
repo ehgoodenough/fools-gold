@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 using Coords = Map.Coords;
 
@@ -26,8 +27,10 @@ public class Enemy : Walker {
 	int _damage = 0;
 	bool _isFlashing = false;
 	bool _isFollowing = false;
-	bool _isDead = false;
 	Color _defalutColor;
+
+	bool _isDead = false;
+	public bool isAlive { get { return !_isDead; } }
 
 	List<Coords> _validNeighbors = new List<Coords>();
 
@@ -175,17 +178,54 @@ public class Enemy : Walker {
 		_isFlashing = true;
 
 		_damage += damage;
-		float deathDuration = playHitEffect("Bones Splash") * 0.3f;
+		playHitEffect("Bones Splash");
 
 		if (_damage >= health) {
 			_isDead = true;
-			Map.instance.CreateGold(currentCoords, deathDuration);
-			Destroy(gameObject, deathDuration);
+			StartCoroutine(deathAnimationCo());
 			return;
 		}
 
 		_timer = 0; // reset timer for next move
 		StartCoroutine(hitFlashAnimCo());
+	}
+
+	IEnumerator deathAnimationCo() {
+		const float duration = 1;
+		float t = 0;
+		Vector3 startPos = _transform.position;
+		Vector3 startShadowPos = _shadow.position;
+
+		// delay so that particlse can catch up
+		yield return new WaitForSeconds(0.2f);
+
+		// replace skelaton sprite with skull
+		_renderer.sprite = getSpriteResource("Images/Skull");
+		Color color = _renderer.material.color;
+		bool goldDropped = false;
+
+		while (t < duration) {
+			float param = t / duration;
+			float param2 = param * param;
+			float y = Mathf.Abs(Mathf.Cos(param2 * Mathf.PI * 3)) / (1f + param2 * 5f) - 1;
+
+			Vector3 pos = startPos + new Vector3(0, y, 0);
+			color.a = 1f - param2 * param2;
+
+			_transform.position = pos;
+			_shadow.position = startShadowPos;
+			_renderer.material.color = color;
+
+			if (goldDropped == false && param > 0.5f) {
+				goldDropped = true;
+				Map.instance.CreateGold(currentCoords);
+			}
+
+			t += Time.deltaTime;
+			yield return null;
+		}
+
+		Destroy(gameObject);
 	}
 
 	void OnDestroy() {
@@ -197,6 +237,7 @@ public class Enemy : Walker {
 		Color c = _renderer.material.color;
 		_defalutColor = new Color(c.r, c.g, c.b);
 		_zIndex = Z_INDEX;
+		_attackSprite = getSpriteResource("Images/SkeletonAttack");
 	}
 
 	void Update() {
@@ -215,8 +256,7 @@ public class Enemy : Walker {
 			Vector2 heroPos = Hero.instance.targetPos;
 
 			if (canDamageHero()) {
-				Debug.DrawLine(pos, heroPos, Color.red, moveInterval);
-				halfStep(Hero.instance.targetPos);
+				attack(Hero.instance.targetPos);
 				Hero.instance.takeDamage(1);
 			} else {
 				float distToHero = Vector2.Distance(pos, heroPos);
