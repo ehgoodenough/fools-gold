@@ -88,7 +88,7 @@ MonoBehaviour:
   flipped: 0
   maxhealth: 3
   health: 3
-  gold: 100
+  gold: 0
   isDead: 0
   isDone: 0
 --- !u!212 &212265680425817186

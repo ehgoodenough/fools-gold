@@ -130,7 +130,8 @@ public class Map : MonoBehaviour {
 		GameObject scammer = GameObject.Find ("Scammer");
 		scammer.transform.position = new Vector3 (x, y, y);
 		Vector3 scammerPos = scammer.transform.position;
-		endPosition = new Vector2 (scammerPos.x, scammerPos.y - 2);
+		endPosition = new Vector2 (scammerPos.x, scammerPos.y);
+		// Andrew says: "I'm repurposing the "end position" as the position of the scammer."
 	}
 
 	public void addTile(Vector3 position, Tile tileType) {
@@ -238,7 +239,7 @@ public class Map : MonoBehaviour {
 			return null;
 		}
 	}
-		
+
 	public void CreateGold(Vector2 position) {
 		// Debug.Log ("Creating Gold...");
 		Transform parent = this.transform;

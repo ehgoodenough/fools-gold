@@ -74,15 +74,8 @@ public class Hero : Walker {
 				Map.instance.RemoveGold(targetPos, 0.3f);
 				playCoinsEffect();
 			}
-			if(this.targetPos.x == Map.instance.endPosition.x
-			&& this.targetPos.y == Map.instance.endPosition.y) {
-				if(this.isDone != true) {
-					this.isDone = true;
-					Debug.Log("DONE");
-				}
-			}
 		}
-		
+
 	}
 
 	private bool canMoveTo(Vector3 position) {
@@ -98,7 +91,19 @@ public class Hero : Walker {
 			return false;
 		}
 
-		// Debug.Log ("Map.instance.canMoveTo(position): " + Map.instance.canMoveTo(position));
+		// The "end position" is now the scammer's position.
+		if(position.x == Map.instance.endPosition.x
+		&& position.y == Map.instance.endPosition.y) {
+			halfStep(position);
+			Debug.Log("Talking to the scammer!");
+			int REQUIRED_GOLD = 10; // GET THIS FROM THE GAME MANAGER
+			if(this.gold >= REQUIRED_GOLD) {
+				this.isDone = true;
+			} else {
+				// PULL UP THE DIALOGUE BOX FROM THE SCAMMER IN THE GAME MANAGER
+			}
+		}
+
 		return Map.instance.canMoveTo(position);
 	}
 
