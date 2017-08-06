@@ -15,7 +15,7 @@ public class TorchLight : MonoBehaviour {
 		}
 
 		Vector3 position = Hero.instance.transform.position;
-		position.z = -1;
+		position.z = -50;
 		_transform.position = position;
 	}
 }

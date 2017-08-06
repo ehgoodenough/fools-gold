@@ -32,6 +32,10 @@ public class Hero : Walker {
 			return;
 		}
 
+		if(this.isDone) {
+			return;
+		}
+
 		// Poll the keyboard.
 		if (_isStepping == false) {
 			Vector3 stepDir = new Vector3();
