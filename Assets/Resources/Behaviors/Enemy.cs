@@ -18,6 +18,8 @@ public class Enemy : Walker {
 	public bool canMoveVertical = true;
 	public bool canMoveDiagonal = true;
 	public float moveInterval = 1;
+	public int numSteps = 1;
+	public float extraStepDelay = 0.1f;
 
 	public float chaseRadius = 0;
 
@@ -28,6 +30,7 @@ public class Enemy : Walker {
 	bool _isFlashing = false;
 	bool _isFollowing = false;
 	Color _defalutColor;
+	int _stepCounter = 0;
 
 	bool _isDead = false;
 	public bool isAlive { get { return !_isDead; } }
@@ -250,7 +253,8 @@ public class Enemy : Walker {
 			return;
 		}
 
-		if (_timer >= moveInterval) {
+		float delay = _stepCounter == 0 ? moveInterval : extraStepDelay;
+		if (_timer >= delay) {
 			_timer = 0;
 			Vector2 pos = targetPos;
 			Vector2 heroPos = Hero.instance.targetPos;
@@ -261,6 +265,8 @@ public class Enemy : Walker {
 			} else {
 				float distToHero = Vector2.Distance(pos, heroPos);
 				_isFollowing = distToHero < chaseRadius;
+
+				_stepCounter = (_stepCounter + 1) % numSteps;
 				if (_isFollowing) {
 					moveToClosestNeighbor(heroPos);
 				} else {
