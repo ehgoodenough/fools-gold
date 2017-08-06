@@ -34,7 +34,8 @@ public class Map : MonoBehaviour {
 	public enum Tile
 	{
 		Floor=0,
-		Wall=1
+		Wall=1,
+		GoldWall=2
 	}
 
 	private const float TILE_Z_INDEX = 0.9f;
@@ -43,6 +44,7 @@ public class Map : MonoBehaviour {
 	private Object wallObject;
 	private Object floorObject;
 	private Object goldObject;
+	private Object goldWallObject;
 
 	public static Map instance;
 
@@ -57,6 +59,7 @@ public class Map : MonoBehaviour {
 		wallObject = Resources.Load("Prefabs/Wall") as Object;
 		floorObject = Resources.Load("Prefabs/Floor") as Object;
 		goldObject = Resources.Load("Prefabs/Gold") as Object;
+		goldWallObject = Resources.Load("Prefabs/GoldWall") as Object;
 	}
 
 	void Start() {
@@ -133,7 +136,8 @@ public class Map : MonoBehaviour {
 	public void addTile(Vector3 position, Tile tileType) {
 
 		// Check if tile already exists
-		if (canMoveTo(position)) {
+		string key = getKeyFromPosition(position);
+		if (!tiles.ContainsKey(key)) {
 			// Instantiate in the scene.
 			Transform parent = this.transform;
 			Quaternion rotation = Quaternion.identity;
@@ -147,6 +151,10 @@ public class Map : MonoBehaviour {
 			case Tile.Floor:
 				position.z = 900;
 				Object.Instantiate (this.floorObject, position, rotation, parent);
+				break;
+			case Tile.GoldWall:
+				position.z = position.y + TILE_Z_INDEX;
+				Object.Instantiate (this.goldWallObject, position, rotation, parent);
 				break;
 			default:
 				break;
@@ -187,7 +195,13 @@ public class Map : MonoBehaviour {
 
 	public bool canMoveTo(Vector2 position) {
 		string key = getKeyFromPosition(position);
-		return !tiles.ContainsKey(key) || tiles[key] != Tile.Wall;
+		if (!tiles.ContainsKey (key)) {
+			return true;
+		} else if (tiles [key] == Tile.Floor) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public bool isHeroInCoords(Coords coords) {

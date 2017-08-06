@@ -131,7 +131,14 @@ public class MapGenerator : MonoBehaviour {
 				// Debug.Log ("Row, Col: " + row + ", " + col);
 				if (0 == row || height - 1 == row || 0 == col || width - 1 == col)
 				{
-					room.SetTile (row, col, Map.Tile.Wall);
+					if (2 == GameManager.currentLevel) 
+					{
+						room.SetTile (row, col, Map.Tile.GoldWall);
+					}
+					else
+					{
+						room.SetTile (row, col, Map.Tile.Wall);
+					}
 				} else {
 					room.SetTile (row, col, Map.Tile.Floor);
 				}
