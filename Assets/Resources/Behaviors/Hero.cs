@@ -133,6 +133,7 @@ public class Hero : Walker {
 		health -= damage;
 		playHitEffect("Blood Splash", false);
 		audios[0].Play();
+		RedScreen.instance.flash();
 
 		if (health <= 0) {
 			health = 0;
