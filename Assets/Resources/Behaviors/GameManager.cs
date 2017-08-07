@@ -184,7 +184,6 @@ public class GameManager : MonoBehaviour {
                     string.Format("Brave hero, I now require {0} gold pieces to find the princess. There must be some more gold around here somewhere...", GoldNeeded()));
                 break;
         }
-        Dialogue.instance.SetText(string.Format("What's this? Not enough coin! Don't come back until you have {0} gold!", GoldNeeded()));
         Dialogue.instance.SetAudioClip(notEnoughGoldClip);
         Dialogue.instance.SetCallback(null);
         Dialogue.instance.Show();
