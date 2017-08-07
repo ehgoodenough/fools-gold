@@ -43,8 +43,8 @@ public class Hero : Walker {
 	}
 
 	void Update() {
-		if(this.isDead) {
-			this.transform.Rotate(Vector3.forward * this.deathspin);
+		if(isDead) {
+			//_transform.Rotate(Vector3.forward * this.deathspin);
 			return;
 		}
 
@@ -141,10 +141,29 @@ public class Hero : Walker {
 		}
 	}
 
-	private void die() {
-		if(this.isDead != true) {
-			this.isDead = true;
+	IEnumerator deathAnimationCo() {
+		yield return new WaitForSeconds(0.2f);
 
+		playHitEffect("Blood Splash", false);
+		yield return new WaitForSeconds(0.2f);
+
+		playHitEffect("Blood Splash", false);
+		yield return new WaitForSeconds(0.2f);
+
+		playHitEffect("Blood Splash", false);
+		_renderer.enabled = false;
+		_shadow.gameObject.SetActive(false);
+		Enemy enemy = Enemy.create(new Map.Coords(targetPos), forced: true);
+		enemy.setSpriteFlipX(getSpriteFlipX());
+		yield return new WaitForSeconds(0.2f);
+
+		playHitEffect("Blood Splash", false);
+	}
+
+	private void die() {
+		if(isDead != true) {
+			isDead = true;
+			StartCoroutine(deathAnimationCo());
 			audios[4].Play();
 		}
 	}

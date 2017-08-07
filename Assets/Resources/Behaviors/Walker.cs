@@ -76,15 +76,21 @@ public class Walker : MonoBehaviour {
 		StartCoroutine(stepCo(true));
 	}
 
+	public void setSpriteFlipX(bool flip) {
+		_renderer.flipX = flipped ? !flip : flip;
+	}
+
+	public bool getSpriteFlipX() {
+		return _renderer.flipX;
+	}
+
 	IEnumerator stepCo(bool attack = false) {
 		if (attack && _attackSprite != null) {
 			_renderer.sprite = _attackSprite;
 		}
 
 		if (_targetPos.x != _currentPos.x) {
-			_renderer.flipX = _targetPos.x < _currentPos.x;
-			if (flipped)
-				_renderer.flipX = !_renderer.flipX;
+			setSpriteFlipX(_targetPos.x < _currentPos.x);
 		}
 
 		_isStepping = true;

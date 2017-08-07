@@ -77,8 +77,8 @@ public class Enemy : Walker {
 		return obj.GetComponent<Enemy>();
 	}
 
-	public static Enemy create(Coords coords, Type type = Type.Random) {
-		if (Map.instance.canMoveTo(coords) == false) {
+	public static Enemy create(Coords coords, Type type = Type.Random, bool forced = false) {
+		if (forced == false && Map.instance.canMoveTo(coords) == false) {
 			Debug.LogError("Unable to place an enemy in coords:" + coords.ToString());
 			return null;
 		}
