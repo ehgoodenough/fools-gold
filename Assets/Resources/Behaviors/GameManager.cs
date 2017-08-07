@@ -87,11 +87,11 @@ public class GameManager : MonoBehaviour {
             {
                 case 0:
                     Dialogue.instance.SetText(
-                        "Great work, brave adventurer, but the princess is in another castle! I can take you there for a few gold pieces...");
+                        string.Format("Great work, brave adventurer, but the princess is in another castle! I can take you there for a few gold pieces... (-{0} gold)", GoldNeeded()));
                     break;
                 case 1:
                     Dialogue.instance.SetText(
-                        "Hero! You'll never believe what happened. The princess was kidnapped AGAIN. For a bit of coin, I can show you where she went...");
+                        string.Format("Hero! You'll never believe what happened. The princess was kidnapped AGAIN. For a bit of coin, I can show you where she went... (-{0} gold)", GoldNeeded()));
                     break;
                 case 2:
                     Dialogue.instance.SetText(
