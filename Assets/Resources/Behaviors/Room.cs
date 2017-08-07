@@ -66,10 +66,15 @@ public class Room {
 			{
 				this.tiles [i] = Map.Tile.RugEndFloor;
 			}
-			else if (i > (this.GetWidth() * 3) + 1 && i < this.GetWidth() * this.GetHeight() - (this.GetWidth() * 2) - 2)
+			else if (i > (this.GetWidth() * 3) + 1 && i < this.GetWidth() * this.GetHeight() - (this.GetWidth() * 2) - 2 && i % this.GetWidth() > 1 && i % this.GetWidth() < this.GetWidth() - 2)
 			{
-				if (i % this.GetWidth() > 1 && i % this.GetWidth() < this.GetWidth() - 2) {
-					this.tiles [i] = Map.Tile.RugFloor;
+				this.tiles [i] = Map.Tile.RugFloor;
+			}
+			else if (i % this.GetWidth() > 0 && i % this.GetWidth() < this.GetWidth() - 1)
+			{
+				if (i > this.GetWidth () && i < this.GetWidth () * this.GetHeight () - this.GetWidth() - 1)
+				{
+					this.tiles [i] = Map.Tile.FinalRoomFloor;
 				}
 			}
 		}

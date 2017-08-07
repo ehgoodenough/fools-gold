@@ -124,7 +124,12 @@ public class Enemy : Walker {
 			Coords coords = currentCoords + move;
 
 			if (Map.instance.canMoveTo(coords))
-				_validNeighbors.Add(coords);
+			{
+				Map.Tile tileType = Map.instance.getTile(new Vector2(coords.x, coords.y));
+					if (tileType != Map.Tile.FinalRoomFloor && tileType != Map.Tile.RugEndFloor && tileType != Map.Tile.RugFloor) {
+						_validNeighbors.Add(coords);
+					}
+			}
 		}
 	}
 
