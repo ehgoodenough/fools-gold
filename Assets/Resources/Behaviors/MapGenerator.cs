@@ -49,7 +49,7 @@ public class MapGenerator : MonoBehaviour {
 			GenerateLevel2();
 			break;
 		case 2:
-			GenerateLevel2();
+			GenerateLevel3();
 			break;
 		default:
 			GenerateLevel1 ();
@@ -112,6 +112,51 @@ public class MapGenerator : MonoBehaviour {
 		Room finalRoom = CreateRoom (9, 10, new Vector3 (29, 2, 10));
 		finalRoom.DesignateEnd ();
 		CreateCorridor (secondHub, finalRoom, 4);
+	}
+
+	public void GenerateLevel3()
+	{
+		Room startRoom = CreateRoom (11, 9, new Vector3 (-4, -3, 10));
+		startRoom.DesignateStart ();
+		Room startSouthRoom = CreateRoom (11, 6, new Vector3 (-4, -8, 10));
+		CreateCorridor (startSouthRoom, startRoom, 7);
+		Room southHorizHall = CreateRoom (45, 7, new Vector3 (-21, -14, 10));
+		CreateCorridor (southHorizHall, startSouthRoom, 7);
+		Room southVertHallLeft = CreateRoom (8, 14, new Vector3 (-11, -8, 10));
+		CreateCorridor (southHorizHall, southVertHallLeft, 8);
+		Room southVertHallRight = CreateRoom (8, 14, new Vector3 (6, -8, 10));
+		CreateCorridor (southHorizHall, southVertHallRight, 8);
+		Room middleHorizHall = CreateRoom (45, 7, new Vector3 (-21, 5, 10));
+		CreateCorridor (southVertHallLeft, middleHorizHall, 8);
+		CreateCorridor (southVertHallRight, middleHorizHall, 8);
+		Room northVertHallLeft = CreateRoom (8, 14, new Vector3 (-11, 11, 10));
+		CreateCorridor (middleHorizHall, northVertHallLeft, 8);
+		Room northVertHallRight = CreateRoom (8, 14, new Vector3 (6, 11, 10));
+		CreateCorridor (middleHorizHall, northVertHallRight, 8);
+		Room finalRoom = CreateRoom (11, 9, new Vector3 (-4, 11, 10));
+		finalRoom.DesignateEnd ();
+		Room finalNorthRoom = CreateRoom (11, 6, new Vector3 (-4, 19, 10));
+		CreateCorridor (finalRoom, finalNorthRoom, 7);
+		Room northHorizHall = CreateRoom (45, 7, new Vector3 (-21, 24, 10));
+		CreateCorridor (northVertHallLeft, northHorizHall, 8);
+		CreateCorridor (northVertHallRight, northHorizHall, 8);
+		CreateCorridor (finalNorthRoom, northHorizHall, 7);
+		Room swChamber = CreateRoom (13, 14, new Vector3 (-23, -8, 10));
+		CreateCorridor (southHorizHall, swChamber, 7);
+		CreateCorridor (swChamber, middleHorizHall, 7);
+		Room seChamber = CreateRoom (13, 14, new Vector3 (13, -8, 10));
+		CreateCorridor (southHorizHall, seChamber, 7);
+		CreateCorridor (seChamber, middleHorizHall, 7);
+		Room nwChamber = CreateRoom (13, 14, new Vector3 (-23, 11, 10));
+		CreateCorridor (middleHorizHall, nwChamber, 7);
+		CreateCorridor (nwChamber, northHorizHall, 7);
+		Room neChamber = CreateRoom (13, 14, new Vector3 (13, 11, 10));
+		CreateCorridor (middleHorizHall, neChamber, 7);
+		CreateCorridor (neChamber, northHorizHall, 7);
+		Room southChamber = CreateRoom (25, 9, new Vector3 (-11, -22, 10));
+		CreateCorridor (southChamber, southHorizHall, 15);
+		Room northChamber = CreateRoom (25, 9, new Vector3 (-11, 30, 10));
+		CreateCorridor (northHorizHall, northChamber, 15);
 	}
 
 	// Connects room1 to room2
