@@ -145,12 +145,16 @@ public class Hero : Walker {
 		yield return new WaitForSeconds(0.2f);
 
 		playHitEffect("Blood Splash", false);
+		RedScreen.instance.flash();
 		yield return new WaitForSeconds(0.2f);
 
 		playHitEffect("Blood Splash", false);
+		RedScreen.instance.flash();
 		yield return new WaitForSeconds(0.2f);
 
 		playHitEffect("Blood Splash", false);
+		RedScreen.instance.flash();
+
 		_renderer.enabled = false;
 		_shadow.gameObject.SetActive(false);
 		Enemy enemy = Enemy.create(new Map.Coords(targetPos), forced: true);
@@ -158,6 +162,7 @@ public class Hero : Walker {
 		yield return new WaitForSeconds(0.2f);
 
 		playHitEffect("Blood Splash", false);
+		RedScreen.instance.flash();
 	}
 
 	private void die() {
