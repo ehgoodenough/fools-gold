@@ -30,13 +30,16 @@ public class GameManager : MonoBehaviour {
 
 	private int goldInterest;
 
+    private void Awake()
+    {
+        instance = this;
+    }
+
     void Start()
     {
         introClip = Resources.Load("Audio/Speech_Intro") as AudioClip;
         victoryClip = Resources.Load("Audio/Speech_Victory") as AudioClip;
         notEnoughGoldClip = Resources.Load("Audio/Speech_Not_Enough_Coin") as AudioClip;
-
-        instance = this;
 
 		if (onGameStart != null)
 			onGameStart();
