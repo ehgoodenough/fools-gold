@@ -27,8 +27,7 @@ public class Hero : Walker {
 		base.Awake();
 		instance = this;
 		_zIndex = Z_INDEX;
-		//_attackSprite = getSpriteResource("Images/SkeletonAttack");
-
+		_attackSprite = getSpriteResource("Hero_Attack");
 		audios = GetComponents<AudioSource>();
 	}
 
