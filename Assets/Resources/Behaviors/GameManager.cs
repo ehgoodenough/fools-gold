@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
-    public static int currentLevel; // NOTE: Zero indexed
+    public static int currentLevel = 2; // NOTE: Zero indexed
     private const int AMOUNT_OF_LEVELS = 3;
 
     private static int playerGoldAtEndOfLevel = -1;
@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour {
 	public static event Action onGameStart;
 
     private AudioSource[] musics;
+
+	private int goldInterest;
 
     void Start()
     {
@@ -149,7 +151,12 @@ public class GameManager : MonoBehaviour {
 
     public int GoldNeeded()
     {
-		return (int) (Map.instance.numGoldOnMap * 0.75f);
+		if (currentLevel == 2) {
+			goldInterest++;
+			return (int)(Map.instance.numGoldOnMap) + (goldInterest * goldInterest);
+		} else {
+			return (int)(Map.instance.numGoldOnMap * 0.75f);
+		}
     }
 
     public void ShowNotEnoughGoldDialogue()
