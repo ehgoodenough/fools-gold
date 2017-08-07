@@ -141,7 +141,7 @@ public class Map : MonoBehaviour {
 			}
 		}
 		Debug.Log ("numGoldOnMap: " + numGoldOnMap);
-		Debug.Log ("Gold Needed: " + GameManager.instance.GoldNeeded ());
+		// Debug.Log ("Gold Needed: " + GameManager.instance.GoldNeeded ());
 	}
 
 	public void createSomeRandomGold() {
@@ -150,6 +150,7 @@ public class Map : MonoBehaviour {
 
 	public void setHeroStartPosition() {
 		Room startRoom = Room.GetStart ();
+		Debug.Log ("startRoom: " + startRoom);
 		int x = (int) startRoom.GetPosition().x + Mathf.FloorToInt (startRoom.GetWidth () / 2f);
 		int y = (int) startRoom.GetPosition().y + Mathf.FloorToInt (startRoom.GetHeight () / 2f);
 		Hero.instance.setPosition ( new Vector3 (x, y, y));
