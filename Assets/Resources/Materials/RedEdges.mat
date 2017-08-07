@@ -20,10 +20,10 @@ Material:
     m_TexEnvs: []
     m_Floats:
     - _Cutoff: 0.5
-    - _Distance0: 0
-    - _Distance1: 3
+    - _Distance0: 1.12
+    - _Distance1: 18.52
     - _Frequency: 0
-    - _Power0: 0
-    - _Power1: 0
+    - _Power0: 0.31
+    - _Power1: 1.49
     m_Colors:
     - _Color: {r: 1, g: 0, b: 0, a: 1}
