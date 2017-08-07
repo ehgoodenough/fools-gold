@@ -168,6 +168,22 @@ public class GameManager : MonoBehaviour {
 
     public void ShowNotEnoughGoldDialogue()
     {
+
+        switch (currentLevel)
+        {
+            case 0:
+                Dialogue.instance.SetText(
+                    string.Format("Hero, I require more coin to bring you to the princess. Bring me {0} gold pieces!", GoldNeeded()));
+                break;
+            case 1:
+                Dialogue.instance.SetText(
+                    string.Format("What's this? Not enough coin! Don't come back until you have {0} gold pieces!", GoldNeeded()));
+                break;
+            case 2:
+                Dialogue.instance.SetText(
+                    string.Format("Brave hero, I now require {0} gold pieces to find the princess. There must be some more gold around here somewhere...", GoldNeeded()));
+                break;
+        }
         Dialogue.instance.SetText(string.Format("What's this? Not enough coin! Don't come back until you have {0} gold!", GoldNeeded()));
         Dialogue.instance.SetAudioClip(notEnoughGoldClip);
         Dialogue.instance.SetCallback(null);
