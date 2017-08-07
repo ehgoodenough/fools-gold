@@ -158,7 +158,7 @@ public class Hero : Walker {
 		_renderer.enabled = false;
 		_shadow.gameObject.SetActive(false);
 		Enemy enemy = Enemy.create(new Map.Coords(targetPos), forced: true);
-		enemy.setSpriteFlipX(getSpriteFlipX());
+		enemy.spriteFlipX = spriteFlipX;
 		yield return new WaitForSeconds(0.2f);
 
 		playHitEffect("Blood Splash", false);

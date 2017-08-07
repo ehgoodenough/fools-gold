@@ -97,6 +97,7 @@ public class Enemy : Walker {
 		obj.transform.localPosition = new Vector3(0, 0, -100);
 		obj.transform.localScale = scale;
 		_eyes = obj.GetComponent<SpriteRenderer>();
+		updateEyes();
 	}
 
 	void init() {

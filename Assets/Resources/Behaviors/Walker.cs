@@ -37,6 +37,11 @@ public class Walker : MonoBehaviour {
 		}
 	}
 
+	public bool spriteFlipX {
+		get { return flipped ? !_renderer.flipX : _renderer.flipX; }
+		set { _renderer.flipX = flipped ? !value : value; }
+	}
+
 	public static Sprite getSpriteResource(string name) {
 		Sprite[] sprites = Resources.LoadAll<Sprite>("Images/" + name);
 		Assert.IsTrue(sprites.Length == 1);
@@ -76,21 +81,13 @@ public class Walker : MonoBehaviour {
 		StartCoroutine(stepCo(true));
 	}
 
-	public void setSpriteFlipX(bool flip) {
-		_renderer.flipX = flipped ? !flip : flip;
-	}
-
-	public bool getSpriteFlipX() {
-		return _renderer.flipX;
-	}
-
 	IEnumerator stepCo(bool attack = false) {
 		if (attack && _attackSprite != null) {
 			_renderer.sprite = _attackSprite;
 		}
 
 		if (_targetPos.x != _currentPos.x) {
-			setSpriteFlipX(_targetPos.x < _currentPos.x);
+			spriteFlipX = _targetPos.x < _currentPos.x;
 		}
 
 		_isStepping = true;
