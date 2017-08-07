@@ -113,7 +113,7 @@ public class Hero : Walker {
 		if(position.x == Map.instance.endPosition.x
 		&& position.y == Map.instance.endPosition.y) {
 			attack(position);
-			Debug.Log("Talking to the scammer!");
+			// Debug.Log("Talking to the scammer!");
             int REQUIRED_GOLD = GameManager.instance.GoldNeeded();
             if (this.gold >= REQUIRED_GOLD) {
 				this.gold -= REQUIRED_GOLD;

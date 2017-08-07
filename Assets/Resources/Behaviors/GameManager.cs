@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour {
         }
 
         musics = GetComponents<AudioSource>();
-        Debug.Log(musics.Length + ", " + GameManager.currentLevel);
+        // Debug.Log(musics.Length + ", " + GameManager.currentLevel);
         musics[GameManager.currentLevel].Play();
     }
 
