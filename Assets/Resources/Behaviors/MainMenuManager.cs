@@ -40,4 +40,34 @@ public class MainMenuManager : MonoBehaviour {
     {
         Application.OpenURL("https://creativecommons.org/licenses/by/4.0/legalcode");
     }
+
+    public void OnAndrewH()
+    {
+        Application.OpenURL("https://www.linkedin.com/in/andrew-hermus-ab1672a5");
+    }
+
+    public void OnAndrewM()
+    {
+        Application.OpenURL("https://twitter.com/ehgoodenough");
+    }
+
+    public void OnMatan()
+    {
+        Application.OpenURL("https://onehamsa.com/");
+    }
+
+    public void OnRobert()
+    {
+        Application.OpenURL("https://www.linkedin.com/in/ackleyrobert/");
+    }
+
+    public void OnVictor()
+    {
+        Application.OpenURL("https://www.instagram.com/thermalamped/");
+    }
+
+    public void OnKyle()
+    {
+        Application.OpenURL("https://soundcloud.com/kylemartinvgmusic");
+    }
 }
